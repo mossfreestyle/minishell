@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   find_paths.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 23:58:18 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/02 11:46:19 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:02:49 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 char	*find_path(char *cmd, char **envp)
 {
