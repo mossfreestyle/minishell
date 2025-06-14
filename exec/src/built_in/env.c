@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/14 12:05:35 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/14 12:25:05 by mfernand         ###   ########.fr       */
+/*   Created: 2025/06/14 12:17:51 by mfernand          #+#    #+#             */
+/*   Updated: 2025/06/14 12:27:09 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_in.h"
 
-int main(int ac, char **av, char **envp)
+int	ft_env(char **envp)
 {
-    (void)ac;
-    (void)envp;
-    // ft_pwd();
-    ft_env(envp);
-    return (0);
+	int i;
+
+	i = 0;
+	while (envp && envp[i])
+		printf("%s\n", envp[i++]);
+	return (0);
 }
