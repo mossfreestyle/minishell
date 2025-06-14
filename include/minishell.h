@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/14 16:51:11 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:35:13 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_shell
 	t_env				*env_vars;
 	t_pipe				pipeline;
 }						t_shell;
-
+////////////Parsing//////////////////////
 t_token					*new_token(t_token_type type, char *value);
 t_token					*meta_token(t_token *tokens, char *line, int *i);
 bool					is_redirect(t_token_type type);
@@ -87,4 +87,5 @@ void					free_array(char **ptr);
 void					free_command(t_command *cmd);
 void					free_commands(t_command *cmd);
 
+//////////Exec/////////////////////////
 #endif
