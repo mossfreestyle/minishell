@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:50 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/14 22:32:19 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/14 23:05:06 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_echo(char **args)
 		printf("\n");
 		return ;
 	}
-	if (!ft_strcmp(args[1], "-n"))
+	if (!ft_strncmp(args[1], "-n", 2))
 		without_nl(args);
 	else
 		with_nl(args);

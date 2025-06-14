@@ -1,28 +1,25 @@
-NAME			= test
+NAME        = test
 
-OBJDIR			= obj/
-INCDIR			= ../../../include/
-LIBFT_DIR		= ../../../libft
-LIBFT			= $(LIBFT_DIR)/libft.a
+CC          = cc
+CFLAGS      = -Wall -Wextra -Werror
+INCDIR      = ../../../include
+LIBFT_DIR   = ../../../libft
+LIBFT       = $(LIBFT_DIR)/libft.a
+INCLUDES    = -I$(INCDIR) -I$(LIBFT_DIR)/include
 
-SRCS			= src/built_in/main.c \
-                  src/built_in/env.c \
-                  src/built_in/pwd.c
+SRCDIR      = src
+OBJDIR      = obj
 
-OBJS			= $(SRCS:src/%.c=$(OBJDIR)%.o)
-
-CC				= cc
-INCLUDES		= -I $(INCDIR) -I $(LIBFT_DIR)/include
-CFLAGS			= -Wall -Wextra -Werror
-RM				= rm -f
+# Trouve tous les .c dans src/ et sous-dossiers
+SRCS        = $(wildcard $(SRCDIR)/**/*.c)
+OBJS        = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
-# Règle générique qui gère tous les sous-dossiers
-$(OBJDIR)%.o: src/%.c $(INCDIR)/minishell.h
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
@@ -30,11 +27,11 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 clean:
-	$(RM) -r $(OBJDIR)
+	rm -rf $(OBJDIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
-	$(RM) $(NAME)
+	rm -f $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
