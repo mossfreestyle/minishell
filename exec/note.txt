@@ -1,0 +1,95 @@
+Built-in:
+
+- echo with option -n                                   / -n delete le \n
+- cd with only a relative or absolute path              / a voit cd sans arg pour revenir a home, cd ~, cd ..,
+- pwd with no options
+- export with no options                                /     When no arguments are given, the results are unspecified.
+- unset with no options
+- env with no options or arguments
+- exit with no options
+
+
+
+
+
+//
+readline : Lit une ligne depuis l’entrée standard avec édition interactive (lib readline).
+
+rl_clear_history : Efface l’historique des commandes (readline).
+
+rl_on_new_line : Indique à readline qu’une nouvelle ligne commence.
+
+rl_replace_line : Remplace la ligne courante dans readline.
+
+rl_redisplay : Réaffiche la ligne courante (readline).
+
+add_history : Ajoute une ligne à l’historique (readline).
+
+access : Vérifie l’accessibilité d’un fichier (lecture, écriture, exécution).
+
+fork : Crée un nouveau processus (fils). Retourne 0 dans le fils, pid du fils dans le parent.
+
+wait/waitpid/wait3/wait4 : Attend la fin d’un processus fils.
+
+waitpid permet de choisir quel fils attendre.
+
+wait3/wait4 permettent de récupérer des infos supplémentaires (statistiques).
+
+signal : Définit un gestionnaire pour un signal.
+
+sigaction : Plus complet que signal pour gérer les signaux.
+
+sigemptyset/sigaddset : Manipule des ensembles de signaux (pour bloquer/débloquer certains signaux).
+
+kill : Envoie un signal à un processus.
+
+getcwd : Récupère le chemin courant. Peut échouer si le chemin est trop long ou supprimé.
+
+chdir : Change le répertoire courant.
+
+stat/lstat/fstat : Récupère des infos sur un fichier.
+
+lstat ne suit pas les liens symboliques.
+
+fstat travaille sur un descripteur de fichier.
+
+unlink : Supprime un fichier.
+
+execve : Remplace le processus courant par un nouveau programme.
+
+dup/dup2 : Duplique un descripteur de fichier.
+
+dup2 permet de choisir la nouvelle valeur.
+
+pipe : Crée un tube (pipe) pour la communication entre processus.
+
+opendir/readdir/closedir : Ouvre, lit et ferme un répertoire.
+
+strerror : Retourne une chaîne décrivant une erreur (errno).
+
+perror : Affiche un message d’erreur basé sur errno.
+
+isatty : Vérifie si un descripteur est associé à un terminal.
+
+ttyname : Retourne le nom du terminal associé à un descripteur.
+
+ttyslot : Retourne le numéro du terminal courant.
+
+ioctl : Contrôle bas niveau sur des périphériques (ex : terminal).
+
+getenv : Récupère la valeur d’une variable d’environnement.
+
+tcsetattr/tcgetattr : Définit/récupère les attributs d’un terminal (mode canonique, etc.).
+
+tgetent/tgetflag/tgetnum/tgetstr/tgoto/tputs : Fonctions termcap pour gérer les capacités des terminaux (couleurs, curseur, etc.).
+
+
+
+
+Cas spéciaux à retenir :
+
+Toujours vérifier les retours d’erreur (souvent -1 ou NULL).
+Bien fermer les fichiers et libérer la mémoire.
+Après un fork, attention à ne pas exécuter deux fois le même code.
+execve ne retourne que si erreur.
+Les fonctions termcap sont rarement utilisées sauf pour la gestion avancée du terminal.
