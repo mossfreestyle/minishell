@@ -39,3 +39,4 @@ relation entre les struct
 
 Tokenisation:
 Input → s_token → s_token → ... → Parsing → s_command(s)
+ta mere
