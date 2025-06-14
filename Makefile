@@ -1,45 +1,45 @@
-NAME = minishell
+NAME			= minishell
 
+OBJDIR			= obj/
+INCDIR			= include/
 
-SRCDIR = src
-PARSEDIR = src/parsing
-LIBFTDIR = libft
-INCDIR = includes
+SRCS			= src/main.c \
+				  src/parser/tokenize.c \
+				  src/parser/utils_parser.c \
+				  src/utils/free.c
 
+OBJS			= $(SRCS:src/%.c=$(OBJDIR)%.o)
 
-SRCS = $(SRCDIR)/main.c $(PARSEDIR)/lexer.c $(PARSEDIR)/quotes.c
+LIBFT_DIR		= ./libft
+LIBFT			= $(LIBFT_DIR)/libft.a
 
-OBJS = $(SRCS:.c=.o)
+CC				= cc
+INCLUDES		= -I $(INCDIR) -I $(LIBFT_DIR)/include
+CFLAGS			= -Wall -Wextra -Werror
+LDFLAGS			= -lreadline
+RM				= rm -f
 
+all:			$(NAME)
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -I$(INCDIR) -I$(LIBFTDIR)
-LIBS = -lreadline -L$(LIBFTDIR) -lft
+$(NAME): 		$(LIBFT) $(OBJS)
+				$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS)
 
-
-LIBFT = $(LIBFTDIR)/libft.a
-
-all: $(LIBFT) $(NAME)
-
+$(OBJDIR)%.o:	src/%.c $(INCDIR)/minishell.h
+				@mkdir -p $(dir $@)
+				$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIBFT):
-	@make -C $(LIBFTDIR)
-
-$(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(OBJS) $(LIBS) -o $(NAME)
-
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+				@$(MAKE) -C $(LIBFT_DIR)
 
 clean:
-	rm -f $(OBJS)
-	@make -C $(LIBFTDIR) clean
+				rm -rf $(OBJDIR)
+				@$(MAKE) -C $(LIBFT_DIR) clean
 
-fclean: clean
-	rm -f $(NAME)
-	@make -C $(LIBFTDIR) fclean
+fclean:
+				$(RM) $(NAME)
+				rm -rf $(OBJDIR)
+				@$(MAKE) -C $(LIBFT_DIR) fclean
 
-re: fclean all
+re: 			fclean all
 
-.PHONY: all clean fclean re
+.PHONY: 		all clean fclean re

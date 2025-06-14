@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/13 11:57:30 by rwassim          ###   ########.fr       */
+/*   Created: 2025/06/14 14:30:03 by rwassim           #+#    #+#             */
+/*   Updated: 2025/06/14 14:36:53 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
-int	main(void)
+bool	is_redirect(t_token_type type)
 {
-	char *input;
-	t_token *tokens;
+	return (type == R_OUTPUT || type == R_INPUT || type == R_APPEND
+		|| type == R_HEREDOC);
+}
 
-	while (1)
-	{
-		input = readline("minishell>");
-		if (!input)
-			break ;
-		if (*input)
-			add_history(input);
-		tokens = tokenize(input);
-		print_tokens(tokens);
-
-		free_token(tokens);
-		free(input);
-	}
-	printf("exit\n");
-	return (0);
+bool	is_meta(char c)
+{
+	return (c == '|' || c == '<' || c == '>');
 }

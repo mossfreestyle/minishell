@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "built_in.h": "c"
+        "built_in.h": "c",
+        "history.h": "c"
     }
 }

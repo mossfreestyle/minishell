@@ -1,0 +1,29 @@
+ CD
+ ECHO -n
+ ENV
+ EXIT
+ EXPORT
+ PWD
+ LS
+ CAT
+ GREP
+ UNSET
+ |
+ >
+ >>
+ <
+ <<
+ $USER
+ $VAR
+ $?
+ CTRL+C 
+ CTRL+D 
+ CTRL-\
+
+ // prend pas en compte //
+
+ \
+ ;
+ &&
+ ||
+ wildcard
