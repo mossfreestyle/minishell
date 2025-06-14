@@ -1,13 +1,13 @@
- CD
- ECHO -n
- ENV
- EXIT
- EXPORT
- PWD
+ CD         //bi
+ ECHO -n    //bi
+ ENV        //bi
+ EXIT       //bi
+ EXPORT     //bi
+ PWD        //bi
  LS
  CAT
  GREP
- UNSET
+ UNSET      //bi 
  |
  >
  >>

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:11:29 by rwassim           #+#    #+#             */
-/*   Updated: 2025/04/27 16:11:30 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/14 22:34:23 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 
 /*
 #include <stdio.h>
+
 char	f(unsigned int, char c)
 {
 	char	str;

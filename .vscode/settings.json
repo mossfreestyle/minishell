@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "built_in.h": "c",
-        "history.h": "c"
+        "history.h": "c",
+        "minishell.h": "c",
+        "libft.h": "c"
     }
 }

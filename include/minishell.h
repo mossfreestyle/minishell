@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/14 18:35:13 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/14 22:12:24 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/include/libft.h"
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
@@ -22,6 +23,10 @@
 # include <unistd.h>
 
 # define MAX_PIPES 1024
+# ifndef PATH_MAX
+#  define PATH_MAX 4096
+/*4096 est une valeur courante utilisée comme taille maximale pour un chemin absolu sur la plupart des systèmes UNIX/Linux.*/
+# endif
 
 typedef enum e_token_type
 {
@@ -88,4 +93,10 @@ void					free_command(t_command *cmd);
 void					free_commands(t_command *cmd);
 
 //////////Exec/////////////////////////
+
+int						ft_pwd(t_shell *info);
+int						ft_env(char **envp);
+void					ft_echo(char **args);
+int					ft_exit(char **args);
+
 #endif
