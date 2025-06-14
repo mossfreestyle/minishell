@@ -27,3 +27,15 @@
  &&
  ||
  wildcard
+
+relation entre les struct
+
+ s_shell
+├── env_vars → s_env → s_env → ... (variables d'environnement)
+├── pipeline → s_pipe (gestion des pipes)
+└── [Commands] → s_command → s_command → ... (pipeline de commandes)
+                      ├── redirects → s_redirect → s_redirect → ...
+                      └── args[] (tableau d'arguments)
+
+Tokenisation:
+Input → s_token → s_token → ... → Parsing → s_command(s)
