@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 13:31:38 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/14 14:36:49 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/15 11:09:46 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,9 @@ static char	*single_quote(char *line, int *i)
 	if (line[*i] == '\'')
 		(*i)++;
 	return (value);
+}
+
+static char *double_quote(char *line, int *i)
+{
+	
 }
