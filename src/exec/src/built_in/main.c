@@ -6,11 +6,11 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:05:35 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/15 09:43:07 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/15 10:54:59 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "minishell.h"
 
 int main(int ac, char **av, char **envp)
 {
@@ -18,7 +18,7 @@ int main(int ac, char **av, char **envp)
     (void)ac;
     (void)envp;
     // ft_pwd(&info);
-    // ft_env(envp);
+    ft_env(envp);
     // ft_echo(av);
     // return ft_exit(av);
     // return (0);

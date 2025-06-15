@@ -6,11 +6,11 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:43 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/15 10:15:21 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/15 10:54:25 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "minishell.h"
 
 static char	*get_env_value(t_env *env, const char *name);
 static void	update_pwd(t_shell *shell, char *oldpwd);
