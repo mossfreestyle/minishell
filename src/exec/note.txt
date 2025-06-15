@@ -93,3 +93,26 @@ Bien fermer les fichiers et libérer la mémoire.
 Après un fork, attention à ne pas exécuter deux fois le même code.
 execve ne retourne que si erreur.
 Les fonctions termcap sont rarement utilisées sauf pour la gestion avancée du terminal.
+
+
+
+
+
+
+
+// f1br5s3% cd p
+// cd: no such file or directory: p
+// f1br5s3% cd *
+// cd: too many arguments
+
+Si tu veux entrer dans un dossier avec cd, il te faut la permission d’exécution (x) sur ce dossier.
+Si tu n’as pas cette permission, tu auras une erreur du type :
+cd: permission denied: dossier
+
+// 
+// . signifie mettre à cet endroit la valeur de $PWD
+// .. signifie mettre à cet endroit la valeur de $PWD en lui coupant sa dernière branche (=remonter dans l'arborescence).
+// - signifie signifie mettre à cet endroit la valeur de $OLDPWD
+// / signifie mettre à cet endroit la valeur du répertoire racine.
+// ~ signifie mettre à cet endroit la valeur du répertoire de l'utilisateur.
+// 

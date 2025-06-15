@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/14 22:12:24 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/15 10:48:53 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void					free_commands(t_command *cmd);
 int						ft_pwd(t_shell *info);
 int						ft_env(char **envp);
 void					ft_echo(char **args);
-int					ft_exit(char **args);
+int						ft_exit(char **args);
+int						ft_cd(char **args, t_shell *shell);
 
 #endif
