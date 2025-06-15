@@ -6,11 +6,11 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:50 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/15 10:55:28 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/15 11:23:59 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../../include/minishell.h"
 
 static void	with_nl(char **args);
 static void	without_nl(char **args);

@@ -6,14 +6,15 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:43 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/15 11:07:25 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/15 11:26:53 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../../include/minishell.h"
 
 static char	*get_env_value(t_env *env, const char *name);
 static void	update_pwd(t_shell *shell, char *oldpwd);
+static void set_env_value(t_env *env, const char *name, const char *value);
 // gerer cd -, cd ~, cd .., cd, cd /
 
 int	ft_cd(char **args, t_shell *shell)
@@ -61,10 +62,37 @@ static char	*get_env_value(t_env *env, const char *name)
 static void	update_pwd(t_shell *shell, char *oldpwd)
 {
 	char *newpwd;
-	set_env_value(shell->env_vars, "OLDPWD", shell->pwd);
+	set_env_value(shell->env_vars, "OLDPWD", oldpwd);
 	free(shell->pwd);
 	newpwd = getcwd(NULL, 0);
 	shell->pwd = ft_strdup(newpwd);
 	set_env_value(shell->env_vars, "PWD", shell->pwd);
 	free(newpwd);
+}
+
+static void set_env_value(t_env *env, const char *name, const char *value)
+{
+    t_env *new;
+    t_env *tmp;
+
+    tmp = env;
+    while (tmp)
+    {
+        if (!ft_strcmp(tmp->name, name))
+        {
+            free(tmp->value);
+            tmp->value = ft_strdup(value);
+            return;
+        }
+        if (!tmp->next)
+            break;
+        tmp = tmp->next;
+    }
+    new = malloc(sizeof(t_env));
+    if (!new)
+        return;
+    new->name = ft_strdup(name);
+    new->value = ft_strdup(value);
+    new->next = NULL;
+    tmp->next = new;
 }

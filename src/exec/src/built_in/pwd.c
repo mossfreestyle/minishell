@@ -6,11 +6,11 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:45 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/15 10:55:11 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/15 11:23:36 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../../include/minishell.h"
 
 int	ft_pwd(t_shell *info)
 {

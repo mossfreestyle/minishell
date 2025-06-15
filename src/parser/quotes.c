@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 13:31:38 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/15 11:09:46 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/15 11:18:34 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,14 @@ static char	*single_quote(char *line, int *i)
 static char *double_quote(char *line, int *i)
 {
 	
+}
+
+char *
+
+char	*quotes(char *line, int *i, void *shell)
+{
+	if (line[*i] == '\'')
+		return (single_quote(line, i));
+	else
+		return (double_quote(line, i, shell));
 }

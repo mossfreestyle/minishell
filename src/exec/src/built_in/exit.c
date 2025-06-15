@@ -6,11 +6,11 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 21:39:09 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/15 10:55:20 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/15 11:23:25 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/minishell.h"
+#include "../../../../include/minishell.h"
 
 static void	check_valid(char **args);
 

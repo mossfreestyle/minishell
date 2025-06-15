@@ -6,11 +6,11 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:17:51 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/15 10:53:58 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/15 11:23:43 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../../include/minishell.h"
 
 static void		printf_env(t_env *env);
 static t_env	*set_up_env(char *line);
