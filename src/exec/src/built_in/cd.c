@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:43 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/15 10:54:25 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/15 11:07:25 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_cd(char **args, t_shell *shell)
 	if (args[2])
 		return (ft_putstr_fd("cd: too many arguments\n", 2), 1);
 	getcwd(oldpwd, sizeof(oldpwd));
-	if (!args[1][0] || !ft_strcmp(args[1], "~")
+	if (!args[1] || !args[1][0] || !ft_strcmp(args[1], "~")
 		|| !ft_strcmp(args[1], "--"))
 	{
 		path = get_env_value(shell->env_vars, "HOME");
@@ -60,8 +60,11 @@ static char	*get_env_value(t_env *env, const char *name)
 
 static void	update_pwd(t_shell *shell, char *oldpwd)
 {
+	char *newpwd;
 	set_env_value(shell->env_vars, "OLDPWD", shell->pwd);
 	free(shell->pwd);
-	shell->pwd = ft_strdup(getcwd(NULL, 0));
+	newpwd = getcwd(NULL, 0);
+	shell->pwd = ft_strdup(newpwd);
 	set_env_value(shell->env_vars, "PWD", shell->pwd);
+	free(newpwd);
 }
