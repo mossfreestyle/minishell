@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/15 11:38:13 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/15 15:47:03 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,10 @@ typedef struct s_shell
 ////////////Parsing//////////////////////
 t_token					*new_token(t_token_type type, char *value);
 t_token					*meta_token(t_token *tokens, char *line, int *i);
+t_token					*word_token(char *line, int *i, t_shell *shell,
+							t_token *tokens);
 bool					is_redirect(t_token_type type);
 bool					is_meta(char c);
-void					free_tokens(t_token *tokens);
-void					free_redirects(t_redirect *redirects);
-void					free_array(char **ptr);
-void					free_command(t_command *cmd);
-void					free_commands(t_command *cmd);
 
 //////////Exec/////////////////////////
 
@@ -103,5 +100,18 @@ int						ft_env(char **envp);
 void					ft_echo(char **args);
 int						ft_exit(char **args);
 int						ft_cd(char **args, t_shell *shell);
+
+//////////utils/////////////////////////
+
+int						cmd_err(char *cmd, char *arg, char *msg, int err_num);
+void					*set_status(t_shell *shell, int status);
+void					*err_msg(char *cmd, char *msg, t_shell *shell,
+							int exit_status);
+int						exec_error(char *cmd);
+void					free_tokens(t_token *tokens);
+void					free_redirects(t_redirect *redirects);
+void					free_array(char **ptr);
+void					free_command(t_command *cmd);
+void					free_commands(t_command *cmd);
 
 #endif

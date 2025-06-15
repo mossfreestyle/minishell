@@ -6,24 +6,11 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:25 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/14 18:08:17 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/15 15:13:26 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_token	*new_token(t_token_type type, char *value)
-{
-	t_token	*token;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->type = type;
-	token->content = ft_strdup(value);
-	token->next = NULL;
-	return (token);
-}
 
 static t_token	*add_token(t_token *tokens, char *value, t_token_type type)
 {
@@ -64,5 +51,15 @@ t_token	*meta_token(t_token *tokens, char *line, int *i)
 	else if (line[*i] == '<')
 		tokens = add_token(tokens, ft_strdup("<"), R_INPUT);
 	(*i)++;
+	return (tokens);
+}
+
+t_token	*word_token(char *line, int *i, t_shell *shell, t_token *tokens)
+{
+	char	*value;
+
+	value = extract_word(line, i, shell);
+	if (value)
+		tokens = add_token(tokens, value, WORD);
 	return (tokens);
 }
