@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/15 15:47:03 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/16 18:13:08 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,6 @@ void					free_redirects(t_redirect *redirects);
 void					free_array(char **ptr);
 void					free_command(t_command *cmd);
 void					free_commands(t_command *cmd);
+char					*add_char(char *line, int *i, char *value);
 
 #endif
