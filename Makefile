@@ -54,15 +54,21 @@ MAIN_FILES	= main.c
 
 PARSER_FILES = tokenize.c \
                quotes.c \
-               utils_parser.c
+               utils_parser.c \
+			   lexer.c
 
 UTILS_FILES	= free.c \
-              error.c
+              error.c \
+			  env.c \
+			  extract.c \
+			  utils_str.c
 
 BUILTIN_FILES = echo.c \
                 pwd.c \
                 env.c \
-                cd.c
+                cd.c \
+				exit.c \
+				test.c 
 
 SRCS		= $(addprefix $(SRC_DIR)/, $(MAIN_FILES)) \
               $(addprefix $(PARSER_DIR)/, $(PARSER_FILES)) \

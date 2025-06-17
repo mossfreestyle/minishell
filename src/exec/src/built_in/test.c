@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 14:36:28 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/17 17:00:47 by rwassim          ###   ########.fr       */
+/*   Created: 2025/06/17 15:56:15 by mfernand          #+#    #+#             */
+/*   Updated: 2025/06/17 16:04:56 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*getenv_lst(const char *name, t_env *env_list)
-{
-	t_env	*current;
 
-	current = env_list;
-	while (current)
-	{
-		if (ft_strcmp(current->name, name) == 0)
-			return (current->value);
-		current = current->next;
-	}
-	return (NULL);
+int    exec_built_in(char **args, t_shell *info)
+{
+    if (!ft_strcmp(args[0], "pwd"))
+        return (ft_pwd(info));
+    else if (!ft_strcmp(args[0], "echo"))
+        return (ft_echo(args), 0);
+    else if (!ft_strcmp(args[0], "exit"))
+        return (ft_exit(args));
+    else if (!ft_strcmp(args[0], "cd"))
+        return (ft_cd(args, info));
+    return (1);
 }

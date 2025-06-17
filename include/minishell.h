@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/17 15:12:54 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:00:48 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ typedef struct s_shell
 	t_pipe				pipeline;
 }						t_shell;
 ////////////Parsing//////////////////////
-t_token					*new_token(t_token_type type, char *value);
 t_token					*meta_token(t_token *tokens, char *line, int *i);
 t_token					*word_token(char *line, int *i, t_shell *shell,
 							t_token *tokens);
@@ -94,6 +93,11 @@ t_token					*lexer(char *line, t_shell *shell);
 bool					is_redirect(t_token_type type);
 bool					is_meta(char c);
 char					*quotes(char *line, int *i, void *shell);
+void					parse_args(t_token **tokens, t_command *cmd);
+bool					parse_redirects(t_token **tokens, t_command *cmd,
+							t_shell *shell);
+bool					parse_pipe(t_token **tokens, t_command **cmd,
+							t_shell *shell);
 
 //////////Exec/////////////////////////
 
@@ -102,6 +106,7 @@ int						ft_env(char **envp);
 void					ft_echo(char **args);
 int						ft_exit(char **args);
 int						ft_cd(char **args, t_shell *shell);
+int						exec_built_in(char **args, t_shell *info);
 
 //////////utils/////////////////////////
 
@@ -120,5 +125,9 @@ char					*getenv_lst(const char *name, t_env *env_list);
 char					*extract_word(char *line, int *i, t_shell *shell);
 char					*expand_var(char *line, int *i, t_shell *shell,
 							char *value);
+char					**append_to_array(char **array, const char *new_elem);
+long					ft_atol(char *str, int *out_of_range);
+char					*ft_strjoin_char(char *str, char c);
+bool					is_empty_line(const char *line);
 
 #endif

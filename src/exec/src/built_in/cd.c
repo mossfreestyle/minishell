@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:43 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/15 11:26:53 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:00:22 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 
 static char	*get_env_value(t_env *env, const char *name);
 static void	update_pwd(t_shell *shell, char *oldpwd);
-static void set_env_value(t_env *env, const char *name, const char *value);
-// gerer cd -, cd ~, cd .., cd, cd /
+static void	set_env_value(t_env *env, const char *name, const char *value);
 
 int	ft_cd(char **args, t_shell *shell)
 {
 	char	*path;
 	char	oldpwd[PATH_MAX];
 
-	if (args[2])
+	if (getcwd(oldpwd, sizeof(oldpwd)), args[2])
 		return (ft_putstr_fd("cd: too many arguments\n", 2), 1);
-	getcwd(oldpwd, sizeof(oldpwd));
 	if (!args[1] || !args[1][0] || !ft_strcmp(args[1], "~")
 		|| !ft_strcmp(args[1], "--"))
 	{
@@ -42,11 +40,11 @@ int	ft_cd(char **args, t_shell *shell)
 		path = args[1];
 	if (!path || access(path, X_OK) || chdir(path))
 		return (perror("cd"), 1);
-	update_pwd(shell, oldpwd);
-	if (!ft_strcmp(args[1], "-"))
+	if (update_pwd(shell, oldpwd), !ft_strcmp(args[1], "-"))
 		printf("%s\n", path);
 	return (0);
 }
+
 
 static char	*get_env_value(t_env *env, const char *name)
 {
@@ -61,7 +59,8 @@ static char	*get_env_value(t_env *env, const char *name)
 
 static void	update_pwd(t_shell *shell, char *oldpwd)
 {
-	char *newpwd;
+	char	*newpwd;
+
 	set_env_value(shell->env_vars, "OLDPWD", oldpwd);
 	free(shell->pwd);
 	newpwd = getcwd(NULL, 0);
@@ -70,29 +69,29 @@ static void	update_pwd(t_shell *shell, char *oldpwd)
 	free(newpwd);
 }
 
-static void set_env_value(t_env *env, const char *name, const char *value)
+static void	set_env_value(t_env *env, const char *name, const char *value)
 {
-    t_env *new;
-    t_env *tmp;
+	t_env	*new;
+	t_env	*tmp;
 
-    tmp = env;
-    while (tmp)
-    {
-        if (!ft_strcmp(tmp->name, name))
-        {
-            free(tmp->value);
-            tmp->value = ft_strdup(value);
-            return;
-        }
-        if (!tmp->next)
-            break;
-        tmp = tmp->next;
-    }
-    new = malloc(sizeof(t_env));
-    if (!new)
-        return;
-    new->name = ft_strdup(name);
-    new->value = ft_strdup(value);
-    new->next = NULL;
-    tmp->next = new;
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, name))
+		{
+			free(tmp->value);
+			tmp->value = ft_strdup(value);
+			return ;
+		}
+		if (!tmp->next)
+			break ;
+		tmp = tmp->next;
+	}
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return ;
+	new->name = ft_strdup(name);
+	new->value = ft_strdup(value);
+	new->next = NULL;
+	tmp->next = new;
 }

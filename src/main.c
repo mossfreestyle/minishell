@@ -6,44 +6,50 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/14 17:58:54 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:00:47 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	main(int ac, char **av)
 {
-    char	*input;
-    t_token	*tokens;
+	t_shell	shell;
+	t_token	*tokens;
+	char	*input;
+	t_token	*tmp;
 
-    while (1)
-    {
-        input = readline("minishell> ");
-        if (!input)
-        {
-            printf("exit\n");
-            break ;
-        }
-        if (*input == '\0')
-        {
-            free(input);
-            continue ;
-        }
-        add_history(input);
-        
-        if (ft_strcmp(input, "exit") == 0)
-        {
-            free(input);
-            break ;
-        }
-        tokens = new_token(WORD, input);
-        if (tokens)
-        {
-            printf("Token créé: type=%d, content='%s'\n", tokens->type, tokens->content);
-            free_tokens(tokens);
-        }
-        free(input);
-    }
-    return (0);
+	shell.exit_status = 0;
+	shell.pwd = NULL;
+	shell.env_vars = NULL; // À remplir si besoin
+	(void)ac;
+	while (1)
+	{
+		input = readline("minishell> ");
+		if (!input)
+		{
+			printf("exit\n");
+			break ;
+		}
+		if (*input == '\0')
+		{
+			free(input);
+			continue ;
+		}
+		add_history(input);
+		tokens = lexer(input, &shell);
+		if (tokens)
+		{
+			tmp = tokens;
+			while (tmp)
+			{
+				// exec_built_in(av, &shell);
+				printf("Token: type=%d, content=%s\n", tmp->type, tmp->content);
+				tmp = tmp->next;
+			}
+			free_tokens(tokens);
+		}
+		free(input);
+	}
+	return (shell.exit_status);
 }

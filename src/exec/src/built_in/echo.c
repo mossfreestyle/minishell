@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:50 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/15 14:38:25 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:32:36 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ static void	without_nl(char **args);
 
 void	ft_echo(char **args)
 {
-	int	i;
-
-	i = 0;
 	if (!args[1] || args[1][0] == '\0')
 	{
 		printf("\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 21:39:09 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/15 11:23:25 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:07:02 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ static void	check_valid(char **args);
 int	ft_exit(char **args)
 {
 	int	status;
-	int	j;
 
 	status = 0;
-	j = 0;
 	if (!args[1] || args[1][0] == '\0')
 	{
 		printf("exit\n");
