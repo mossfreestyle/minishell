@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:43 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/17 17:00:22 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:03:40 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	ft_cd(char **args, t_shell *shell)
 		printf("%s\n", path);
 	return (0);
 }
-
 
 static char	*get_env_value(t_env *env, const char *name)
 {

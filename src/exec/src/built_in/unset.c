@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/17 16:50:27 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:04:07 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ static int	check_error(char *arg)
 	return (1);
 }
 
-int			ft_unset(char **args, t_env *envp);
+int	ft_unset(char **args, t_env *envp)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!args[1])
@@ -45,11 +45,6 @@ int			ft_unset(char **args, t_env *envp);
 	}
 	return (0);
 }
-
-
-
-
-
 
 // VAR=42
 // bash -c 'echo $VAR'   # n'affiche rien
