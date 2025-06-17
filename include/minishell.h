@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/16 18:13:08 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/17 15:12:54 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,10 @@ t_token					*new_token(t_token_type type, char *value);
 t_token					*meta_token(t_token *tokens, char *line, int *i);
 t_token					*word_token(char *line, int *i, t_shell *shell,
 							t_token *tokens);
+t_token					*lexer(char *line, t_shell *shell);
 bool					is_redirect(t_token_type type);
 bool					is_meta(char c);
+char					*quotes(char *line, int *i, void *shell);
 
 //////////Exec/////////////////////////
 
@@ -114,5 +116,9 @@ void					free_array(char **ptr);
 void					free_command(t_command *cmd);
 void					free_commands(t_command *cmd);
 char					*add_char(char *line, int *i, char *value);
+char					*getenv_lst(const char *name, t_env *env_list);
+char					*extract_word(char *line, int *i, t_shell *shell);
+char					*expand_var(char *line, int *i, t_shell *shell,
+							char *value);
 
 #endif
