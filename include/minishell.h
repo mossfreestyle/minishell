@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/17 17:00:48 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/17 22:25:04 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,14 @@ bool					parse_pipe(t_token **tokens, t_command **cmd,
 
 int						ft_pwd(t_shell *info);
 int						ft_env(char **envp);
-void					ft_echo(char **args);
+int						ft_echo(char **args);
 int						ft_exit(char **args);
-int						ft_cd(char **args, t_shell *shell);
+int						ft_cd(char **args, t_shell *info);
+int						ft_unset(char **args, t_env **envp);
+int						ft_export(char **args, t_env **envp);
+
+// bi-utils
+static int				check_error(char *arg);
 int						exec_built_in(char **args, t_shell *info);
 
 //////////utils/////////////////////////

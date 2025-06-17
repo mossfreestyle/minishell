@@ -3,29 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:50 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/17 15:32:36 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/17 22:12:19 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
-
+// ./a.out -n -n -n -> a gerer
 static void	with_nl(char **args);
 static void	without_nl(char **args);
 
-void	ft_echo(char **args)
+int	ft_echo(char **args)
 {
 	if (!args[1] || args[1][0] == '\0')
 	{
 		printf("\n");
-		return ;
+		return (0);
 	}
-	if (!ft_strncmp(args[1], "-n", 2))
+	if (!strncmp(args[1], "-n", 2))
 		without_nl(args);
 	else
 		with_nl(args);
+	return(0);
 }
 
 static void	with_nl(char **args)

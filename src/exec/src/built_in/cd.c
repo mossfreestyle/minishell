@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:43 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/17 17:03:40 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/17 22:25:20 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
 
 static char	*get_env_value(t_env *env, const char *name);
-static void	update_pwd(t_shell *shell, char *oldpwd);
+static void	update_pwd(t_shell *info, char *oldpwd);
 static void	set_env_value(t_env *env, const char *name, const char *value);
 
-int	ft_cd(char **args, t_shell *shell)
+int	ft_cd(char **args, t_shell *info)
 {
 	char	*path;
 	char	oldpwd[PATH_MAX];
@@ -26,13 +26,13 @@ int	ft_cd(char **args, t_shell *shell)
 	if (!args[1] || !args[1][0] || !ft_strcmp(args[1], "~")
 		|| !ft_strcmp(args[1], "--"))
 	{
-		path = get_env_value(shell->env_vars, "HOME");
+		path = get_env_value(info->env_vars, "HOME");
 		if (!path)
 			return (ft_putstr_fd("cd: HOME not set\n", 2), 1);
 	}
 	else if (!ft_strcmp(args[1], "-"))
 	{
-		path = get_env_value(shell->env_vars, "OLDPWD");
+		path = get_env_value(info->env_vars, "OLDPWD");
 		if (!path)
 			return (ft_putstr_fd("cd: OLDPWD not set\n", 2), 1);
 	}
@@ -40,7 +40,7 @@ int	ft_cd(char **args, t_shell *shell)
 		path = args[1];
 	if (!path || access(path, X_OK) || chdir(path))
 		return (perror("cd"), 1);
-	if (update_pwd(shell, oldpwd), !ft_strcmp(args[1], "-"))
+	if (update_pwd(info, oldpwd), !ft_strcmp(args[1], "-"))
 		printf("%s\n", path);
 	return (0);
 }
@@ -56,15 +56,15 @@ static char	*get_env_value(t_env *env, const char *name)
 	return (NULL);
 }
 
-static void	update_pwd(t_shell *shell, char *oldpwd)
+static void	update_pwd(t_shell *info, char *oldpwd)
 {
 	char	*newpwd;
 
-	set_env_value(shell->env_vars, "OLDPWD", oldpwd);
-	free(shell->pwd);
+	set_env_value(info->env_vars, "OLDPWD", oldpwd);
+	free(info->pwd);
 	newpwd = getcwd(NULL, 0);
-	shell->pwd = ft_strdup(newpwd);
-	set_env_value(shell->env_vars, "PWD", shell->pwd);
+	info->pwd = ft_strdup(newpwd);
+	set_env_value(info->env_vars, "PWD", info->pwd);
 	free(newpwd);
 }
 

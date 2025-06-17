@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/17 17:04:07 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/17 21:54:10 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,58 @@ static int	check_error(char *arg)
 	i = 0;
 	if (arg[0] == '\0')
 		return (0);
-	if (!(ft_isalpha(args[0]) || args[0] == 95))
+	if (!(ft_isalpha(arg[0]) || arg[0] == 95))
 		return (0);
-	while (args[i])
-		if (!(ft_isalnum(args[i]) || args[i] == 95))
+	while (arg[i])
+		if (!(ft_isalnum(arg[i]) || arg[i] == 95))
 			return (0);
 	return (1);
 }
+static void	free_env_node(t_env *node)
+{
+	free(node->name);
+	free(node->value);
+	free(node);
+}
 
-int	ft_unset(char **args, t_env *envp)
+static void	remove_env_var(t_env **envp, const char *name)
+{
+	t_env	*curr;
+	t_env	*tmp;
+
+	curr = *envp;
+	if (curr && !ft_strcmp(curr->name, name))
+	{
+		tmp = curr;
+		*envp = curr->next;
+		free_env_node(tmp);
+		return ;
+	}
+	while (curr && curr->next)
+	{
+		if (!ft_strcmp(curr->next->name, name))
+		{
+			tmp = curr->next;
+			curr->next = curr->next->next;
+			free_env_node(tmp);
+			return ;
+		}
+		curr = curr->next;
+	}
+}
+
+static t_env	*find_env_var(t_env *envp, const char *name)
+{
+	while (envp)
+	{
+		if (!ft_strncmp(envp->name, name, ft_strlen(name)))
+			return (envp);
+		envp = envp->next;
+	}
+	return (NULL);
+}
+
+int	ft_unset(char **args, t_env **envp)
 {
 	int	i;
 
@@ -42,6 +85,8 @@ int	ft_unset(char **args, t_env *envp)
 	{
 		if (!check_error(args[i]))
 			continue ;
+		if (find_env_var(*envp, args[i]))
+			remove_env_var(&envp, args[i]);
 	}
 	return (0);
 }

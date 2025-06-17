@@ -3,6 +3,7 @@
         "built_in.h": "c",
         "history.h": "c",
         "minishell.h": "c",
-        "libft.h": "c"
+        "libft.h": "c",
+        "typeinfo": "c"
     }
 }

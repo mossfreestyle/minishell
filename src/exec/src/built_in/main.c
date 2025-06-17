@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:05:35 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/17 16:52:21 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/17 21:28:06 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	main(int ac, char **av, char **envp)
 	(void)envp;
 	// ft_pwd(&info);
 	// ft_env(envp);
-	ft_cd(av, &info);
-	// ft_echo(av);
+	// ft_cd(av, &info);
+	ft_echo(av);
 	// return (ft_exit(av));
 	// return (0);
 }
