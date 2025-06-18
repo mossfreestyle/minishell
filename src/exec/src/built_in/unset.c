@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 14:22:15 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:21:51 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	check_error(char *arg)
 			return (0);
 	return (1);
 }
+
 static void	free_env_node(t_env *node)
 {
 	if (node->name)
@@ -113,5 +114,6 @@ int	ft_unset(char **args, t_env **envp)
 
 // gerer si il faut un message d erreur ou pas en fonction de bash
 
-// Tu dois afficher un message d’erreur et retourner 1 si l’identifiant est invalide (ex : unset 1VAR).
+// Tu dois afficher un message d’erreur et retourner 1 si l’identifiant 
+//est invalide (ex : unset 1VAR).
 // a verifier

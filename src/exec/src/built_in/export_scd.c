@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_scd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:18:51 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 15:26:40 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:36:19 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,15 @@ void	env_update(t_env **envp, char *arg)
 	}
 }
 
-void	env_addback(t_env **envp, char *arg)
+static t_env	*env_new_node(char *arg)
 {
-	char	*eq;
 	t_env	*new;
-	t_env	*last;
+	char	*eq;
 
-	eq = ft_strchr(arg, '=');
-	last = *envp;
 	new = malloc(sizeof(t_env));
 	if (!new)
-		return ;
+		return (NULL);
+	eq = ft_strchr(arg, '=');
 	if (eq)
 	{
 		new->name = ft_substr(arg, 0, eq - arg);
@@ -60,10 +58,22 @@ void	env_addback(t_env **envp, char *arg)
 	}
 	new->exported = 1;
 	new->next = NULL;
+	return (new);
+}
+
+void	env_addback(t_env **envp, char *arg)
+{
+	t_env	*new;
+	t_env	*last;
+
+	new = env_new_node(arg);
+	if (!new)
+		return ;
 	if (!*envp)
 		*envp = new;
 	else
 	{
+		last = *envp;
 		while (last->next)
 			last = last->next;
 		last->next = new;
@@ -84,4 +94,25 @@ void	set_exported_flag(t_env **envp, char *var)
 		}
 		curr = curr->next;
 	}
+}
+
+int	print_env(t_env *envp)
+{
+	t_env	*curr;
+
+	curr = envp;
+	while (curr)
+	{
+		ft_putstr_fd("export ", 1);
+		ft_putstr_fd(curr->name, 1);
+		if (curr->value)
+		{
+			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd(curr->value, 1);
+			ft_putstr_fd("\"", 1);
+		}
+		ft_putstr_fd("\n", 1);
+		curr = curr->next;
+	}
+	return (0);
 }

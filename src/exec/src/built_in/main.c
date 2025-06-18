@@ -3,32 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:05:35 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 15:26:40 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:26:00 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
 
-int	main(int ac, char **av, char **envp)
-{
-	t_shell	info;
+// int	main(int ac, char **av, char **envp)
+// {
+// 	t_shell	info;
 
-	(void)ac;
-	(void)envp;
-	// info.env_vars = init env()//
-	// ft_pwd(&info);
-	// ft_env(envp);
-	// ft_cd(av, &info);
-	ft_echo(av);
-	// return (ft_exit(av));
-	// return (0);
-}
-
-// TODO
-// cd, unset, export
+// 	(void)ac;
+// 	(void)envp;
+// 	// info.env_vars = init env()//
+// 	// ft_pwd(&info);
+// 	// ft_env(envp);
+// 	// ft_cd(av, &info);
+// 	ft_echo(av);
+// 	// return (ft_exit(av));
+// 	// return (0);
+// }
 
 // return exit status dans la struct
 

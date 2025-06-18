@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/18 15:26:40 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:35:42 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int						check_error(char *arg);
 void					env_update(t_env **envp, char *arg);
 void					env_addback(t_env **envp, char *arg);
 void					set_exported_flag(t_env **envp, char *var);
+int						print_env(t_env *envp);
 
 //////////utils/////////////////////////
 

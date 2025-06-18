@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 15:56:15 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 15:26:39 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:22:35 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 // int    exec_built_in(char **args, t_shell *info)
 // {

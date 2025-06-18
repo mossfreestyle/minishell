@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:47 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 15:04:54 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 16:36:03 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// // declare
-// //
-// //
-// 	-x est la syntaxe utilisée par Bash pour afficher les variables d’environnement exportées lorsqu’on tape simplement export sans argument.
-// //
-// // declare est une commande interne de Bash qui permet de définir des variables et leurs attributs.
-// // -x signifie "exportée" : la variable sera transmise aux processus fils.
 
 static int	print_unset_error(const char *name)
 {
@@ -28,26 +20,6 @@ static int	print_unset_error(const char *name)
 	return (1);
 }
 
-static int	print_env(t_env *envp)
-{
-	t_env	*curr;
-
-	curr = envp;
-	while (curr)
-	{
-		ft_putstr_fd("export ", 1);
-		ft_putstr_fd(curr->name, 1);
-		if (curr->value)
-		{
-			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(curr->value, 1);
-			ft_putstr_fd("\"", 1);
-		}
-		ft_putstr_fd("\n", 1);
-		curr = curr->next;
-	}
-	return (0);
-}
 static char	*copy_to_equal(char *str)
 {
 	char	*equal;
@@ -61,6 +33,7 @@ static char	*copy_to_equal(char *str)
 		return (NULL);
 	return (var);
 }
+
 static int	present_var(t_env **envp, char *var)
 {
 	t_env	*curr_var;
@@ -77,46 +50,51 @@ static int	present_var(t_env **envp, char *var)
 	return (0);
 }
 
+static void	handle_export_arg(char *arg, t_env **envp, t_shell *shell)
+{
+	char	*var;
+
+	var = NULL;
+	if (!check_error(arg))
+	{
+		print_unset_error(arg);
+		shell->exit_status = 1;
+		return ;
+	}
+	if (ft_strchr(arg, '='))
+		var = copy_to_equal(arg);
+	else
+		var = ft_strdup(arg);
+	if (present_var(envp, var))
+	{
+		if (ft_strchr(arg, '='))
+			env_update(envp, arg);
+		else
+			set_exported_flag(envp, var);
+	}
+	else
+		env_addback(envp, arg);
+	if (var)
+		free(var);
+}
+
 int	ft_export(char **args, t_env **envp, t_shell *shell)
 {
-	int		i;
-	char	*var;
+	int	i;
 
 	i = 0;
 	if (!args[1])
 		return (print_env(envp));
 	while (args[++i])
-	{
-		var = NULL;
-		if (!check_error(args[i]))
-		{
-			print_unset_error(args[i]);
-			shell->exit_status = 1;
-					// a voir pour switch	print_unset_error(args[i]);
-			continue ;
-		}
-		if (ft_strchr(args[i], '='))
-			var = copy_to_equal(args[i]);
-		else
-			var = ft_strdup(args[i]);
-		if (present_var(envp, var))
-		{
-			if (ft_strchr(args[i], '='))
-				env_update(envp, args[i]);
-			else
-				set_exported_flag(envp, var);
-		}
-		else
-			env_addback(envp, args[i]);
-		if (var)
-			free(var);
-	}
+		handle_export_arg(args[i], envp, shell);
 	return (shell->exit_status);
 }
 
 // // Si l’argument ne contient pas de =,
-// 	il faut juste marquer la variable comme exportée (si tu gères un flag d’export dans ta struct).
-// // Si tu veux gérer le cas où une variable existe déjà mais n’a pas de valeur,
+// 	il faut juste marquer la variable comme exportée
+//(si tu gères un flag d’export dans ta struct).
+//
+// Si tu veux gérer le cas où une variable existe déjà mais n’a pas de valeur,
 // 	il faut un champ dans ta struct pour savoir si elle est exportée ou non.
 // // a gerer   ^
 // //			|
