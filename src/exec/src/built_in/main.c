@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:05:35 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 14:28:21 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 15:09:07 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int ac, char **av, char **envp)
 // {
 // 	t_env	*head;
 // 	t_env	*last;
-// 	t _env	*node;
+// 	t_env	*node;
 // 	int		i;
 // 	char	*eq;
 

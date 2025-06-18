@@ -6,18 +6,19 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:47 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 14:23:10 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 15:04:54 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// declare
-//
-	// -x est la syntaxe utilisée par Bash pour afficher les variables d’environnement exportées lorsqu’on tape simplement export sans argument.
-//
-// declare est une commande interne de Bash qui permet de définir des variables et leurs attributs.
-// -x signifie "exportée" : la variable sera transmise aux processus fils.
+// // declare
+// //
+// //
+// 	-x est la syntaxe utilisée par Bash pour afficher les variables d’environnement exportées lorsqu’on tape simplement export sans argument.
+// //
+// // declare est une commande interne de Bash qui permet de définir des variables et leurs attributs.
+// // -x signifie "exportée" : la variable sera transmise aux processus fils.
 
 static int	print_unset_error(const char *name)
 {
@@ -64,12 +65,12 @@ static int	present_var(t_env **envp, char *var)
 {
 	t_env	*curr_var;
 
-	if (!var);
+	if (!var)
 		return (0);
 	curr_var = *envp;
 	while (curr_var)
 	{
-		if (!strcmp(curr_var->name, var))
+		if (!ft_strcmp(curr_var->name, var))
 			return (1);
 		curr_var = curr_var->next;
 	}
@@ -90,7 +91,8 @@ int	ft_export(char **args, t_env **envp, t_shell *shell)
 		if (!check_error(args[i]))
 		{
 			print_unset_error(args[i]);
-			shell->exit_status = 1; // a voir pour switch	print_unset_error(args[i]);
+			shell->exit_status = 1;
+					// a voir pour switch	print_unset_error(args[i]);
 			continue ;
 		}
 		if (ft_strchr(args[i], '='))
@@ -112,8 +114,9 @@ int	ft_export(char **args, t_env **envp, t_shell *shell)
 	return (shell->exit_status);
 }
 
-
-//Si l’argument ne contient pas de =, il faut juste marquer la variable comme exportée (si tu gères un flag d’export dans ta struct).
-//Si tu veux gérer le cas où une variable existe déjà mais n’a pas de valeur, il faut un champ dans ta struct pour savoir si elle est exportée ou non.
-//a gerer   ^
-//			|
+// // Si l’argument ne contient pas de =,
+// 	il faut juste marquer la variable comme exportée (si tu gères un flag d’export dans ta struct).
+// // Si tu veux gérer le cas où une variable existe déjà mais n’a pas de valeur,
+// 	il faut un champ dans ta struct pour savoir si elle est exportée ou non.
+// // a gerer   ^
+// //			|

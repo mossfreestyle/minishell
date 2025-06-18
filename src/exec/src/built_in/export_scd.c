@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:18:51 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 14:21:58 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 15:09:06 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ void	env_update(t_env **envp, char *arg)
 	if (!eq)
 		return ;
 	name_len = eq - arg;
-	curr = *envp while (curr)
+	curr = *envp;
+	while (curr)
 	{
 		if (!ft_strncmp(curr->name, arg, name_len)
 			&& curr->name[name_len] == '\0')
-        {
+		{
 			free(curr->value);
 			curr->value = ft_strdup(eq + 1);
 			curr->exported = 1;
@@ -76,7 +77,7 @@ void	set_exported_flag(t_env **envp, char *var)
 	curr = *envp;
 	while (curr)
 	{
-		if (!strcmp(curr->name, var))
+		if (!ft_strcmp(curr->name, var))
 		{
 			curr->exported = 1;
 			return ;
