@@ -55,12 +55,14 @@ MAIN_FILES	= main.c
 PARSER_FILES = tokenize.c \
                quotes.c \
                utils_parser.c \
-			   lexer.c
+			   lexer.c \
+			   syntax.c \
+			   extract.c \
+			   parser.c
 
 UTILS_FILES	= free.c \
               error.c \
 			  env.c \
-			  extract.c \
 			  utils_str.c
 
 BUILTIN_FILES = echo.c \

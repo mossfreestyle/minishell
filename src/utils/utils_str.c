@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:51:39 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/17 17:05:21 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:50:47 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ long	ft_atol(char *str, int *out_of_range)
 	return (res * sign);
 }
 
+/**
+ * append_to_array - Ajoute une nouvelle chaîne à un tableau de chaînes (char **).
+ * Alloue un nouveau tableau, copie les anciennes valeurs, ajoute la nouvelle, puis libère l'ancien tableau.
+ */
 char	**append_to_array(char **array, const char *new_elem)
 {
 	int		i;
@@ -69,6 +73,9 @@ char	**append_to_array(char **array, const char *new_elem)
 	return (new_array);
 }
 
+/**
+ * ft_strjoin_char - Crée une nouvelle chaîne en ajoutant un caractère à la fin d'une chaîne existante.
+ */
 char	*ft_strjoin_char(char *str, char c)
 {
 	size_t	len;
@@ -84,6 +91,10 @@ char	*ft_strjoin_char(char *str, char c)
 	return (new_str);
 }
 
+/**
+ * add_char - Ajoute le caractère courant de la ligne à la valeur, avance l'index.
+ * Retourne la nouvelle chaîne ou NULL en cas d'erreur d'allocation.
+ */
 char	*add_char(char *line, int *i, char *value)
 {
 	char	*new_value;
@@ -99,6 +110,10 @@ char	*add_char(char *line, int *i, char *value)
 	return (new_value);
 }
 
+/**
+ * is_empty_line - Vérifie si une ligne ne contient que des espaces (ligne vide).
+ * Retourne true si la ligne est vide, false sinon.
+ */
 bool	is_empty_line(const char *line)
 {
 	while (*line)

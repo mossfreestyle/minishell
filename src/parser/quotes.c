@@ -6,12 +6,15 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 13:31:38 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/16 13:50:00 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:47:31 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * single_quote - Extrait le texte entre quotes simples, sans interprétation.
+ */
 static char	*single_quote(char *line, int *i)
 {
 	int		start;
@@ -26,6 +29,9 @@ static char	*single_quote(char *line, int *i)
 	return (value);
 }
 
+/**
+ * double_quote - Extrait le texte entre quotes doubles, interprète les variables.
+ */
 static char	*double_quote(char *line, int *i, t_shell *shell)
 {
 	char	*value;
@@ -46,6 +52,9 @@ static char	*double_quote(char *line, int *i, t_shell *shell)
 	return (value);
 }
 
+/**
+ * quotes - Redirige vers la fonction adaptée selon le type de quote.
+ */
 char	*quotes(char *line, int *i, void *shell)
 {
 	if (line[*i] == '\'')
