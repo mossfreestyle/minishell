@@ -6,13 +6,13 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/17 17:05:21 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 15:26:40 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av)
+int	main(void)
 {
 	t_shell	shell;
 	t_token	*tokens;
@@ -22,10 +22,10 @@ int	main(int ac, char **av)
 	shell.exit_status = 0;
 	shell.pwd = NULL;
 	shell.env_vars = NULL; // À remplir si besoin
-	(void)ac;
+	// (void)ac;
 	while (1)
 	{
-		input = readline("minishell> ");
+		input = readline("\001\033[1;34m\002minishell$ \001\033[0m\002");
 		if (!input)
 		{
 			printf("exit\n");

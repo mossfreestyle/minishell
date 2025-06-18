@@ -1,3 +1,4 @@
 //TODO 
 
 fix pippe bonus, faire la fonction exec_built in, verifier le .h verifier les strcmp, faire ma norme, faire en sorte de return que des int et de l ajouter a exit-status a chaque appelle de fonction sauf exit car exit;
+ajouter des commentaire aux fonctions

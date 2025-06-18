@@ -40,3 +40,74 @@ relation entre les struct
 Tokenisation:
 Input → s_token → s_token → ... → Parsing → s_command(s)
 ta mere
+
+### Analyse rapide
+
+#### Ce qui fonctionne déjà :
+- Les fonctions built-in (`cd`, `pwd`, `env`, `echo`, `exit`, `export`, `unset`) sont codées et séparées.
+- Le parsing (tokenizer, lexer, parser) est bien structuré.
+- La gestion de l'environnement (`t_env`) est centralisée.
+- Les erreurs sont gérées proprement avec des fonctions dédiées.
+- Les allocations et libérations mémoire sont prises en compte.
+
+#### Prochaines étapes recommandées
+
+1. **Initialisation de l'environnement (`t_env`)**  
+   - Il manque l'appel à une fonction pour convertir `char **envp` en `t_env *` au démarrage du shell.  
+   - La fonction `init_env` est commentée dans main.c : il faut la décommenter, la corriger si besoin, et l'utiliser pour initialiser `info.env_vars`.
+
+2. **Boucle principale du shell**  
+   - Il n'y a pas encore de boucle de lecture (`readline`), d'exécution et de gestion du prompt.  
+   - Il faut ajouter une boucle qui lit une ligne, parse, exécute, puis libère.
+
+3. **Appel des built-ins**  
+   - Il manque la logique qui détecte et exécute les built-ins selon la commande entrée par l'utilisateur.
+
+4. **Gestion des pipes et redirections**  
+   - Le parsing des pipes et redirections est présent, mais il manque la partie exécution (fork, dup2, etc.).
+
+5. **Gestion fine des erreurs et du code de retour**  
+   - Vérifier que tous les built-ins retournent bien le code de sortie attendu et que `shell->exit_status` est toujours cohérent.
+
+6. **Tests et conformité**  
+   - Tester tous les cas limites : export sans valeur, unset sur une variable inexistante, export d’un identifiant invalide, etc.
+   - Comparer le comportement avec bash.
+
+#### Erreurs manifestes ou points à surveiller
+
+- **Fonction `present_var` dans export.c**  
+  ```c
+  if (!var);
+      return (0);
+  ```
+  Il y a un point-virgule en trop, ce qui rend le test inutile.  
+  **À corriger** : enlever le `;` après `if (!var)`.
+
+- **Libération mémoire**  
+  - Attention à bien libérer toutes les chaînes allouées dynamiquement (surtout dans les cas d’erreur).
+
+- **Gestion du champ `exported`**  
+  - Vérifier que ce champ est bien utilisé partout où il faut (notamment pour l’affichage de `export`).
+
+- **Fonction `ft_env`**  
+  - Dans env.c, la signature attend un `t_env *`, mais dans le header c’est `char **envp`.  
+  - Harmoniser la signature.
+
+- **Appels à `strcmp` vs `ft_strcmp`**  
+  - Parfois c’est `strcmp`, parfois `ft_strcmp`. Il vaut mieux rester cohérent et utiliser la version maison si elle existe.
+
+- **Gestion du code de retour dans `export`**  
+  - Si une erreur d’identifiant est rencontrée, il faut continuer à traiter les autres arguments, mais retourner 1 à la fin si au moins une erreur a eu lieu (c’est déjà presque le cas, à tester).
+
+---
+
+### Résumé
+
+- **Étape 1** : Initialiser l’environnement (`init_env`).
+- **Étape 2** : Écrire la boucle principale du shell.
+- **Étape 3** : Appeler les built-ins selon la commande.
+- **Étape 4** : Implémenter l’exécution des commandes avec pipes/redirections.
+- **Étape 5** : Tester et corriger les détails.
+
+**Pas d’erreur bloquante manifeste, mais quelques détails à corriger (voir ci-dessus).**  
+Tu peux avancer sur la boucle principale et l’intégration des built-ins.

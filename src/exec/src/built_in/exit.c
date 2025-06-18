@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 21:39:09 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 14:19:13 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 15:26:39 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ static void	check_valid(char **args, t_shell *shell);
 
 int	ft_exit(char **args, t_shell *shell)
 {
-	int	status;
-
 	if (!args[1] || args[1][0] == '\0')
 	{
 		printf("exit\n");
