@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/18 16:35:42 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:01:25 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,17 @@ t_command				*parser(char *line, t_shell *shell);
 
 //////////Exec/////////////////////////
 
-int						ft_pwd(t_shell *info);
-int						ft_env(t_env *env);
-int						ft_echo(char **args);
-int						ft_exit(char **args, t_shell *shell);
+/////////BUILT_IN/////////////////////
 int						ft_cd(char **args, t_shell *shell);
-int						exec_built_in(char **args, t_shell *info);
+int						ft_echo(char **args);
+int						ft_env(t_env *env);
+int						ft_exit(char **args, t_shell *shell);
+int						ft_export(char **args, t_env **envp);
+int						ft_pwd(t_shell *shell);
+int						ft_unset(char **args, t_env **envp);
+
+/////////UTILS//////////////////////////
+int						exec_built_in(char **args, t_shell *shell);
 int						check_error(char *arg);
 void					env_update(t_env **envp, char *arg);
 void					env_addback(t_env **envp, char *arg);

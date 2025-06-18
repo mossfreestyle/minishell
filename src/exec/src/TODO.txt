@@ -1,6 +1,17 @@
-//TODO 
+//TODO : a faire
 
-fix pippe bonus, faire la fonction exec_built in, verifier le .h verifier les strcmp, faire ma norme, faire en sorte de return que des int et de l ajouter a exit-status a chaque appelle de fonction sauf exit car exit;
-ajouter des commentaire aux fonctions
+-fix pippe bonus
 
-donner la liste des mallocs a wassim si besoin
+-verifier le .h verifier les strcmp, 
+
+-faire en sorte de return que des int (manque exit)
+
+-donner la liste des mallocs a wassim si besoin
+
+-Besoin de trouver un moyen comment passer t_env **env avec init_env;
+
+-definir si je dois exit dans ft_exit ou je return puis j exit dans la fonction principale
+
+-definir si les codes de retour pour export et exit reste shell-status ou des int
+car export modifie le code de retour pour un argument faux mais continue 
+mais ducoup une variable locale plus chiant, et exit si j exit instant ou pas.

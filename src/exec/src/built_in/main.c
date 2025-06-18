@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 12:05:35 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 16:26:00 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:21:41 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,31 @@
 
 // return exit status dans la struct
 
-// t_env	*init_env(char **envp)
-// {
-// 	t_env	*head;
-// 	t_env	*last;
-// 	t_env	*node;
-// 	int		i;
-// 	char	*eq;
+t_env	*init_env(char **envp)
+{
+	t_env	*head;
+	t_env	*last;
+	t_env	*node;
+	int		i;
+	char	*eq;
 
-// 	head = NULL;
-// 	last = NULL;
-// 	i = -1;
-// 	while (envp && envp[++i])
-// 	{
-// 		eq = ft_strchr(envp[i], '=');
-// 		node = malloc(sizeof(t_env));
-// 		if (!node)
-// 			return (NULL);
-// 		node->name = ft_substr(envp[i], 0, eq - envp[i]);
-// 		node->value = ft_strdup(eq + 1);
-// 		node->next = NULL;
-// 		if (!head)
-// 			head = node;
-// 		else
-// 			last->next = node;
-// 		last = node;
-// 	}
-// 	return (head);
-// }
+	head = NULL;
+	last = NULL;
+	i = -1;
+	while (envp && envp[++i])
+	{
+		eq = ft_strchr(envp[i], '=');
+		node = malloc(sizeof(t_env));
+		if (!node)
+			return (NULL);
+		node->name = ft_substr(envp[i], 0, eq - envp[i]);
+		node->value = ft_strdup(eq + 1);
+		node->next = NULL;
+		if (!head)
+			head = node;
+		else
+			last->next = node;
+		last = node;
+	}
+	return (head);
+}

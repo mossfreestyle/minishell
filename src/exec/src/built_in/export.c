@@ -6,32 +6,33 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:47 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 16:36:03 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:04:13 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	print_unset_error(const char *name)
-{
-	ft_putstr_fd("minishell: unset: `", 2);
-	ft_putstr_fd(name, 2);
-	ft_putstr_fd("': not a valid identifier\n", 2);
-	return (1);
-}
+static int	present_var(t_env **envp, char *var);
+static char	*copy_to_equal(char *str);
+static void	handle_export_arg(char *arg, t_env **envp);
+static int	print_unset_error(const char *name);
 
-static char	*copy_to_equal(char *str)
+int	ft_export(char **args, t_env **envp)
 {
-	char	*equal;
-	int		len;
-	char	*var;
+	int	i;
+	int	status;
 
-	equal = ft_strchr(str, '=');
-	len = equal - str;
-	var = ft_substr(str, 0, len);
-	if (!var)
-		return (NULL);
-	return (var);
+	i = 0;
+	status = 0;
+	if (!args[1])
+		return (print_env(envp));
+	while (args[++i])
+	{
+		if (!check_error(args[i]))
+			status = print_unset_error(args[i]);
+		handle_export_arg(args[i], envp);
+	}
+	return (status);
 }
 
 static int	present_var(t_env **envp, char *var)
@@ -50,17 +51,25 @@ static int	present_var(t_env **envp, char *var)
 	return (0);
 }
 
-static void	handle_export_arg(char *arg, t_env **envp, t_shell *shell)
+static char	*copy_to_equal(char *str)
+{
+	char	*equal;
+	int		len;
+	char	*var;
+
+	equal = ft_strchr(str, '=');
+	len = equal - str;
+	var = ft_substr(str, 0, len);
+	if (!var)
+		return (NULL);
+	return (var);
+}
+
+static void	handle_export_arg(char *arg, t_env **envp)
 {
 	char	*var;
 
 	var = NULL;
-	if (!check_error(arg))
-	{
-		print_unset_error(arg);
-		shell->exit_status = 1;
-		return ;
-	}
 	if (ft_strchr(arg, '='))
 		var = copy_to_equal(arg);
 	else
@@ -78,16 +87,12 @@ static void	handle_export_arg(char *arg, t_env **envp, t_shell *shell)
 		free(var);
 }
 
-int	ft_export(char **args, t_env **envp, t_shell *shell)
+static int	print_unset_error(const char *name)
 {
-	int	i;
-
-	i = 0;
-	if (!args[1])
-		return (print_env(envp));
-	while (args[++i])
-		handle_export_arg(args[i], envp, shell);
-	return (shell->exit_status);
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	return (1);
 }
 
 // // Si l’argument ne contient pas de =,

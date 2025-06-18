@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:50 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 16:24:14 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:46:50 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,7 @@
 
 // ./a.out -n -n -n -> a gerer
 
-static int	is_n_option(const char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] != '-' || str[i + 1] != 'n')
-		return (0);
-	i += 2;
-	while (str[i] == 'n')
-		i++;
-	return (str[i] == '\0');
-}
+static int	is_n_option(const char *str);
 
 int	ft_echo(char **args)
 {
@@ -49,4 +38,17 @@ int	ft_echo(char **args)
 	if (nl)
 		printf("\n");
 	return (0);
+}
+
+static int	is_n_option(const char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] != '-' || str[i + 1] != 'n')
+		return (0);
+	i += 2;
+	while (str[i] == 'n')
+		i++;
+	return (str[i] == '\0');
 }

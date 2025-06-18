@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 16:21:51 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:47:15 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,24 @@
 // 1VAR -> inexistant export, unset -> erreur
 
 // 95 ascii de l underscore
+static t_env	*find_env_var(t_env *envp, const char *name);
+static void		remove_env_var(t_env **envp, const char *name);
+static void		free_env_node(t_env *node);
+
+int	ft_unset(char **args, t_env **envp)
+{
+	int	i;
+
+	i = 0;
+	if (!args[1])
+		return (0);
+	while (args[++i])
+	{
+		if (find_env_var(*envp, args[i]))
+			remove_env_var(envp, args[i]);
+	}
+	return (0);
+}
 
 int	check_error(char *arg)
 {
@@ -31,13 +49,15 @@ int	check_error(char *arg)
 	return (1);
 }
 
-static void	free_env_node(t_env *node)
+static t_env	*find_env_var(t_env *envp, const char *name)
 {
-	if (node->name)
-		free(node->name);
-	if (node->value)
-		free(node->value);
-	free(node);
+	while (envp)
+	{
+		if (!ft_strncmp(envp->name, name, ft_strlen(name)))
+			return (envp);
+		envp = envp->next;
+	}
+	return (NULL);
 }
 
 static void	remove_env_var(t_env **envp, const char *name)
@@ -66,30 +86,13 @@ static void	remove_env_var(t_env **envp, const char *name)
 	}
 }
 
-static t_env	*find_env_var(t_env *envp, const char *name)
+static void	free_env_node(t_env *node)
 {
-	while (envp)
-	{
-		if (!ft_strncmp(envp->name, name, ft_strlen(name)))
-			return (envp);
-		envp = envp->next;
-	}
-	return (NULL);
-}
-
-int	ft_unset(char **args, t_env **envp)
-{
-	int	i;
-
-	i = 0;
-	if (!args[1])
-		return (0);
-	while (args[++i])
-	{
-		if (find_env_var(*envp, args[i]))
-			remove_env_var(envp, args[i]);
-	}
-	return (0);
+	if (node->name)
+		free(node->name);
+	if (node->value)
+		free(node->value);
+	free(node);
 }
 
 // VAR=42
@@ -114,6 +117,6 @@ int	ft_unset(char **args, t_env **envp)
 
 // gerer si il faut un message d erreur ou pas en fonction de bash
 
-// Tu dois afficher un message d’erreur et retourner 1 si l’identifiant 
-//est invalide (ex : unset 1VAR).
+// Tu dois afficher un message d’erreur et retourner 1 si l’identifiant
+// est invalide (ex : unset 1VAR).
 // a verifier
