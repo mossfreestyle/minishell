@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:45 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 16:47:20 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/18 22:12:05 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ int	ft_pwd(t_shell *shell)
 		return (0);
 	}
 	else
-		perror("pwd");
+		perror("minishell: pwd");
 	return (1);
 }

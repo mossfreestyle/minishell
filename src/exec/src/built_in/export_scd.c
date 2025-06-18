@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:18:51 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 16:36:19 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/18 22:08:13 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,16 +103,19 @@ int	print_env(t_env *envp)
 	curr = envp;
 	while (curr)
 	{
-		ft_putstr_fd("export ", 1);
-		ft_putstr_fd(curr->name, 1);
-		if (curr->value)
+		if (curr->exported)
 		{
-			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(curr->value, 1);
-			ft_putstr_fd("\"", 1);
+			ft_putstr_fd("export ", 1);
+			ft_putstr_fd(curr->name, 1);
+			if (curr->value)
+			{
+				ft_putstr_fd("=\"", 1);
+				ft_putstr_fd(curr->value, 1);
+				ft_putstr_fd("\"", 1);
+			}
+			ft_putstr_fd("\n", 1);
+			curr = curr->next;
 		}
-		ft_putstr_fd("\n", 1);
-		curr = curr->next;
 	}
 	return (0);
 }

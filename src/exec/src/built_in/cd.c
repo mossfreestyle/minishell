@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:43 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 17:01:46 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/18 22:11:10 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,24 @@ int	ft_cd(char **args, t_shell *shell)
 	char	oldpwd[PATH_MAX];
 
 	if (getcwd(oldpwd, sizeof(oldpwd)), args[2])
-		return (ft_putstr_fd("cd: too many arguments\n", 2), 1);
+		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
 	if (!args[1] || !args[1][0] || !ft_strcmp(args[1], "~")
 		|| !ft_strcmp(args[1], "--"))
 	{
 		path = get_env_value(shell->env_vars, "HOME");
 		if (!path)
-			return (ft_putstr_fd("cd: HOME not set\n", 2), 1);
+			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), 1);
 	}
 	else if (!ft_strcmp(args[1], "-"))
 	{
 		path = get_env_value(shell->env_vars, "OLDPWD");
 		if (!path)
-			return (ft_putstr_fd("cd: OLDPWD not set\n", 2), 1);
+			return (ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2), 1);
 	}
 	else
 		path = args[1];
 	if (!path || access(path, X_OK) || chdir(path))
-		return (perror("cd"), 1);
+		return (perror("minishell: cd"), 1);
 	if (update_pwd(shell, oldpwd), !ft_strcmp(args[1], "-"))
 		printf("%s\n", path);
 	return (0);
