@@ -49,6 +49,7 @@ EXEC_DIR	= $(SRC_DIR)/exec/src
 PARSER_DIR	= $(SRC_DIR)/parser
 UTILS_DIR	= $(SRC_DIR)/utils
 BUILTIN_DIR	= $(EXEC_DIR)/built_in
+CMD_DIR = $(EXEC_DIR)/cmd
 
 MAIN_FILES	= main.c
 
@@ -65,17 +66,24 @@ UTILS_FILES	= free.c \
 			  env.c \
 			  utils_str.c
 
-BUILTIN_FILES = echo.c \
-                pwd.c \
+BUILTIN_FILES = cd.c \
+                echo.c \
                 env.c \
-                cd.c \
-				exit.c \
-				test.c 
+                exit.c \
+				export_scd.c \
+				export.c \
+				pwd.c \
+				unset.c
+
+CMD_FILES = exec_built_in.c \
+			init.c
 
 SRCS		= $(addprefix $(SRC_DIR)/, $(MAIN_FILES)) \
               $(addprefix $(PARSER_DIR)/, $(PARSER_FILES)) \
               $(addprefix $(UTILS_DIR)/, $(UTILS_FILES)) \
               $(addprefix $(BUILTIN_DIR)/, $(BUILTIN_FILES))
+			  $(addprefix $(CMD_DIR)/, $(CMD_FILES))
+
 
 OBJ_DIR		= obj
 OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

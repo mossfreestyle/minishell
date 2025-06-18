@@ -1,0 +1,135 @@
+main loop:
+    afficher le prompt
+    lire la ligne utilisateur
+    parser la ligne en commandes et arguments
+
+    pour chaque pipeline séparé par '|':
+        créer les pipes nécessaires
+
+        pour chaque commande du pipeline:
+            si c'est un built-in SANS pipe:
+                exécuter le built-in dans le parent
+                stocker le code de retour
+            sinon:
+                fork un processus
+                dans le fils:
+                    appliquer les redirections (<, >, >>, <<)
+                    si c'est un built-in DANS un pipe:
+                        exécuter le built-in dans le fils
+                        exit avec le code de retour
+                    sinon:
+                        chercher la commande dans le PATH
+                        execve la commande
+                        si erreur, afficher "commande introuvable"
+                        exit(127)
+                dans le parent:
+                    fermer les descripteurs inutiles
+
+        attendre tous les fils (waitpid)
+        récupérer le code de retour du dernier
+
+    libérer la mémoire allouée pour la ligne et les structures
+
+
+
+
+
+
+
+1. Préparation des commandes
+Analyser la liste de commandes générée par le parser.
+Pour chaque t_command :
+Vérifier si c’est un built-in ou une commande externe.
+Préparer les arguments (cmd->args) et le chemin (cmd->name).
+2. Gestion des redirections
+Avant d’exécuter une commande :
+Appliquer les redirections (>, >>, <, <<) :
+Ouvrir les fichiers nécessaires.
+Dupliquer les descripteurs (dup2).
+Gérer les erreurs d’ouverture/duplication.
+Restaurer les descripteurs d’origine après exécution.
+3. Gestion des pipes
+Si plusieurs commandes sont chaînées par des pipes :
+Créer les pipes (pipe()).
+Pour chaque commande :
+Rediriger l’entrée/sortie standard vers le bon pipe avec dup2.
+Fermer les descripteurs inutiles dans chaque processus.
+Attendre la fin de tous les processus (waitpid).
+4. Exécution des commandes
+Built-in :
+Si la commande est un built-in et qu’elle n’est pas dans un pipe, exécute-la dans le processus principal.
+Commande externe :
+Forker un nouveau processus (fork()).
+Dans le fils, utiliser execve() pour lancer la commande.
+Gérer le cas où la commande n’est pas trouvée ou non exécutable.
+Gestion du PATH :
+Chercher la commande dans les dossiers du PATH si ce n’est pas un chemin absolu/relatif.
+5. Gestion du code de retour
+Récupérer le code de retour du dernier processus exécuté (ou du built-in si exécuté dans le parent).
+Mettre à jour la variable $? dans le shell.
+6. Gestion des signaux
+Gérer les signaux (SIGINT, SIGQUIT, etc.) différemment dans le shell et dans les processus fils.
+7. Libération mémoire
+Libérer toutes les structures allouées après l’exécution de chaque commande ou pipeline.
+8. Cas particuliers
+Gérer les cas où une commande est vide, ou uniquement composée de redirections.
+Gérer les erreurs d’exécution (commande non trouvée, permission refusée, etc.).
+
+
+
+1. Boucle principale du shell
+Afficher le prompt (readline ou équivalent)
+Lire la ligne utilisateur
+Si la ligne est vide ou EOF, continuer ou quitter
+Parser la ligne en une liste de t_command (pipeline, args, redirections...)
+2. Gestion des pipelines
+Découper la ligne en pipelines (chaînées par |)
+Pour chaque pipeline :
+Compter le nombre de commandes (pour savoir combien de pipes créer)
+Créer un tableau de pipes (int pipes[n][2])
+3. Pour chaque commande du pipeline
+Déterminer si la commande est un built-in
+
+Si c’est un built-in et qu’il n’y a pas de pipe : exécuter dans le parent (pas de fork)
+Sinon : fork un processus
+Dans le processus fils :
+
+Appliquer les redirections :
+Pour chaque redirection dans cmd->redirects :
+< : ouvrir le fichier en lecture, dup2(fd, 0)
+> : ouvrir le fichier en écriture/troncature, dup2(fd, 1)
+>> : ouvrir en écriture/append, dup2(fd, 1)
+<< : gérer le heredoc (lire jusqu’au délimiteur, pipe temporaire, dup2)
+Gérer les erreurs d’ouverture (afficher un message, exit 1)
+Appliquer les pipes :
+Si ce n’est pas la première commande, rediriger l’entrée (dup2(pipe_in, 0))
+Si ce n’est pas la dernière commande, rediriger la sortie (dup2(pipe_out, 1))
+Fermer tous les pipes inutiles
+Exécuter la commande :
+Si c’est un built-in dans un pipe, exécuter la fonction et exit(code)
+Sinon, chercher la commande dans le PATH (ou absolu/relatif)
+Appeler execve
+Si erreur, afficher : minishell: cmd: command not found, exit(127)
+Dans le parent :
+
+Fermer les descripteurs de pipe inutiles
+Stocker les PID des fils pour le waitpid plus tard
+4. Après le pipeline
+Attendre tous les fils (waitpid)
+Récupérer le code de retour du dernier processus du pipeline
+Mettre à jour la variable $? dans le shell
+5. Gestion des signaux
+Dans le shell principal : gérer SIGINT, SIGQUIT (afficher prompt, ignorer, etc.)
+Dans les fils : rétablir le comportement par défaut pour les signaux
+6. Libération mémoire
+Libérer :
+La ligne lue
+Les structures de commandes et de redirections
+Les tableaux d’arguments
+Les pipes
+7. Cas particuliers à gérer
+Commande vide (ex : | ls ou ls | | wc)
+Commande composée uniquement de redirections (ex : > file)
+Redirections invalides (ex : ls >)
+Commande non trouvée, permission refusée, etc.
+Heredoc interrompu par un signal

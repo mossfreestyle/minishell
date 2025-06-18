@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   exec_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 15:56:15 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 21:57:34 by mfernand         ###   ########.fr       */
+/*   Created: 2025/06/18 23:16:53 by mfernand          #+#    #+#             */
+/*   Updated: 2025/06/18 23:17:24 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ int	exec_built_in(char **args, t_shell *shell)
 		return (ft_pwd(shell));
 	else if (!ft_strcmp(args[0], "unset"))
 		return (ft_unset(args, &(shell->env_vars)));
-	return (1);
+	return (0);
 }

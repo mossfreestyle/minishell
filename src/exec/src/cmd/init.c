@@ -1,33 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/14 12:05:35 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 22:02:08 by mfernand         ###   ########.fr       */
+/*   Created: 2025/06/18 23:17:38 by mfernand          #+#    #+#             */
+/*   Updated: 2025/06/18 23:17:50 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
-
-// int	main(int ac, char **av, char **envp)
-// {
-// 	t_shell	info;
-
-// 	(void)ac;
-// 	(void)envp;
-// 	// info.env_vars = init env()//
-// 	// ft_pwd(&info);
-// 	// ft_env(envp);
-// 	// ft_cd(av, &info);
-// 	ft_echo(av);
-// 	// return (ft_exit(av));
-// 	// return (0);
-// }
-
-// return exit status dans la struct
+#include "minishell.h"
 
 t_env	*init_env(char **envp)
 {
