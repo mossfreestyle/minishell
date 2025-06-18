@@ -6,53 +6,42 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:50 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 11:39:24 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 14:09:22 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
 // ./a.out -n -n -n -> a gerer
-static void	with_nl(char **args);
-static void	without_nl(char **args);
+
+static int	is_n_option(const char *str)
+{
+    int i = 0;
+    if (str[i] != '-' || str[i + 1] != 'n')
+        return (0);
+    i += 2;
+    while (str[i] == 'n')
+        i++;
+    return (str[i] == '\0');
+}
 
 int	ft_echo(char **args)
 {
-	if (!args[1] || args[1][0] == '\0')
-	{
-		printf("\n");
-		return (0);
-	}
-	if (!strncmp(args[1], "-n", 2))
-		without_nl(args);
-	else
-		with_nl(args);
-	return(0);
-}
+    int	i = 1;
+    int	nl = 1;
 
-static void	with_nl(char **args)
-{
-	int	i;
-
-	i = 1;
-	while (args[i])
-	{
-		if (!args[i + 1] || args[i + 1][0] == '\0')
-			printf("%s\n", args[i++]);
-		else
-			printf("%s ", args[i++]);
-	}
-}
-
-static void	without_nl(char **args)
-{
-	int	i;
-
-	i = 2;
-	while (args[i])
-	{
-		if (!args[i + 1] || args[i + 1][0] == '\0')
-			printf("%s", args[i++]);
-		else
-			printf("%s ", args[i++]);
-	}
+    while (args[i] && is_n_option(args[i]))
+    {
+        nl = 0;
+        i++;
+    }
+    while (args[i])
+    {
+        printf("%s", args[i]);
+        if (args[i + 1])
+            printf(" ");
+        i++;
+    }
+    if (nl)
+        printf("\n");
+    return (0);
 }

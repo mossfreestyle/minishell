@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/18 11:46:00 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 13:12:34 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_env
 {
 	char				*name;
 	char				*value;
+	int					exported;
 	struct s_env		*next;
 }						t_env;
 
@@ -82,7 +83,6 @@ typedef struct s_shell
 {
 	int					exit_status;
 	char				*pwd;
-	int					exported;
 	t_env				*env_vars;
 	t_pipe				pipeline;
 }						t_shell;
@@ -111,6 +111,9 @@ int						ft_exit(char **args);
 int						ft_cd(char **args, t_shell *shell);
 int						exec_built_in(char **args, t_shell *info);
 int						check_error(char *arg);
+void					env_update(t_env **envp, char *arg);
+void					env_addback(t_env **envp, char *arg);
+void					set_exported_flag(t_env **envp, char *var);
 
 //////////utils/////////////////////////
 

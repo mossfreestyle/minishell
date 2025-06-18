@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 12:11:01 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 14:22:15 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,3 +112,6 @@ int	ft_unset(char **args, t_env **envp)
 // tout autre caractère non alphanumérique ou non underscore
 
 // gerer si il faut un message d erreur ou pas en fonction de bash
+
+// Tu dois afficher un message d’erreur et retourner 1 si l’identifiant est invalide (ex : unset 1VAR).
+// a verifier

@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:47 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 11:51:23 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 14:23:10 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,14 @@ int	ft_export(char **args, t_env **envp, t_shell *shell)
 		else
 			var = ft_strdup(args[i]);
 		if (present_var(envp, var))
-			// update
-		// add_back
+		{
+			if (ft_strchr(args[i], '='))
+				env_update(envp, args[i]);
+			else
+				set_exported_flag(envp, var);
+		}
+		else
+			env_addback(envp, args[i]);
 		if (var)
 			free(var);
 	}

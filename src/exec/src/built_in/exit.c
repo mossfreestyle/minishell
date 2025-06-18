@@ -6,27 +6,28 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 21:39:09 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 11:42:44 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 14:19:13 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "minishell.h"
 
-static void	check_valid(char **args);
+static void	check_valid(char **args, t_shell *shell);
 
 int	ft_exit(char **args, t_shell *shell)
 {
-	int status;
+	int	status;
+
 	if (!args[1] || args[1][0] == '\0')
 	{
 		printf("exit\n");
 		exit(0);
 	}
-	check_valid(args);
+	check_valid(args, shell);
 	if (args[2])
 	{
 		printf("exit\n");
-		ft_putstr_fd("exit: too many arguments\n", 2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		shell->exit_status = 1;
 		return (shell->exit_status);
 	}
@@ -45,7 +46,9 @@ static void	check_valid(char **args, t_shell *shell)
 		if (!ft_isdigit(args[1][i]))
 		{
 			printf("exit\n");
-			ft_putstr_fd("exit: a: numeric argument required\n", 2);
+			ft_putstr_fd("minishell: exit: ", 2);
+			printf("%s", args[1]);
+			ft_putstr_fd(": numeric argument required\n", 2);
 			shell->exit_status = 2;
 			exit(shell->exit_status);
 		}
