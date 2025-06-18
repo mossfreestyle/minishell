@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:45 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/15 11:23:36 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/18 12:11:24 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../../include/minishell.h"
+#include "minishell.h"
 
-int	ft_pwd(t_shell *info)
+int	ft_pwd(t_shell *shell)
 {
 	char	tab[PATH_MAX];
 
 	if (getcwd(tab, sizeof(tab)) != NULL)
 	{
-		free(info->pwd);
-		info->pwd = ft_strdup(tab);
-		printf("%s\n", info->pwd);
+		free(shell->pwd);
+		shell->pwd = ft_strdup(tab);
+		printf("%s\n", shell->pwd);
+		return (0);
 	}
 	else
 		perror("pwd");
-	return (0);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/18 10:57:18 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 11:46:00 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_shell
 {
 	int					exit_status;
 	char				*pwd;
+	int					exported;
 	t_env				*env_vars;
 	t_pipe				pipeline;
 }						t_shell;
@@ -109,6 +110,7 @@ void					ft_echo(char **args);
 int						ft_exit(char **args);
 int						ft_cd(char **args, t_shell *shell);
 int						exec_built_in(char **args, t_shell *info);
+int						check_error(char *arg);
 
 //////////utils/////////////////////////
 

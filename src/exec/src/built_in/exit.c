@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 21:39:09 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/17 16:07:02 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/18 11:42:44 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,28 @@
 
 static void	check_valid(char **args);
 
-int	ft_exit(char **args)
+int	ft_exit(char **args, t_shell *shell)
 {
-	int	status;
-
-	status = 0;
+	int status;
 	if (!args[1] || args[1][0] == '\0')
 	{
 		printf("exit\n");
-		exit(status);
+		exit(0);
 	}
 	check_valid(args);
 	if (args[2])
 	{
 		printf("exit\n");
 		ft_putstr_fd("exit: too many arguments\n", 2);
-		return (1);
+		shell->exit_status = 1;
+		return (shell->exit_status);
 	}
 	if (args[1])
-		status = ft_atoi(args[1]);
-	exit(status);
+		shell->exit_status = ft_atoi(args[1]);
+	exit(shell->exit_status);
 }
 
-static void	check_valid(char **args)
+static void	check_valid(char **args, t_shell *shell)
 {
 	int	i;
 
@@ -47,7 +46,8 @@ static void	check_valid(char **args)
 		{
 			printf("exit\n");
 			ft_putstr_fd("exit: a: numeric argument required\n", 2);
-			exit(2);
+			shell->exit_status = 2;
+			exit(shell->exit_status);
 		}
 		i++;
 	}

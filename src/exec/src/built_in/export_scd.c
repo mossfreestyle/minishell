@@ -1,29 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   export_scd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/14 12:17:51 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 12:05:08 by rwassim          ###   ########.fr       */
+/*   Created: 2025/06/18 11:18:51 by mfernand          #+#    #+#             */
+/*   Updated: 2025/06/18 11:25:53 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "minisell.h"
 
-static void		printf_env(t_env *env);
-static t_env	*set_up_env(char *line);
-static void		free_env(t_env *env);
-
-//besoin d initialiser t_env **envp a char **envp des le debut;
-int	ft_env(t_env *env)
-{
-    while (env)
-    {
-        if (env->value)
-            printf("%s=%s\n", env->name, env->value);
-        env = env->next;
-    }
-	return (0);
-}

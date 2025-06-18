@@ -4,6 +4,7 @@
         "history.h": "c",
         "minishell.h": "c",
         "libft.h": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "unistd.h": "c"
     }
 }

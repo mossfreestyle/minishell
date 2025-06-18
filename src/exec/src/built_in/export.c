@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:47 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/17 22:52:20 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/18 11:51:23 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,12 @@ static int	present_var(t_env **envp, char *var)
 	return (0);
 }
 
-int	ft_export(char **args, t_env **envp)
+int	ft_export(char **args, t_env **envp, t_shell *shell)
 {
 	int		i;
-	int		status;
 	char	*var;
 
 	i = 0;
-	status = 0;
 	if (!args[1])
 		return (print_env(envp));
 	while (args[++i])
@@ -92,7 +90,7 @@ int	ft_export(char **args, t_env **envp)
 		if (!check_error(args[i]))
 		{
 			print_unset_error(args[i]);
-			status = 1; // a voir pour switch	print_unset_error(args[i]);
+			shell->exit_status = 1; // a voir pour switch	print_unset_error(args[i]);
 			continue ;
 		}
 		if (ft_strchr(args[i], '='))
@@ -105,7 +103,7 @@ int	ft_export(char **args, t_env **envp)
 		if (var)
 			free(var);
 	}
-	return (status);
+	return (shell->exit_status);
 }
 
 

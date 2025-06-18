@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/17 21:54:10 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/18 12:11:01 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 // 95 ascii de l underscore
 
-static int	check_error(char *arg)
+int	check_error(char *arg)
 {
 	int	i;
 
@@ -32,8 +32,10 @@ static int	check_error(char *arg)
 }
 static void	free_env_node(t_env *node)
 {
-	free(node->name);
-	free(node->value);
+	if (node->name)
+		free(node->name);
+	if (node->value)
+		free(node->value);
 	free(node);
 }
 
@@ -83,10 +85,8 @@ int	ft_unset(char **args, t_env **envp)
 		return (0);
 	while (args[++i])
 	{
-		if (!check_error(args[i]))
-			continue ;
 		if (find_env_var(*envp, args[i]))
-			remove_env_var(&envp, args[i]);
+			remove_env_var(envp, args[i]);
 	}
 	return (0);
 }
