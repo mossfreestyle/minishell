@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:30:07 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/19 13:11:55 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:17:34 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	cmd_not_found(char **envp, t_shell *shell)
 	exit(127);
 }
 
-int	open_fd(char *av, int i)
+int	open_fd(char *av, int i) //unused
 {
 	int	file;
 

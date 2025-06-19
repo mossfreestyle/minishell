@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:46:17 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/19 13:16:04 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:57:34 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	exec_first_command(t_shell *shell)
 	{
 		if (shell->pipeline.n_pipes > 0)
 			dup2(shell->pipeline.pipefd[0][1], STDOUT_FILENO);
-		// besoin de gerer le cas d erreur
+		// besoin de gerer le cas d erreur de dup2
 		close_all_pipes(shell);
 		handle_redirections(shell->cmd_list);
 		if (is_builtin(shell->cmd_list->name))
@@ -79,7 +79,7 @@ static int	exec_last_command(t_shell *shell)
 	{
 		if (shell->pipeline.n_pipes > 0)
 			dup2(shell->pipeline.pipefd[last][0], STDIN_FILENO);
-		// besoin de gerer le cas d erreur
+		// besoin de gerer le cas d erreur de dup2
 		close_all_pipes(shell);
 		handle_redirections(shell->cmd_list);
 		if (is_builtin(shell->cmd_list->name))

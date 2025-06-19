@@ -1,3 +1,13 @@
 //TODO : a faire
 
 !!!!!!!!!BIEN INIT LES STRUCT sinon ca baise tout 
+
+BESOIN DE COMMENCER A METTRE EN PLACE LES PREMIERS TEST POUR VOIR SI 
+LES TRUCS DEJA IMPLEMENTER SOnt CORRECTS ET FIX LES CAS SPECIAUX
+
+//faire le multi pipe
+//faire le handle directions
+//verif free, close
+
+//(déjà préparé avant l’exec) Si c’est un heredoc (R_HEREDOC), 
+//tu rediriges l’entrée standard (STDIN_FILENO) vers le fd du heredoc
