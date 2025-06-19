@@ -6,13 +6,12 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:52:12 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/19 12:16:49 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:11:38 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    handle_redirections(t_shell *shell)
+void	handle_redirections(t_shell *shell)
 {
-    
 }

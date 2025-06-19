@@ -6,19 +6,14 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:43:08 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/19 10:44:20 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:12:05 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
-    (void)ac;
-
-
-    //parsing done;
-    
-    
+	(void)ac;
+	// parsing done;
 }

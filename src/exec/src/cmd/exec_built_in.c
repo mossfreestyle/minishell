@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:16:53 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/19 11:17:41 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:12:22 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	exec_built_in(t_shell *shell)
 		return (ft_env(shell->env_vars), 0);
 	else if (!ft_strcmp(shell->cmd_list->name, "exit"))
 		return (ft_exit(shell->cmd_list->args));
-			// besoin d exit ici en fonction du retour;
+	// besoin d exit ici en fonction du retour;
 	else if (!ft_strcmp(shell->cmd_list->name, "export"))
 		return (ft_export(shell->cmd_list->args, &(shell->env_vars)));
 	else if (!ft_strcmp(shell->cmd_list->name, "pwd"))
