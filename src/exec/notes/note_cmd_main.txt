@@ -21,7 +21,7 @@ main loop:
                         chercher la commande dans le PATH
                         execve la commande
                         si erreur, afficher "commande introuvable"
-                        exit(127)
+                        exit(127) --> attention a bien avoir tout clean avant un exit
                 dans le parent:
                     fermer les descripteurs inutiles
 

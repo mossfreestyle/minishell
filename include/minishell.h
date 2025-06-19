@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/18 21:48:47 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:29:05 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_shell
 	char				*pwd;
 	t_env				*env_vars;
 	t_pipe				pipeline;
+	t_command			*cmd_list;
 }						t_shell;
 ////////////Parsing//////////////////////
 t_token					*meta_token(t_token *tokens, char *line, int *i);
@@ -101,25 +102,6 @@ bool					parse_pipe(t_token **tokens, t_command **cmd,
 							t_shell *shell);
 t_command				*init_command(t_shell *shell);
 t_command				*parser(char *line, t_shell *shell);
-
-//////////Exec/////////////////////////
-
-/////////BUILT_IN/////////////////////
-int						ft_cd(char **args, t_shell *shell);
-int						ft_echo(char **args);
-int						ft_env(t_env *env);
-int						ft_exit(char **args);
-int						ft_export(char **args, t_env **envp);
-int						ft_pwd(t_shell *shell);
-int						ft_unset(char **args, t_env **envp);
-
-/////////UTILS//////////////////////////
-int						exec_built_in(char **args, t_shell *shell);
-int						check_error(char *arg);
-void					env_update(t_env **envp, char *arg);
-void					env_addback(t_env **envp, char *arg);
-void					set_exported_flag(t_env **envp, char *var);
-int						print_env(t_env *envp);
 
 //////////utils/////////////////////////
 
@@ -142,5 +124,34 @@ char					**append_to_array(char **array, const char *new_elem);
 long					ft_atol(char *str, int *out_of_range);
 char					*ft_strjoin_char(char *str, char c);
 bool					is_empty_line(const char *line);
+
+//////////Exec/////////////////////////
+
+/////////BUILT_IN/////////////////////
+int						ft_cd(char **args, t_shell *shell);
+int						ft_echo(char **args);
+int						ft_env(t_env *env);
+int						ft_exit(char **args);
+int						ft_export(char **args, t_env **envp);
+int						ft_pwd(t_shell *shell);
+int						ft_unset(char **args, t_env **envp);
+
+/////////UTILS//////////////////////////
+int						check_error(char *arg);
+void					env_update(t_env **envp, char *arg);
+void					env_addback(t_env **envp, char *arg);
+void					set_exported_flag(t_env **envp, char *var);
+int						print_env(t_env *envp);
+
+////////////BI//////////////////////////
+int						is_builtin(char *name);
+int						exec_built_in(t_shell *shell);
+////////HERE_DOC////////////////////////
+int						is_here_doc(char *name);
+int						exec_here_doc(t_shell *shell);
+//////////CMD///////////////////////////
+int						exec_commands(t_shell *shell);
+///////////MAIN/////////////////////////
+int						exec_readline(t_shell *shell);
 
 #endif
