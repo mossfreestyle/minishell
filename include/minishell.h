@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/19 13:11:09 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:52:25 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ int						exec_readline(t_shell *shell);
 /////////UTILS/////////////////////////
 char					*find_path(char *cmd, char **envp);
 char					*link_path(char **path_lst, char *path_cmd, char *cmd);
-void					handle_redirections(t_shell *shell);
+void					handle_redirections(t_command *cmd);
 void					cmd_not_found(char **envp, t_shell *shell);
 void					check_pid(int pid, t_shell *shell);
 char					**env_list_to_array(t_env *env);

@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:30:07 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/19 13:17:34 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:48:11 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,6 @@ void	cmd_not_found(char **envp, t_shell *shell)
 	ft_putstr_fd(": command not found\n", 2);
 	free_array(envp);
 	exit(127);
-}
-
-int	open_fd(char *av, int i) //unused
-{
-	int	file;
-
-	file = 0;
-	if (i == 0)
-		file = open(av, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (i == 1)
-	{
-		file = open(av, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	}
-	else if (i == 2)
-	{
-		file = open(av, O_RDONLY);
-	}
-	if (file < 0)
-		perror(av);
-	return (file);
 }
 
 void	check_pid(int pid, t_shell *shell)
