@@ -1,5 +1,3 @@
 //TODO : a faire
 
--fix pippe bonus
-
--donner la liste des mallocs a wassim si besoin
+!!!!!!!!!BIEN INIT LES STRUCT sinon ca baise tout 

@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_readline.c                                    :+:      :+:    :+:   */
+/*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/19 12:19:18 by mfernand         ###   ########.fr       */
+/*   Created: 2025/06/19 11:52:12 by mfernand          #+#    #+#             */
+/*   Updated: 2025/06/19 12:16:49 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_readline(t_shell *shell)
+void    handle_redirections(t_shell *shell)
 {
-    while(shell->cmd_list)
-    {
-        if (!shell->cmd_list->next)
-            shell->exit_status = exec_last_command(shell);
-        if (is_here_doc(shell->cmd_list->name))
-        {
-            shell->exit_status = exec_here_doc(shell);
-        }
-        else
-        {
-            shell->exit_status = exec_commands(shell);
-        }
-    }
+    
 }

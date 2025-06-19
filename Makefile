@@ -76,7 +76,13 @@ BUILTIN_FILES = cd.c \
 				unset.c
 
 CMD_FILES = exec_built_in.c \
-			init.c
+			exec_commands.c \
+			exec_here_doc.c \
+			exec_readline.c \
+			find_paths.c \
+			handle_redirections.c \
+			init.c \
+			close_and_free.c 
 
 SRCS		= $(addprefix $(SRC_DIR)/, $(MAIN_FILES)) \
               $(addprefix $(PARSER_DIR)/, $(PARSER_FILES)) \

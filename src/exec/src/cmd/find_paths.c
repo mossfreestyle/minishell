@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_paths.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 23:58:18 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/14 18:02:49 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/19 12:38:45 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ char	*link_path(char **path_lst, char *path_cmd, char *cmd)
 		path_cmd = ft_strjoin(tmp, cmd);
 		free(tmp);
 		if (access(path_cmd, X_OK) == 0)
-			return (free_tab(path_lst), path_cmd);
+			return (free_array(path_lst), path_cmd);
 		free(path_cmd);
 	}
-	return (free_tab(path_lst), NULL);
+	return (free_array(path_lst), NULL);
 }

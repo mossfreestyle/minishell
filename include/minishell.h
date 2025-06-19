@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/19 11:29:05 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:58:41 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,12 +136,20 @@ int						ft_export(char **args, t_env **envp);
 int						ft_pwd(t_shell *shell);
 int						ft_unset(char **args, t_env **envp);
 
-/////////UTILS//////////////////////////
+/////////UTILS BI//////////////////////
 int						check_error(char *arg);
 void					env_update(t_env **envp, char *arg);
 void					env_addback(t_env **envp, char *arg);
 void					set_exported_flag(t_env **envp, char *var);
 int						print_env(t_env *envp);
+
+//////////Exec/////////////////////////
+
+/////////INIT//////////////////////////
+
+t_env					*init_env(char **envp);
+int						count_cmds(t_command *cmd);
+void					init_pipes(t_shell *shell);
 
 ////////////BI//////////////////////////
 int						is_builtin(char *name);
@@ -151,7 +159,18 @@ int						is_here_doc(char *name);
 int						exec_here_doc(t_shell *shell);
 //////////CMD///////////////////////////
 int						exec_commands(t_shell *shell);
+
 ///////////MAIN/////////////////////////
 int						exec_readline(t_shell *shell);
+
+/////////UTILS/////////////////////////
+char					*find_path(char *cmd, char **envp);
+char					*link_path(char **path_lst, char *path_cmd, char *cmd);
+void					handle_redirections(t_shell *shell);
+void					cmd_not_found(char **envp, t_shell *shell);
+void					check_pid(int pid, t_shell *shell);
+
+/////////CLOSE//////////////////////////
+void					close_and_free_all(t_shell *shell);
 
 #endif
