@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/19 14:52:25 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:32:47 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,19 @@ char					**append_to_array(char **array, const char *new_elem);
 long					ft_atol(char *str, int *out_of_range);
 char					*ft_strjoin_char(char *str, char c);
 bool					is_empty_line(const char *line);
+void					setenv_lst(const char *name, const char *value,
+							t_env **env_vars);
+char					*getenv_lst(const char *name, t_env *env_list);
+void					free_env(t_env *lst);
+
+/////////INIT SHELL/////////////////////
+t_shell					*init_shell(int ac, char **av, char **envp);
+
+/////////SIGNALS////////////////////////
+void					handle_signal(t_shell *shell);
+void					exec_signals(int sig);
+void					handle_eof(t_shell *shell);
+void					setup_signals(void);
 
 //////////Exec/////////////////////////
 
@@ -173,5 +186,6 @@ char					**env_list_to_array(t_env *env);
 
 /////////CLOSE//////////////////////////
 void					close_and_free_all(t_shell *shell);
+void					close_all_pipes(t_shell *shell);
 
 #endif

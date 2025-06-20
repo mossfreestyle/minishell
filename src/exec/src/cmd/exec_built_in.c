@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:16:53 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/19 13:12:22 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/20 11:32:50 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ int	is_builtin(char *name)
 
 int	exec_built_in(t_shell *shell)
 {
+	int	exit_code;
+
+	exit_code = 0;
 	if (!ft_strcmp(shell->cmd_list->name, "cd"))
 		return (ft_cd(shell->cmd_list->args, shell));
 	else if (!ft_strcmp(shell->cmd_list->name, "echo"))
@@ -31,8 +34,13 @@ int	exec_built_in(t_shell *shell)
 	else if (!ft_strcmp(shell->cmd_list->name, "env"))
 		return (ft_env(shell->env_vars), 0);
 	else if (!ft_strcmp(shell->cmd_list->name, "exit"))
-		return (ft_exit(shell->cmd_list->args));
-	// besoin d exit ici en fonction du retour;
+	{
+		exit_code = ft_exit(shell->cmd_list->args);
+		if (exit_code == 1)
+			return (exit_code);
+		free_shell(shell);
+		exit(exit_code)
+	}
 	else if (!ft_strcmp(shell->cmd_list->name, "export"))
 		return (ft_export(shell->cmd_list->args, &(shell->env_vars)));
 	else if (!ft_strcmp(shell->cmd_list->name, "pwd"))

@@ -1,36 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_and_free.c                                   :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/19 12:01:02 by mfernand          #+#    #+#             */
+/*   Created: 2025/06/20 11:10:20 by rwassim           #+#    #+#             */
 /*   Updated: 2025/06/20 11:32:50 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+volatile sig_atomic_t	g_signal = 0;
 
-void	close_and_free_all(t_shell *shell)
+void	handle_signal(t_shell *shell)
 {
-	close_all_pipes(shell);
-	free_commands(shell->cmd_list);
-	free_redirects(shell->);
-	free_tokens(shell->)
+	if (g_signal == SIGINT)
+	{
+		shell->exit_status = 130;
+		g_signal = 0;
+	}
 }
 
-void	close_all_pipes(t_shell *shell)
+void	exec_signals(int sig)
 {
-	int	i;
+	if (sig == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 19);
+	if (sig == SIGINT)
+		write(2, "\n", 1);
+}
 
-	i = -1;
-	while (++i < shell->pipeline.n_pipes)
-	{
-		if (shell->pipeline.pipefd[i][0] >= 0)
-			close(shell->pipeline.pipefd[i][0]);
-		if (shell->pipeline.pipefd[i][1] >= 0)
-			close(shell->pipeline.pipefd[i][1]);
-	}
+static void	handle_sigint(int sig)
+{
+	g_signal = sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+void	handle_eof(t_shell *shell)
+{
+	ft_putendl_fd("exit", 1);
+	exit(free_shell(shell));
+}
+
+void	setup_signals(void)
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }

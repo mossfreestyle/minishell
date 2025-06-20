@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:46:14 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/15 15:45:53 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 11:32:49 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,21 @@ void	free_redirects(t_redirect *redirects)
 	}
 }
 
-void	free_array(char **ptr)
+int	free_shell(t_shell *shell)
 {
-	int	i;
+	int	exit_status;
 
-	i = 0;
-	if (!ptr)
-		return ;
-	while (ptr[i])
-	{
-		free(ptr[i]);
-		i++;
-	}
-	free(ptr);
+	if (!shell)
+		return (EXIT_FAILURE);
+	exit_status = shell->exit_status;
+	if (shell->pwd)
+		free(shell->pwd);
+	free_env(shell->env_vars);
+	close_all_pipes(shell);
+	free_commands(shell->cmd_list);
+	rl_clear_history();
+	free(shell);
+	return (exit_status);
 }
 
 void	free_command(t_command *cmd)

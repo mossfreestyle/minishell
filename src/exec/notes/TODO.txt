@@ -11,3 +11,11 @@ LES TRUCS DEJA IMPLEMENTER SOnt CORRECTS ET FIX LES CAS SPECIAUX
 //tu rediriges l’entrée standard (STDIN_FILENO) vers le fd du heredoc
 
 // A voir comment implementer exit pour que ca exit bien et pas que ca return
+
+//faire signaux
+
+
+//reforcer close and free all
+
+
+//Les messages d’erreur sont globalement bons, mais il faut s’assurer que tous les cas sont couverts (ex : execve, fork, pipe, etc.).
