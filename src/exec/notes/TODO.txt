@@ -18,3 +18,28 @@
 //norme pipex a voir si je garde la tete de la liste ou si je parcours direct avec sans la garder quelque part
 
 //faire attention a appeller cmd quand je parcours avec et pas sehll->list
+
+
+
+
+Gestion de l’environnement
+
+Dans setenv_lst, tu ajoutes le nouveau noeud en tête de liste mais tu n’affectes pas *env_vars = new_node;.
+Corrige comme ceci :
+// filepath: /home/mfernand/c/minishell/src/utils/env.c
+new_node->next = *env_vars;
+*env_vars = new_node;
+
+
+
+
+Builtins dans un pipeline
+
+Les builtins sont exécutés dans le parent uniquement s’il n’y a pas de pipe.
+C’est correct, mais attention à bien gérer les effets de bord (cd, export, etc.) dans ce cas.
+
+
+
+Gestion du signal lors de l’exec
+
+Tu ignores SIGQUIT dans le shell principal, mais il faudrait le réactiver dans les enfants (processus forkés).

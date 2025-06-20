@@ -3,42 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 15:30:56 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 20:18:02 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// static char	*generate_prompt(t_env *env_list)
+// {
+// 	char	*user;
+// 	char	*cwd;
+// 	char	*prompt;
+// 	size_t	len_prompt;
+
+// 	user = getenv_lst("USER", env_list);
+// 	if (!user)
+// 		user = "user";
+// 	cwd = getcwd(NULL, 0);
+// 	if (!cwd)
+// 		cwd = ft_strdup(".");
+// 	len_prompt = ft_strlen(user) + ft_strlen(cwd) + 14;
+// 	prompt = malloc(len_prompt);
+// 	if (!prompt)
+// 	{
+// 		free(cwd);
+// 		return (NULL);
+// 	}
+// 	ft_strlcpy(prompt, user, len_prompt);
+// 	ft_strlcat(prompt, "@minishell:", len_prompt);
+// 	ft_strlcat(prompt, cwd, len_prompt);
+// 	ft_strlcat(prompt, "$ ", len_prompt);
+// 	free(cwd);
+// 	return (prompt);
+// }
+
 static char	*generate_prompt(t_env *env_list)
 {
-	char	*user;
-	char	*cwd;
-	char	*prompt;
-	size_t	len_prompt;
-
-	user = getenv_lst("USER", env_list);
-	if (!user)
-		user = "user";
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-		cwd = ft_strdup(".");
-	len_prompt = ft_strlen(user) + ft_strlen(cwd) + 14;
-	prompt = malloc(len_prompt);
-	if (!prompt)
-	{
-		free(cwd);
-		return (NULL);
-	}
-	ft_strlcpy(prompt, user, len_prompt);
-	ft_strlcat(prompt, "@minishell:", len_prompt);
-	ft_strlcat(prompt, cwd, len_prompt);
-	ft_strlcat(prompt, "$ ", len_prompt);
-	free(cwd);
-	return (prompt);
+	(void)env_list;
+    return ft_strdup("minishell$ ");
 }
+
 static char	*get_input(t_shell *shell)
 {
 	char	*prompt;
@@ -82,12 +89,15 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		setup_signals();
+		// printf("signals\n");
 		input = get_input(shell);
 		if (!input)
 			continue ;
 		if (input[0] != '\0')
 			add_history(input);
+		printf("signals\n");
 		handle_signal(shell);
+		printf("signals\n");
 		minishell(input, shell, av);
 		free(input);
 	}
