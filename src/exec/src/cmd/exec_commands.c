@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:46:17 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 11:32:30 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 11:43:18 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	close_and_wait(t_shell *shell, int status);
-static void	error(char **envp, char *full_path, t_shell *shell);
+static void	error(char **envp, char *full_path, t_shell *shell, int flag);
 static void	exec(t_command *cmd, char **envp, char **full_path);
 
 int	exec_commands(t_shell *shell)
@@ -23,7 +23,7 @@ int	exec_commands(t_shell *shell)
 	char	**envp;
 	char	*full_path;
 	int		status;
-	t_cmd	*cmd;
+	t_command	*cmd;
 
 	i = 0;
 	status = 0;
@@ -43,7 +43,9 @@ int	exec_commands(t_shell *shell)
 			if (cmd->next && shell->pipeline.n_pipes > 0)
 				if (dup2(shell->pipeline.pipefd[i][1], STDOUT_FILENO) == -1)
 					error(envp, full_path, shell, 1);
+			close_all_pipes(shell);
 			exec(cmd, envp, full_path);
+			error(envp, full_path, shell, 1);
 		}
 		error(envp, full_path, shell, 0);
 		cmd = cmd->next;
@@ -76,11 +78,11 @@ static void	error(char **envp, char *full_path, t_shell *shell, int flag)
 
 static void	exec(t_command *cmd, char **envp, char **full_path)
 {
-	close_all_pipes(shell);
+	close_all_pipes(cmd);
 	handle_redirections(cmd);
 	if (is_builtin(cmd->name))
 		exit(exec_built_in(shell));
 	else if (full_path)
 		execve(full_path, cmd->args, envp);
-	error(envp, full_path, shell);
+	error(envp, full_path, shell, 1);
 }

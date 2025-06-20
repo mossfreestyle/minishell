@@ -19,3 +19,6 @@ LES TRUCS DEJA IMPLEMENTER SOnt CORRECTS ET FIX LES CAS SPECIAUX
 
 
 //Les messages d’erreur sont globalement bons, mais il faut s’assurer que tous les cas sont couverts (ex : execve, fork, pipe, etc.).
+
+
+//norme pipex a voir si je garde la tete de la liste ou si je parcours direct avec sans la garder quelque part
