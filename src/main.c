@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 20:18:02 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:46:27 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,12 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		setup_signals();
-		// printf("signals\n");
 		input = get_input(shell);
 		if (!input)
 			continue ;
 		if (input[0] != '\0')
 			add_history(input);
-		printf("signals\n");
 		handle_signal(shell);
-		printf("signals\n");
 		minishell(input, shell, av);
 		free(input);
 	}
