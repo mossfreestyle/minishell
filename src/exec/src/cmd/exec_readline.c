@@ -6,17 +6,17 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 14:06:06 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 15:34:36 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exec_last_command(t_shell *shell);
-static int	exec_last_builtin(t_shell *shell, t_cmd *cmd);
-static int	exec_last_external(t_shell *shell, t_cmd *cmd);
+static int	exec_last_command(t_command *cmd, t_shell *shell, char **av);
+static int	exec_last_builtin(t_shell *shell, t_command *cmd);
+static int	exec_last_external(t_shell *shell, t_command *cmd);
 
-int	exec_readline(t_shell *shell)
+int	exec_readline(t_shell *shell, char **av)
 {
 	t_command	*cmd;
 	t_redirect	*redir;
@@ -30,64 +30,63 @@ int	exec_readline(t_shell *shell)
 		while (redir)
 		{
 			if (redir->type == R_HEREDOC)
-				exec_here_doc(cmd, redir->filename);
+				exec_here_doc(cmd, redir);
 			redir = redir->next;
 		}
 		cmd = cmd->next;
 	}
 	if (!shell->cmd_list)
-		return ;
+		return (0);
 	if (!shell->cmd_list->next)
-		shell->exit_status = exec_last_command(shell);
+		shell->exit_status = exec_last_command(shell->cmd_list, shell, av);
 	else
 		shell->exit_status = exec_commands(shell);
 	return (shell->exit_status);
 }
 
-static int	exec_last_command(t_shell *shell)
+static int	exec_last_command(t_command *cmd, t_shell *shell, char **av)
 {
-	t_cmd	*cmd;
-
-	cmd = shell->cmd_list;
 	while (cmd && cmd->next)
 		cmd = cmd->next;
 	if (!cmd)
 		return (1);
-	if (is_builtin(cmd->argv[0]))
+	if (is_builtin(av[0]))
 		return (exec_last_builtin(shell, cmd));
 	else
 		return (exec_last_external(shell, cmd));
 }
 
-static int	exec_last_builtin(t_shell *shell, t_cmd *cmd)
+static int	exec_last_builtin(t_shell *shell, t_command *cmd)
 {
 	int	status;
 
 	handle_redirections(cmd);
-	status = exec_builtin(shell, cmd);
-	restore_redirections(cmd);
+	status = exec_built_in(cmd, shell);
 	shell->exit_status = status;
 	return (status);
 }
 
-static int	exec_last_external(t_shell *shell, t_cmd *cmd)
+static int	exec_last_external(t_shell *shell, t_command *cmd)
 {
 	pid_t	pid;
 	int		status;
+	char	**envp;
+	char	*path;
 
 	pid = fork();
 	if (pid < 0)
-	{
-		perror("fork");
-		return (1);
-	}
+		return (perror("fork"), 1);
+	envp = env_list_to_array(shell->env_vars);
+	path = find_path(cmd->name, envp);
 	if (pid == 0)
 	{
 		handle_redirections(cmd);
-		execve(cmd->path, cmd->argv, shell->envp);
+		execve(path, cmd->args, envp);
 		perror("execve");
 		exit(127);
 	}
+	free_array(envp);
+	free(path);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);

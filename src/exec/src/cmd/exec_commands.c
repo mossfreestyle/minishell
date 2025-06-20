@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:46:17 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 14:06:32 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 15:33:19 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ static void	exec_child(t_shell *sh, t_command *cmd, int i, char *path)
 
 	envp = env_list_to_array(sh->env_vars);
 	if (i > 0 && sh->pipeline.n_pipes > 0 && dup2(sh->pipeline.pipefd[i - 1][0],
-		STDIN_FILENO) == -1)
+			STDIN_FILENO) == -1)
 		error(envp, path, sh, 1);
 	if (cmd->next && sh->pipeline.n_pipes > 0 && dup2(sh->pipeline.pipefd[i][1],
-		STDOUT_FILENO) == -1)
+			STDOUT_FILENO) == -1)
 		error(envp, path, sh, 1);
 	close_all_pipes(sh);
 	exec(cmd, envp, path, sh);
@@ -84,10 +84,10 @@ static void	error(char **envp, char *full_path, t_shell *shell, int flag)
 
 static void	exec(t_command *cmd, char **envp, char *full_path, t_shell *shell)
 {
-	close_all_pipes(cmd);
+	close_all_pipes(shell);
 	handle_redirections(cmd);
-	if (is_builtin(cmd))
-		exit(exec_built_in(shell));
+	if (is_builtin(cmd->name))
+		exit(exec_built_in(cmd, shell));
 	else if (full_path)
 		execve(full_path, cmd->args, envp);
 	error(envp, full_path, shell, 1);

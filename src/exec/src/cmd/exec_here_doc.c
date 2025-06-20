@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:14:03 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 14:06:32 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 15:27:52 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_here_doc(char *name)
 	return (!ft_strcmp(name, "<<"));
 }
 
-int	exec_here_doc(t_shell *shell)
+int	exec_here_doc(t_command *cmd, t_redirect *redir)
 {
 	int		heredoc_pipe[2];
 	char	*line;
@@ -30,7 +30,7 @@ int	exec_here_doc(t_shell *shell)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || !ft_strcmp(line, shell->cmd_list->redirects->filename))
+		if (!line || !ft_strcmp(line, redir->filename))
 			break ;
 		write(heredoc_pipe[1], line, ft_strlen(line));
 		write(heredoc_pipe[1], "\n", 1);
@@ -38,6 +38,6 @@ int	exec_here_doc(t_shell *shell)
 	}
 	free(line);
 	close(heredoc_pipe[1]);
-	shell->cmd_list->heredoc_fd = heredoc_pipe[0];
+	cmd->heredoc_fd = heredoc_pipe[0];
 	return (0);
 }

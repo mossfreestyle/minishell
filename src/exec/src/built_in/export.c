@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:47 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 22:08:15 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:40:32 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_export(char **args, t_env **envp)
 	i = 0;
 	status = 0;
 	if (!args[1])
-		return (print_env(envp));
+		return (print_env((*envp)));
 	while (args[++i])
 	{
 		if (!check_error(args[i]))

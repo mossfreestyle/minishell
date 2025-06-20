@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:36:28 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 11:35:32 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 15:25:43 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ static int	append_node(t_env **list, const char *env_entry)
 	equals_sign = ft_strchr(env_entry, '=');
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
-		;
-	return (1);
+		return (1);
 	new_node->name = ft_substr(env_entry, 0, equals_sign - env_entry);
 	new_node->value = ft_strdup(equals_sign + 1);
 	new_node->exported = 1;

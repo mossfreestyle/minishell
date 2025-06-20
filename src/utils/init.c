@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 10:30:43 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 11:32:39 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 15:38:58 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_shell	*init_shell(int ac, char **av, char **envp)
 	shell->exit_status = 0;
 	shell->env_vars = init_env(envp);
 	shell->pwd = init_pwd(&shell->env_vars);
-	init_pipes(&shell->pipeline);
+	init_pipes(shell);
 	init__shlvl(&shell->env_vars);
 	return (shell);
 }

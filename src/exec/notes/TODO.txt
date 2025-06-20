@@ -16,3 +16,5 @@
 
 
 //norme pipex a voir si je garde la tete de la liste ou si je parcours direct avec sans la garder quelque part
+
+//faire attention a appeller cmd quand je parcours avec et pas sehll->list

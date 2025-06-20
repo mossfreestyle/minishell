@@ -64,7 +64,9 @@ PARSER_FILES = tokenize.c \
 UTILS_FILES	= free.c \
               error.c \
 			  env.c \
-			  utils_str.c
+			  utils_str.c \
+			  signals.c \
+			  init.c \
 
 BUILTIN_FILES = cd.c \
                 echo.c \
@@ -82,12 +84,13 @@ CMD_FILES = exec_built_in.c \
 			find_paths.c \
 			handle_redirections.c \
 			init.c \
+			utils.c \
 			close_and_free.c 
 
 SRCS		= $(addprefix $(SRC_DIR)/, $(MAIN_FILES)) \
               $(addprefix $(PARSER_DIR)/, $(PARSER_FILES)) \
               $(addprefix $(UTILS_DIR)/, $(UTILS_FILES)) \
-              $(addprefix $(BUILTIN_DIR)/, $(BUILTIN_FILES))
+              $(addprefix $(BUILTIN_DIR)/, $(BUILTIN_FILES)) \
 			  $(addprefix $(CMD_DIR)/, $(CMD_FILES))
 
 
