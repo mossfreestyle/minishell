@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:16:53 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 15:30:24 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 22:09:59 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	exec_built_in(t_command *cmd, t_shell *shell)
 	else if (!ft_strcmp(cmd->name, "export"))
 		return (ft_export(cmd->args, &(shell->env_vars)));
 	else if (!ft_strcmp(cmd->name, "pwd"))
-		return (ft_pwd(shell));
+		return (ft_pwd(shell, cmd));
 	else if (!ft_strcmp(cmd->name, "unset"))
 		return (ft_unset(cmd->args, &(shell->env_vars)));
 	return (0);

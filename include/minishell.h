@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 20:05:50 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/20 22:09:52 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_shell
 {
 	int							exit_status;
 	char						*pwd;
+	char						**av;
 	t_env						*env_vars;
 	t_pipe						pipeline;
 	t_command					*cmd_list;
@@ -122,7 +123,7 @@ char							*add_char(char *line, int *i, char *value);
 /* ========== EXECUTION ========== */
 
 /* Main Execution */
-int								exec_readline(t_shell *shell, char **av);
+int								exec_readline(t_shell *shell);
 int								exec_commands(t_shell *shell);
 
 /* Builtins */
@@ -133,7 +134,7 @@ int								ft_echo(char **args);
 int								ft_env(t_env *env);
 int								ft_exit(char **args);
 int								ft_export(char **args, t_env **envp);
-int								ft_pwd(t_shell *shell);
+int								ft_pwd(t_shell *shell, t_command *cmd);
 int								ft_unset(char **args, t_env **envp);
 
 /* Export Utils */

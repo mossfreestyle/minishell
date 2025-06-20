@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exec_readline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 15:34:36 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 22:00:14 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exec_last_command(t_command *cmd, t_shell *shell, char **av);
+static int	exec_last_command(t_command *cmd, t_shell *shell);
 static int	exec_last_builtin(t_shell *shell, t_command *cmd);
 static int	exec_last_external(t_shell *shell, t_command *cmd);
 
-int	exec_readline(t_shell *shell, char **av)
+int	exec_readline(t_shell *shell)
 {
 	t_command	*cmd;
 	t_redirect	*redir;
@@ -38,19 +38,19 @@ int	exec_readline(t_shell *shell, char **av)
 	if (!shell->cmd_list)
 		return (0);
 	if (!shell->cmd_list->next)
-		shell->exit_status = exec_last_command(shell->cmd_list, shell, av);
+		shell->exit_status = exec_last_command(shell->cmd_list, shell);
 	else
 		shell->exit_status = exec_commands(shell);
 	return (shell->exit_status);
 }
 
-static int	exec_last_command(t_command *cmd, t_shell *shell, char **av)
+static int	exec_last_command(t_command *cmd, t_shell *shell)
 {
 	while (cmd && cmd->next)
 		cmd = cmd->next;
 	if (!cmd)
 		return (1);
-	if (is_builtin(av[0]))
+	if (is_builtin(shell->av[0]))
 		return (exec_last_builtin(shell, cmd));
 	else
 		return (exec_last_external(shell, cmd));

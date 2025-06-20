@@ -6,20 +6,9 @@
 //(déjà préparé avant l’exec) Si c’est un heredoc (R_HEREDOC), 
 //tu rediriges l’entrée standard (STDIN_FILENO) vers le fd du heredoc
 
-// A voir comment implementer exit pour que ca exit bien et pas que ca return
-
-
 //reforcer close and free all
 
-
-//Les messages d’erreur sont globalement bons, mais il faut s’assurer que tous les cas sont couverts (ex : execve, fork, pipe, etc.).
-
-
-//norme pipex a voir si je garde la tete de la liste ou si je parcours direct avec sans la garder quelque part
-
 //faire attention a appeller cmd quand je parcours avec et pas sehll->list
-
-
 
 
 Gestion de l’environnement
@@ -37,8 +26,6 @@ Builtins dans un pipeline
 
 Les builtins sont exécutés dans le parent uniquement s’il n’y a pas de pipe.
 C’est correct, mais attention à bien gérer les effets de bord (cd, export, etc.) dans ce cas.
-
-
 
 Gestion du signal lors de l’exec
 
@@ -68,3 +55,10 @@ affiche comme export sans arg
 
 
 // fix unset 
+
+
+bash-5.1$ ./minishell 
+minishell$ exit 15
+exit
+bash-5.1$ echo $?
+0
