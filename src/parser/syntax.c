@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:16:36 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 20:45:13 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/20 21:34:09 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
  */
 void	parse_args(t_token **tokens, t_command *cmd)
 {
+	if (!tokens || !*tokens || !(*tokens)->content || !cmd)
+        return;
 	if ((*tokens)->content && (*tokens)->content[0] == '\0')
 	{
 		(*tokens) = (*tokens)->next;

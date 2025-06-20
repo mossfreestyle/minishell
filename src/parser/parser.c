@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 10:31:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 20:46:48 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/20 21:31:18 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static t_command	*build_command(t_token *tokens, t_shell *shell)
 		}
 		else
 		{
+			if (!current) // <-- Ajoute cette ligne
+                current = init_command(shell);
 			current = parse_command(&tokens, shell, &current);
 			if (!current)
 				return (free_command(head), NULL);

@@ -43,3 +43,28 @@ C’est correct, mais attention à bien gérer les effets de bord (cd, export, e
 Gestion du signal lors de l’exec
 
 Tu ignores SIGQUIT dans le shell principal, mais il faudrait le réactiver dans les enfants (processus forkés).
+
+
+
+//fix echo
+
+//fix controle c
+//fix controle D
+//fix cd
+//fix redirection
+//fix pipe entre sortie
+
+minishell$ "''"
+execve: Bad address
+minishell$
+exit
+Segmentation fault (core dumped)
+bash-5.1$ "''"
+bash: '': command not found
+
+export TEST="TEST"
+
+affiche comme export sans arg
+
+
+// fix unset 
