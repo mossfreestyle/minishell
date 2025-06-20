@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 11:32:47 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:06:32 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ int						count_cmds(t_command *cmd);
 void					init_pipes(t_shell *shell);
 
 ////////////BI//////////////////////////
-int						is_builtin(char *name);
+int						is_builtin(t_command *cmd);
 int						exec_built_in(t_shell *shell);
 ////////HERE_DOC////////////////////////
 int						is_here_doc(char *name);

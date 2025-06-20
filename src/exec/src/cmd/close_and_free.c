@@ -6,19 +6,16 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:01:02 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 11:32:50 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:06:32 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 void	close_and_free_all(t_shell *shell)
 {
 	close_all_pipes(shell);
-	free_commands(shell->cmd_list);
-	free_redirects(shell->);
-	free_tokens(shell->)
+	free_shell(shell);
 }
 
 void	close_all_pipes(t_shell *shell)

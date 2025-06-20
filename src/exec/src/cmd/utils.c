@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:30:07 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 11:32:50 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:06:32 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	check_pid(int pid, t_shell *shell)
 {
 	if (pid == -1)
 	{
-		close_all(shell); // a fix
+		close_all(shell);
 		ft_putstr_fd("An error occured when creating PID\n", 2);
 		exit(EXIT_FAILURE);
 	}

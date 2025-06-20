@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:14:03 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/19 13:11:36 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:06:32 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,5 @@ int	exec_here_doc(t_shell *shell)
 	free(line);
 	close(heredoc_pipe[1]);
 	shell->cmd_list->heredoc_fd = heredoc_pipe[0];
-		// À utiliser dans handle_redirections
 	return (0);
 }

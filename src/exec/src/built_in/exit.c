@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 21:39:09 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 21:57:43 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:06:07 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	check_valid(char **args);
+static int	check_valid(char **args);
 
 int	ft_exit(char **args)
 {
@@ -22,22 +22,23 @@ int	ft_exit(char **args)
 	if (!args[1] || args[1][0] == '\0')
 	{
 		printf("exit\n");
-		return(status);
+		return (status);
 	}
-	check_valid(args);
+	if (check_valid(args))
+		return (2);
 	if (args[2])
 	{
 		printf("exit\n");
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		status = 1;
-		return (status); //le seul cas qui ne fais pas exit reelement
+		return (status);
 	}
 	if (args[1])
 		status = ft_atoi(args[1]);
-	return(status);
+	return (status);
 }
 
-static void	check_valid(char **args)
+static int	check_valid(char **args)
 {
 	int	i;
 
@@ -54,4 +55,5 @@ static void	check_valid(char **args)
 		}
 		i++;
 	}
+	return (0);
 }

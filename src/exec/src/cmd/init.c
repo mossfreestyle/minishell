@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:17:38 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 11:39:30 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/20 14:06:08 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	init_pipes(t_shell *shell)
 	i = -1;
 	n_cmds = count_cmds(shell->cmd_list);
 	shell->pipeline.n_pipes = n_cmds - 1;
+	if (shell->pipeline.n_pipes <= 0)
+		return ;
 	while (++i < shell->pipeline.n_pipes)
 	{
 		if (pipe(shell->pipeline.pipefd[i]) == -1)
