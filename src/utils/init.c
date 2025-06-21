@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 10:30:43 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/21 11:38:13 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/21 20:00:53 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,18 @@ static void	init__shlvl(t_env **env_vars)
 
 t_shell	*init_shell(int ac, char **av, char **envp)
 {
-    t_shell	*shell;
+	t_shell	*shell;
 
-    check_args(ac, av, envp);
-    shell = malloc(sizeof(t_shell));
-    if (!shell)
-        return (NULL);
-    shell->exit_status = 0;
-    shell->env_vars = init_env(envp);
-    shell->pwd = init_pwd(&shell->env_vars);
-    shell->av = av;
-    shell->cmd_list = NULL;
-    init_pipes(shell);
-    init__shlvl(&shell->env_vars);
-    return (shell);
+	check_args(ac, av, envp);
+	shell = malloc(sizeof(t_shell));
+	if (!shell)
+		return (NULL);
+	shell->exit_status = 0;
+	shell->env_vars = init_env(envp);
+	shell->pwd = init_pwd(&shell->env_vars);
+	shell->av = av;
+	shell->cmd_list = NULL;
+	init_pipes(shell);
+	init__shlvl(&shell->env_vars);
+	return (shell);
 }

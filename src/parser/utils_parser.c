@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 14:30:03 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 21:28:18 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:02:59 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 /**
  * init_command - Alloue et initialise une nouvelle structure de commande.
  * Remplit tous les champs avec des valeurs par défaut (NULL ou -1).
- * Retourne un pointeur vers la nouvelle commande, ou NULL en cas d'échec d'allocation
+ * Retourne un pointeur vers la nouvelle commande,
+	ou NULL en cas d'échec d'allocation
  * (et met à jour le statut de sortie du shell).
  */
 t_command	*init_command(t_shell *shell)

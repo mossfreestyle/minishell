@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 13:31:38 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/18 09:47:31 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/21 20:01:33 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static char	*single_quote(char *line, int *i)
 }
 
 /**
- * double_quote - Extrait le texte entre quotes doubles, interprète les variables.
+ * double_quote - Extrait le texte entre quotes doubles,
+	interprète les variables.
  */
 static char	*double_quote(char *line, int *i, t_shell *shell)
 {

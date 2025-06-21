@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:36:28 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 20:13:06 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:03:02 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	setenv_lst(const char *name, const char *value, t_env **env_vars)
 	new_node->name = ft_strdup(name);
 	new_node->value = ft_strdup(value);
 	new_node->next = *env_vars;
-	*env_vars = new_node;		//add
+	*env_vars = new_node;
 }
 
 /**

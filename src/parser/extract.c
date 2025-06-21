@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   extract.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:17:32 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/18 13:54:59 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/21 20:00:31 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * extract_var - Extrait et remplace une variable d'environnement dans une ligne.
+ * extract_var
+	- Extrait et remplace une variable d'environnement dans une ligne.
  * Gère aussi le cas spécial de $?.
  */
 static char	*extract_var(char *line, int *i, t_shell *shell)
@@ -79,7 +80,8 @@ static char	*get_unquoted(char *line, int *i)
 }
 
 /**
- * extract_word - Extrait un mot complet (en gérant quotes et variables) depuis une ligne.
+ * extract_word
+	- Extrait un mot complet (en gérant quotes et variables) depuis une ligne.
  * Retourne la chaîne extraite ou NULL en cas d'erreur.
  */
 char	*extract_word(char *line, int *i, t_shell *shell)

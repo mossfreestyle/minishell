@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:46:17 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/21 15:09:45 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:01:20 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ static void	exec_child(t_shell *sh, t_command *cmd, int i, char *path)
 
 	envp = env_list_to_array(sh->env_vars);
 	if (i > 0 && sh->pipeline.n_pipes > 0 && dup2(sh->pipeline.pipefd[i - 1][0],
-			STDIN_FILENO) == -1)
+		STDIN_FILENO) == -1)
 		error(envp, path, sh, 1);
 	if (cmd->next && sh->pipeline.n_pipes > 0 && dup2(sh->pipeline.pipefd[i][1],
-			STDOUT_FILENO) == -1)
+		STDOUT_FILENO) == -1)
 		error(envp, path, sh, 1);
 	handle_redirections(cmd);
 	close_all_pipes(sh);

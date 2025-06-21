@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 11:23:51 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 09:49:06 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/21 20:03:04 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	*err_msg(char *cmd, char *msg, t_shell *shell, int exit_status)
 }
 
 /**
- * exec_error - Affiche un message d'erreur selon errno pour une commande exécutée.
+ * exec_error
+	- Affiche un message d'erreur selon errno pour une commande exécutée.
  * Retourne le code d'erreur approprié.
  */
 int	exec_error(char *cmd)
