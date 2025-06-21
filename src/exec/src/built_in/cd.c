@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:43 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/21 10:45:00 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/21 11:28:38 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,21 @@
 
 static char	*get_env_value(t_env *env, const char *name);
 static void	update_pwd(t_shell *shell, char *oldpwd);
-static void	set_env_value(t_env *env, const char *name, const char *value);
+static void	set_env_value(t_env **env, const char *name, const char *value);
 
 int	ft_cd(char **args, t_shell *shell)
 {
 	char	*path;
 	char	oldpwd[PATH_MAX];
 
-	if (getcwd(oldpwd, sizeof(oldpwd)), args[2])
+	if (!getcwd(oldpwd, sizeof(oldpwd)))
+	{
+		if (shell->pwd)
+			strcpy(oldpwd, shell->pwd);
+		else
+			strcpy(oldpwd, "/");
+	}
+	if (getcwd(oldpwd, sizeof(oldpwd)), args[1] && args[2])
 		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
 	if (!args[1] || !args[1][0] || !ft_strcmp(args[1], "~")
 		|| !ft_strcmp(args[1], "--"))
@@ -40,7 +47,7 @@ int	ft_cd(char **args, t_shell *shell)
 		path = args[1];
 	if (!path || access(path, X_OK) || chdir(path))
 		return (perror("minishell: cd"), 1);
-	if (update_pwd(shell, oldpwd), !ft_strcmp(args[1], "-"))
+	if (update_pwd(shell, oldpwd), args[1] && !ft_strcmp(args[1], "-"))
 		printf("%s\n", path);
 	return (0);
 }
@@ -60,20 +67,25 @@ static void	update_pwd(t_shell *shell, char *oldpwd)
 {
 	char	*newpwd;
 
-	set_env_value(shell->env_vars, "OLDPWD", oldpwd);
-	free(shell->pwd);
+	set_env_value(&shell->env_vars, "OLDPWD", oldpwd);
 	newpwd = getcwd(NULL, 0);
-	shell->pwd = ft_strdup(newpwd);
-	set_env_value(shell->env_vars, "PWD", shell->pwd);
-	free(newpwd);
+	if (newpwd)
+	{
+		free(shell->pwd);
+		shell->pwd = ft_strdup(newpwd);
+		set_env_value(&shell->env_vars, "PWD", newpwd);
+		free(newpwd);
+	}
+	else
+		perror("minishell: cd: getcwd");
 }
 
-static void	set_env_value(t_env *env, const char *name, const char *value)
+static void	set_env_value(t_env **env, const char *name, const char *value)
 {
 	t_env	*new;
 	t_env	*tmp;
 
-	tmp = env;
+	tmp = *env;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->name, name))
@@ -92,5 +104,8 @@ static void	set_env_value(t_env *env, const char *name, const char *value)
 	new->name = ft_strdup(name);
 	new->value = ft_strdup(value);
 	new->next = NULL;
-	tmp->next = new;
+	if (!*env)
+		*env = new;
+	else
+		tmp->next = new;
 }
