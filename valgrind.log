@@ -1,0 +1,36 @@
+==210219== Memcheck, a memory error detector
+==210219== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==210219== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==210219== Command: /usr/bin/rev
+==210219== Parent PID: 210156
+==210219== ==210156== 
+==210156== FILE DESCRIPTORS: 6 open (3 std) at exit.
+==210156== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==210156==    <inherited from parent>
+==210156== 
+==210156== Open file descriptor 42: /home/mfernand/.config/Code/logs/20250621T195946/ptyhost.log
+==210156==    <inherited from parent>
+==210156== 
+==210156== Open file descriptor 3: /home/mfernand/c/minishell/valgrind.log
+==210156==    <inherited from parent>
+==210156== 
+==210156== 
+==210156== HEAP SUMMARY:
+==210156==     in use at exit: 208,186 bytes in 223 blocks
+==210156==   total heap usage: 1,007 allocs, 784 frees, 284,857 bytes allocated
+==210156== 
+==210156== 4,016 bytes in 1 blocks are still reachable in loss record 42 of 64
+==210156==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==210156==    by 0x48AEBAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==210156==    by 0x48A7FD6: add_history (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==210156==    by 0x1096B3: main (main.c:100)
+==210156== 
+==210156== LEAK SUMMARY:
+==210156==    definitely lost: 0 bytes in 0 blocks
+==210156==    indirectly lost: 0 bytes in 0 blocks
+==210156==      possibly lost: 0 bytes in 0 blocks
+==210156==    still reachable: 4,016 bytes in 1 blocks
+==210156==         suppressed: 204,170 bytes in 222 blocks
+==210156== 
+==210156== For lists of detected and suppressed errors, rerun with: -s
+==210156== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

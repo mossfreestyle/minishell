@@ -39,4 +39,35 @@ Tu ignores SIGQUIT dans le shell principal, mais il faudrait le réactiver dans 
 
 //fix builtin pas en premier
 
-//voir check_valid pour exit
+
+
+
+
+// exemple a gerer : < Makefile
+
+
+
+
+👇​👇​👇​👇​👇​👇​👇​
+valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes --track-origins=yes --log-file=valgrind.log --suppressions=readline.supp ./minishell
+
+
+
+
+
+Oui, voici d’autres options utiles pour valgrind :
+
+--track-origins=yes
+Affiche l’origine des valeurs non initialisées (très utile pour les erreurs "uninitialised value").
+
+--log-file=valgrind.log
+Redirige la sortie de valgrind dans un fichier (pratique pour relire les rapports).
+
+--child-silent-after-fork=yes
+Réduit le bruit lors de l’utilisation de fork/exec (utile pour les shells).
+
+--show-leak-kinds=all
+(Déjà présent) Affiche tous les types de fuites.
+
+--error-exitcode=42
+Fait échouer le script si une erreur mémoire est détectée (utile en CI).
