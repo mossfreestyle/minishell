@@ -39,14 +39,11 @@ Tu ignores SIGQUIT dans le shell principal, mais il faudrait le réactiver dans 
 
 //fix builtin pas en premier
 
-
+//normal reachable dans exit et ctrl d ?????
 
 
 
 // exemple a gerer : < Makefile
-
-
-
 
 👇​👇​👇​👇​👇​👇​👇​
 valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes --track-origins=yes --log-file=valgrind.log --suppressions=readline.supp ./minishell

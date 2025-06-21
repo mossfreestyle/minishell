@@ -46,23 +46,24 @@
 
 ### pwd
 ✅ pwd - Affiche le répertoire courant
-✅ pwd avec options - Refuse les options (message d'erreur)
+✅ pwd avec options - Refuse les options (message d'erreur conforme bash)
 
 ### export
 ✅ export sans argument - Affiche les variables exportées
 ✅ export VAR - Variable sans valeur ajoutée/exportée (flag exported)
 ✅ export VAR=value - Ajoute/modifie variable
-✅ Format de sortie - Affiche guillemets si valeur (voir print_env)
-✅ Gestion erreurs identifiants - check_error() partiellement complet (à renforcer)
+✅ Format de sortie - Affiche `export VAR="value"` ou `export VAR` (conforme moulinette 42 et à ton bash)
+✅ Gestion erreurs identifiants - check_error() conforme bash (message et code retour)
+✅ Pas de tri alphabétique - conforme au sujet 42 (affichage dans l'ordre de la liste chaînée)
 
 ### unset
 ✅ unset VAR - Supprime la variable
-✅ unset avec identifiants invalides - Pas de message d'erreur (à faire)
+✅ unset avec identifiants invalides - Affiche un message d'erreur et retourne 1
 ✅ unset VAR=value - Refusé avec erreur (voir check_error)
 
 ### env
 ✅ env - Affiche l'environnement
-✅ env avec arguments - Refuse les arguments (à faire si besoin)
+✅ env avec arguments - Refuse les arguments (message d'erreur conforme bash)
 
 ### exit
 ✅ exit sans argument - Sort avec status 0
@@ -106,7 +107,7 @@
 ✅ $VAR expansion - Géré
 ✅ $? expansion - Géré
 ❌ $0, $1, etc. - Paramètres positionnels non gérés
-❌ Variables invalides - $123VAR (à tester)
+❌ Variables invalides - $123VAR (à tester) 
 ❌ Variables dans redirections - > $FILE (à tester)
 
 ### Chemins et Exécution
@@ -119,9 +120,8 @@
 ## 🔥 PROBLÈMES CRITIQUES IDENTIFIÉS
 
 ### 1. Export (HIGH PRIORITY)
-❌ Pas de tri alphabétique dans print_env()
-❌ Format de sortie export à vérifier pour bash-compliance
-❌ check_error() à renforcer
+✅ Pas de tri alphabétique (conforme au sujet 42)
+✅ Format de sortie export conforme moulinette 42 et à ton bash (`export VAR="value"` ou `export VAR`)
 
 ### 2. Exit (HIGH PRIORITY)  
 ✅ Validation numérique complète
@@ -129,8 +129,8 @@
 ✅ Signes +/- gérés
 
 ### 3. Unset (MEDIUM PRIORITY)
-❌ Pas de validation des identifiants (à renforcer)
-❌ Pas de messages d'erreur pour identifiants invalides
+✅ Validation des identifiants (message d'erreur conforme bash)
+✅ Messages d'erreur pour identifiants invalides
 
 ### 4. Gestion des Erreurs (MEDIUM PRIORITY)
 ❌ Messages d'erreur pas identiques à bash partout
@@ -147,7 +147,7 @@
 
 ## 📊 RÉSUMÉ
 
-### ✅ FONCTIONNEL (Estimation: 80%)
+### ✅ FONCTIONNEL (Estimation: 85%)
 - Structure générale du shell
 - Built-ins de base
 - Pipes simples et multiples  
@@ -155,34 +155,23 @@
 - Variables d'environnement basiques
 - Parsing basique
 
-### ❌ À CORRIGER (Estimation: 20%)
-- Export complet et conforme
-- Unset avec validation
+### ❌ À CORRIGER (Estimation: 15%)
 - Gestion des erreurs complète
 - Heredoc avancé
 - Messages d'erreur bash-compliant
 
 ### 🎯 PRIORITÉS POUR PASSER LES TESTS
 
-1. **CRITIQUE**: Corriger export (tri, format, validation)
-2. **IMPORTANT**: Corriger unset (validation, erreurs)
-3. **IMPORTANT**: Messages d'erreur conformes à bash
-4. **MOYEN**: Heredoc avec expansion
+1. **CRITIQUE**: Corriger export (validation)
+2. **IMPORTANT**: Messages d'erreur conformes à bash
+3. **MOYEN**: Heredoc avec expansion
 
 Le projet est globalement bien structuré mais nécessite des corrections 
 sur les built-ins et la gestion des erreurs pour être 100% conforme aux spécifications bash.
 
-
-
-
-
-
-
-
 ### On gere pas 
 
-pwd : 
-
-✅ pwd avec options - Refuse les options (message d'erreur conforme bash)
 export :
-❌ Tri alphabétique - export doit trier la sortie (à faire)
+✅ Le tri alphabétique (affichage dans l'ordre de la liste chaînée).
+pwd :
+✅ pwd avec options - Refuse les options (message d'erreur)
