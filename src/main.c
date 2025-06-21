@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 21:59:36 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/21 11:39:00 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 static char	*generate_prompt(t_env *env_list)
 {
 	(void)env_list;
-    return ft_strdup("minishell$ ");
+	return (ft_strdup("minishell$ "));
 }
 
 static char	*get_input(t_shell *shell)
@@ -57,7 +57,10 @@ static char	*get_input(t_shell *shell)
 	input = readline(prompt);
 	free(prompt);
 	if (!input)
-		handle_eof(shell);
+	{
+		ft_putendl_fd("exit", 1);
+		return (NULL);
+	}
 	return (input);
 }
 
@@ -76,6 +79,7 @@ static void	minishell(char *line, t_shell *shell)
 	else
 		exec_readline(shell);
 	free_commands(cmd);
+	shell->cmd_list = NULL;
 }
 
 int	main(int ac, char **av, char **envp)
@@ -91,7 +95,7 @@ int	main(int ac, char **av, char **envp)
 		setup_signals();
 		input = get_input(shell);
 		if (!input)
-			continue ;
+			break ;
 		if (input[0] != '\0')
 			add_history(input);
 		handle_signal(shell);

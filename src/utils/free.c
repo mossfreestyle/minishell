@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:46:14 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 11:35:32 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/21 11:38:32 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,14 @@ void	free_command(t_command *cmd)
 
 void	free_commands(t_command *cmd)
 {
-	t_command	*tmp;
+    t_command	*tmp;
 
-	while (cmd)
-	{
-		tmp = cmd;
-		cmd = cmd->next;
-		free_command(tmp);
-	}
+    if (!cmd)
+        return;
+    while (cmd)
+    {
+        tmp = cmd;
+        cmd = cmd->next;
+        free_command(tmp);
+    }
 }

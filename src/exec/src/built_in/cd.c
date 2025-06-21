@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:43 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/21 11:28:38 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/21 11:43:17 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,6 @@ int	ft_cd(char **args, t_shell *shell)
 	char	*path;
 	char	oldpwd[PATH_MAX];
 
-	if (!getcwd(oldpwd, sizeof(oldpwd)))
-	{
-		if (shell->pwd)
-			strcpy(oldpwd, shell->pwd);
-		else
-			strcpy(oldpwd, "/");
-	}
 	if (getcwd(oldpwd, sizeof(oldpwd)), args[1] && args[2])
 		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
 	if (!args[1] || !args[1][0] || !ft_strcmp(args[1], "~")
@@ -48,7 +41,7 @@ int	ft_cd(char **args, t_shell *shell)
 	if (!path || access(path, X_OK) || chdir(path))
 		return (perror("minishell: cd"), 1);
 	if (update_pwd(shell, oldpwd), args[1] && !ft_strcmp(args[1], "-"))
-		printf("%s\n", path);
+		printf("%s\n", shell->pwd);
 	return (0);
 }
 
