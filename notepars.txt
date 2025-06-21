@@ -1,113 +1,180 @@
- CD         //bi
- ECHO -n    //bi
- ENV        //bi
- EXIT       //bi
- EXPORT     //bi
- PWD        //bi
- LS
- CAT
- GREP
- UNSET      //bi 
- |
- >
- >>
- <
- <<
- $USER
- $VAR
- $?
- CTRL+C 
- CTRL+D 
- CTRL-\
+# MINISHELL - VÉRIFICATION DES EXIGENCES DU PROJET
 
- // prend pas en compte //
+## 📋 EXIGENCES GÉNÉRALES
 
- \
- ;
- &&
- ||
- wildcard
+### Gestion des Signaux
+✅ SIGINT (Ctrl+C) - Géré dans signals.c (nouvelle ligne, nouveau prompt)
+✅ SIGQUIT (Ctrl+\) - Ignoré en mode interactif
+❌ SIGQUIT dans les processus - Pas de gestion "Quit (core dumped)"
+✅ EOF (Ctrl+D) - Géré, sort du shell
 
-relation entre les struct
+### Historique
+✅ readline() - Implémenté dans get_input()
+✅ add_history() - Appelé pour les lignes non-vides
+✅ rl_clear_history() - Appelé dans free_shell()
 
- s_shell
-├── env_vars → s_env → s_env → ... (variables d'environnement)
-├── pipeline → s_pipe (gestion des pipes)
-└── [Commands] → s_command → s_command → ... (pipeline de commandes)
-                      ├── redirects → s_redirect → s_redirect → ...
-                      └── args[] (tableau d'arguments)
+### Variables d'Environnement  
+✅ Expansion $VAR - Géré dans extract.c
+✅ Expansion $? - Géré (exit status)
+❌ Variables inexistantes - Remplacées par chaîne vide (OK)
 
-Tokenisation:
-Input → s_token → s_token → ... → Parsing → s_command(s)
-ta mere
+### Redirections
+✅ < (input) - Géré dans handle_redirections.c
+✅ > (output) - Géré 
+✅ >> (append) - Géré
+✅ << (heredoc) - Géré dans exec_here_doc.c
 
-### Analyse rapide
+### Pipes
+✅ | (pipe) - Géré dans exec_commands.c
+✅ Pipes multiples - Géré avec pipeline.pipefd
 
-#### Ce qui fonctionne déjà :
-- Les fonctions built-in (`cd`, `pwd`, `env`, `echo`, `exit`, `export`, `unset`) sont codées et séparées.
-- Le parsing (tokenizer, lexer, parser) est bien structuré.
-- La gestion de l'environnement (`t_env`) est centralisée.
-- Les erreurs sont gérées proprement avec des fonctions dédiées.
-- Les allocations et libérations mémoire sont prises en compte.
+## 🔧 BUILT-INS
 
-#### Prochaines étapes recommandées
+### echo
+✅ echo sans option - Implémenté
+✅ echo -n - Implémenté avec is_n_option()
+✅ echo -nnn...n - À vérifier si tous les 'n' sont gérés
+✅ echo avec variables - $VAR dans echo doit être expansé
 
-1. **Initialisation de l'environnement (`t_env`)**  
-   - Il manque l'appel à une fonction pour convertir `char **envp` en `t_env *` au démarrage du shell.  
-   - La fonction `init_env` est commentée dans main.c : il faut la décommenter, la corriger si besoin, et l'utiliser pour initialiser `info.env_vars`.
+### cd
+✅ cd (sans argument) - Va vers $HOME
+✅ cd ~ - Va vers $HOME  
+✅ cd - - Va vers $OLDPWD et affiche le chemin
+✅ cd path - Change vers le chemin spécifié
+✅ Mise à jour PWD/OLDPWD - Géré dans update_pwd()
+✅ cd trop d'arguments - Géré mais message pas identique à bash
 
-2. **Boucle principale du shell**  
-   - Il n'y a pas encore de boucle de lecture (`readline`), d'exécution et de gestion du prompt.  
-   - Il faut ajouter une boucle qui lit une ligne, parse, exécute, puis libère.
+### pwd
+✅ pwd - Affiche le répertoire courant
+✅ pwd avec options - Doit refuser les options
 
-3. **Appel des built-ins**  
-   - Il manque la logique qui détecte et exécute les built-ins selon la commande entrée par l'utilisateur.
+### export
+✅ export sans argument - Affiche les variables exportées
+❌ export VAR - Variable sans valeur pas complètement géré
+✅ export VAR=value - Ajoute/modifie variable
+❌ Tri alphabétique - export doit trier la sortie
+❌ Format de sortie - Manque guillemets pour certaines valeurs
+❌ Gestion erreurs identifiants - check_error() incomplet
 
-4. **Gestion des pipes et redirections**  
-   - Le parsing des pipes et redirections est présent, mais il manque la partie exécution (fork, dup2, etc.).
+### unset
+✅ unset VAR - Supprime la variable
+❌ unset avec identifiants invalides - Pas de message d'erreur
+❌ unset VAR=value - Doit être refusé avec erreur
 
-5. **Gestion fine des erreurs et du code de retour**  
-   - Vérifier que tous les built-ins retournent bien le code de sortie attendu et que `shell->exit_status` est toujours cohérent.
+### env
+✅ env - Affiche l'environnement
+❌ env avec arguments - Doit refuser les arguments
 
-6. **Tests et conformité**  
-   - Tester tous les cas limites : export sans valeur, unset sur une variable inexistante, export d’un identifiant invalide, etc.
-   - Comparer le comportement avec bash.
+### exit
+✅ exit sans argument - Sort avec status 0
+✅ exit nombre - Sort avec le code spécifié
+❌ exit avec overflow - ft_atol pas utilisé correctement
+❌ exit "123abc" - Validation numérique incomplète
+❌ exit trop d'arguments - Géré mais doit rester dans le shell
 
-#### Erreurs manifestes ou points à surveiller
+## 🚨 CAS D'ERREUR ET EDGE CASES
 
-- **Fonction `present_var` dans export.c**  
-  ```c
-  if (!var);
-      return (0);
-  ```
-  Il y a un point-virgule en trop, ce qui rend le test inutile.  
-  **À corriger** : enlever le `;` après `if (!var)`.
+### Quotes
+✅ Quotes simples - Pas d'expansion
+✅ Quotes doubles - Expansion des variables
+✅ Quotes non fermées - Détection d'erreur
+✅ Quotes vides - echo "" '' doit fonctionner
+❌ Quotes imbriquées - À tester
 
-- **Libération mémoire**  
-  - Attention à bien libérer toutes les chaînes allouées dynamiquement (surtout dans les cas d’erreur).
+### Espaces et Caractères Spéciaux
+✅ Espaces multiples - echo "a    b" doit préserver
+❌ Tabulations - Gestion dans les quotes
+❌ Caractères d'échappement - Non géré
 
-- **Gestion du champ `exported`**  
-  - Vérifier que ce champ est bien utilisé partout où il faut (notamment pour l’affichage de `export`).
+### Redirections Avancées
+❌ Permissions fichiers - Gestion partielle des erreurs
+❌ Répertoires - cat > /dev non géré
+❌ Redirections multiples - cmd < file1 < file2
+❌ Redirections avec variables - echo test > $HOME/file
 
-- **Fonction `ft_env`**  
-  - Dans env.c, la signature attend un `t_env *`, mais dans le header c’est `char **envp`.  
-  - Harmoniser la signature.
+### Pipes Avancés
+❌ Pipes avec built-ins - export | grep PATH
+❌ Pipes avec redirections - cmd1 | cmd2 > file
+❌ Pipes vides - | sans commandes
 
-- **Appels à `strcmp` vs `ft_strcmp`**  
-  - Parfois c’est `strcmp`, parfois `ft_strcmp`. Il vaut mieux rester cohérent et utiliser la version maison si elle existe.
+### Heredoc
+✅ Heredoc basique - << EOF
+❌ Heredoc avec variables - Expansion dans heredoc
+❌ Heredoc avec quotes - << "EOF" vs << EOF
+❌ Heredoc multiples - cmd << EOF1 << EOF2
 
-- **Gestion du code de retour dans `export`**  
-  - Si une erreur d’identifiant est rencontrée, il faut continuer à traiter les autres arguments, mais retourner 1 à la fin si au moins une erreur a eu lieu (c’est déjà presque le cas, à tester).
+### Variables d'Environnement
+✅ $VAR expansion - Géré
+✅ $? expansion - Géré
+❌ $0, $1, etc. - Paramètres positionnels non gérés
+❌ Variables invalides - $123VAR
+❌ Variables dans redirections - > $FILE
 
----
+### Chemins et Exécution
+✅ Chemins absolus - /bin/ls
+✅ Chemins relatifs - ./script
+✅ PATH lookup - find_path() implémenté
+❌ Commandes inexistantes - Message d'erreur OK
+❌ Permissions - access() utilisé mais pas complet
 
-### Résumé
+## 🔥 PROBLÈMES CRITIQUES IDENTIFIÉS
 
-- **Étape 1** : Initialiser l’environnement (`init_env`).
-- **Étape 2** : Écrire la boucle principale du shell.
-- **Étape 3** : Appeler les built-ins selon la commande.
-- **Étape 4** : Implémenter l’exécution des commandes avec pipes/redirections.
-- **Étape 5** : Tester et corriger les détails.
+### 1. Export (HIGH PRIORITY)
+❌ Pas de tri alphabétique dans print_env()
+❌ Variables sans valeur mal gérées  
+❌ Format de sortie incorrect
+❌ check_error() ne valide pas correctement
 
-**Pas d’erreur bloquante manifeste, mais quelques détails à corriger (voir ci-dessus).**  
-Tu peux avancer sur la boucle principale et l’intégration des built-ins.
+### 2. Exit (HIGH PRIORITY)  
+❌ Validation numérique incomplète
+❌ Gestion overflow avec ft_atol manquante
+❌ Signes +/- pas gérés correctement
+
+### 3. Unset (MEDIUM PRIORITY)
+❌ Pas de validation des identifiants
+❌ Pas de messages d'erreur
+❌ find_env_var() utilise strncmp au lieu de strcmp
+
+### 4. Gestion des Erreurs (MEDIUM PRIORITY)
+❌ Messages d'erreur pas identiques à bash
+❌ Codes de sortie incorrects dans certains cas
+❌ Gestion des permissions incomplète
+
+### 5. Parser (MEDIUM PRIORITY)
+❌ Quotes vides non gérées
+❌ Expansion de variables dans tous les contextes
+❌ Heredoc avec expansion des variables
+
+### 6. Signaux (LOW PRIORITY)
+❌ SIGQUIT dans les processus enfants
+❌ Codes de sortie après signaux
+
+## 📊 RÉSUMÉ
+
+### ✅ FONCTIONNEL (Estimation: 70%)
+- Structure générale du shell
+- Built-ins de base
+- Pipes simples  
+- Redirections simples
+- Variables d'environnement basiques
+- Parsing basique
+
+### ❌ À CORRIGER (Estimation: 30%)
+- Export complet et conforme
+- Exit avec validation numérique
+- Gestion des erreurs complète
+- Cases edge des quotes
+- Heredoc avancé
+- Messages d'erreur bash-compliant
+
+### 🎯 PRIORITÉS POUR PASSER LES TESTS
+
+1. **CRITIQUE**: Corriger export (tri, format, validation)
+2. **CRITIQUE**: Corriger exit (validation numérique, overflow)
+3. **IMPORTANT**: Corriger unset (validation, erreurs)
+4. **IMPORTANT**: Messages d'erreur conformes à bash
+5. **MOYEN**: Quotes vides et cases edge
+6. **MOYEN**: Heredoc avec expansion
+
+Le projet est globalement bien structuré mais nécessite des corrections 
+sur les built-ins pour être 100% conforme aux spécifications bash.

@@ -34,6 +34,9 @@ Tu ignores SIGQUIT dans le shell principal, mais il faudrait le réactiver dans 
 
 
 
-//fix pipe entre sortie
 
-//fix multi pipe
+//fix multi heredoc
+
+//fix builtin pas en premier
+
+//voir check_valid pour exit

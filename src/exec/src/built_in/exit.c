@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 21:39:09 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 15:21:41 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/21 16:32:32 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,3 +57,44 @@ static int	check_valid(char **args)
 	}
 	return (0);
 }
+// static int	check_valid(char **args)
+// {
+//     int		i;
+//     int		out_of_range;
+//     long	result;
+
+//     i = 0;
+//     // Gérer les signes + et -
+//     if (args[1][i] == '+' || args[1][i] == '-')
+//         i++;
+//     if (args[1][i] == '\0') // Juste un signe
+//     {
+//         printf("exit\n");
+//         ft_putstr_fd("minishell: exit: ", 2);
+//         ft_putstr_fd(args[1], 2);
+//         ft_putstr_fd(": numeric argument required\n", 2);
+//         return (255);
+//     }
+//     while (args[1][i])
+//     {
+//         if (!ft_isdigit(args[1][i]))
+//         {
+//             printf("exit\n");
+//             ft_putstr_fd("minishell: exit: ", 2);
+//             ft_putstr_fd(args[1], 2);
+//             ft_putstr_fd(": numeric argument required\n", 2);
+//             return (255);
+//         }
+//         i++;
+//     }
+//     result = ft_atol(args[1], &out_of_range);
+//     if (out_of_range)
+//     {
+//         printf("exit\n");
+//         ft_putstr_fd("minishell: exit: ", 2);
+//         ft_putstr_fd(args[1], 2);
+//         ft_putstr_fd(": numeric argument required\n", 2);
+//         return (255);
+//     }
+//     return (0);
+// }
