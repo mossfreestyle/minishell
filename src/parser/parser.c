@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 10:31:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 21:31:18 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/21 10:48:29 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_command	*parse_command(t_token **tokens, t_shell *shell,
 		t_command **current)
 {
-	if (*current)
+	if (!*current)
 	{
 		*current = init_command(shell);
 		if (!*current)
@@ -43,17 +43,20 @@ static t_command	*build_command(t_token *tokens, t_shell *shell)
 		if (tokens->type == PIPE)
 		{
 			if (!parse_pipe(&tokens, &current, shell))
-				return (free_command(head), NULL);
+				return (free_commands(head), NULL);
 		}
 		else
 		{
-			if (!current) // <-- Ajoute cette ligne
-                current = init_command(shell);
-			current = parse_command(&tokens, shell, &current);
 			if (!current)
-				return (free_command(head), NULL);
-			if (!head)
-				head = current;
+			{
+				current = init_command(shell);
+				if (!current)
+					return (free_commands(head), NULL);
+				if (!head)
+					head = current;
+			}
+			if (!parse_command(&tokens, shell, &current))
+				return (free_commands(head), NULL);
 		}
 	}
 	return (head);

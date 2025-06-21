@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:16:36 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 21:34:09 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/21 10:48:29 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,20 @@
 
 /**
  * parse_args - Ajoute un argument à la commande courante.
- * Si le nom de la commande n'est pas encore défini, il l'initialise avec le contenu du token courant.
+ * Si le nom de la commande n'est pas encore défini,
+	il l'initialise avec le contenu du token courant.
  * Sinon, il ajoute le contenu du token courant à la liste des arguments.
  * Avance le pointeur de token.
  */
 void	parse_args(t_token **tokens, t_command *cmd)
 {
 	if (!tokens || !*tokens || !(*tokens)->content || !cmd)
-        return;
-	if ((*tokens)->content && (*tokens)->content[0] == '\0')
-	{
-		(*tokens) = (*tokens)->next;
 		return ;
-	}
+	// if ((*tokens)->content && (*tokens)->content[0] == '\0')
+	// {
+	// 	(*tokens) = (*tokens)->next;
+	// 	return ;
+	// }
 	if (!cmd->name)
 	{
 		cmd->name = ft_strdup((*tokens)->content);
@@ -70,7 +71,8 @@ static t_redirect	*init_redirect(t_token *token)
 
 /**
  * parse_redirects - Ajoute une redirection à la commande courante.
- * Vérifie la validité syntaxique (présence d'un mot après le token de redirection).
+
+	* Vérifie la validité syntaxique (présence d'un mot après le token de redirection).
  * Alloue et ajoute la redirection à la liste de la commande.
  * Avance le pointeur de token de deux positions.
  * Retourne true en cas de succès, false sinon.
@@ -102,7 +104,8 @@ bool	parse_redirects(t_token **tokens, t_command *cmd, t_shell *shell)
 }
 
 /**
- * parse_pipe - Gère la création d'une nouvelle commande lors de la rencontre d'un pipe '|'.
+ * parse_pipe
+	- Gère la création d'une nouvelle commande lors de la rencontre d'un pipe '|'.
  * Vérifie la validité syntaxique (commande précédente et token suivant).
  * Crée une nouvelle commande et avance les pointeurs.
  * Traite immédiatement une éventuelle redirection ou un argument après le pipe.
