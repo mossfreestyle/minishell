@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_scd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:18:51 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 22:08:13 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:49:20 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ int	print_env(t_env *envp)
 				ft_putstr_fd("\"", 1);
 			}
 			ft_putstr_fd("\n", 1);
-			curr = curr->next;
 		}
+		curr = curr->next;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 11:10:20 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/21 10:48:29 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/21 14:45:58 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,15 @@ volatile sig_atomic_t	g_signal = 0;
 void	handle_signal(t_shell *shell)
 {
 	if (g_signal == SIGINT)
+	{
 		shell->exit_status = 130;
+		g_signal = 0;
+	}
+	else if (g_signal == SIGQUIT)
+	{
+		shell->exit_status = 131;
+		g_signal = 0;
+	}
 }
 
 void	exec_signals(int sig)

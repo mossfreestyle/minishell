@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:47 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 15:40:32 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/21 14:49:02 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	ft_export(char **args, t_env **envp)
 	{
 		if (!check_error(args[i]))
 			status = print_unset_error(args[i]);
-		handle_export_arg(args[i], envp);
+		else
+			handle_export_arg(args[i], envp);
 	}
 	return (status);
 }

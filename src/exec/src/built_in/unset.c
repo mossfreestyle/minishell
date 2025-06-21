@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 16:47:15 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:49:54 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,30 @@ int	ft_unset(char **args, t_env **envp)
 
 int	check_error(char *arg)
 {
-	int	i;
+	int		i;
+	char	*var_name;
+	char	*equal;
 
+	if (ft_strchr(arg, '='))
+	{
+		equal = ft_strchr(arg, '=');
+		var_name = ft_substr(arg, 0, equal - arg);
+	}
+	else
+		var_name = arg;
 	i = 0;
-	if (arg[0] == '\0')
+	if (!var_name || var_name[0] == '\0')
 		return (0);
-	if (!(ft_isalpha(arg[0]) || arg[0] == 95))
+	if (!(ft_isalpha(var_name[0]) || var_name[0] == '_'))
 		return (0);
-	while (arg[i])
-		if (!(ft_isalnum(arg[i]) || arg[i] == 95))
+	while (var_name[i])
+	{
+		if (!(ft_isalnum(var_name[i]) || var_name[i] == '_'))
 			return (0);
+		i++;
+	}
+	if (var_name != arg)
+		free(var_name);
 	return (1);
 }
 
