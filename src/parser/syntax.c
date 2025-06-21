@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:16:36 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/21 10:48:29 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/21 15:18:30 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,5 @@ bool	parse_pipe(t_token **tokens, t_command **cmd, t_shell *shell)
 	}
 	else if ((*tokens)->type == WORD)
 		parse_args(tokens, *cmd);
-	return (false);
+	return (true);
 }
