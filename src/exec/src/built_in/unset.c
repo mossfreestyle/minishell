@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:19 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/21 14:49:54 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/21 21:11:36 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ int	ft_unset(char **args, t_env **envp)
 		return (0);
 	while (args[++i])
 	{
-		if (find_env_var(*envp, args[i]))
+		if (!check_error(args[i]))
+			continue ;
+		else if (find_env_var(*envp, args[i]))
 			remove_env_var(envp, args[i]);
 	}
 	return (0);

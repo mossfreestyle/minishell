@@ -6,17 +6,19 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 21:39:09 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/21 16:32:32 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/21 21:04:50 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	check_valid(char **args);
+static void	printf_error(char *arg);
 
 int	ft_exit(char **args)
 {
 	int	status;
+	int	valid;
 
 	status = 0;
 	if (!args[1] || args[1][0] == '\0')
@@ -24,77 +26,46 @@ int	ft_exit(char **args)
 		printf("exit\n");
 		return (status);
 	}
-	if (check_valid(args))
+	valid = check_valid(args);
+	if (valid == 255)
 		return (2);
 	if (args[2])
 	{
 		printf("exit\n");
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		status = 1;
-		return (status);
+		return (1);
 	}
-	if (args[1])
-		status = ft_atoi(args[1]);
-	return (status);
+	printf("exit\n");
+	return ((unsigned char)valid);
 }
 
 static int	check_valid(char **args)
 {
-	int	i;
+	int		i;
+	int		out_of_range;
+	long	result;
 
 	i = 0;
+	if (args[1][i] == '+' || args[1][i] == '-')
+		i++;
+	if (args[1][i] == '\0')
+		return (printf_error(args[1]), 255);
 	while (args[1][i])
 	{
 		if (!ft_isdigit(args[1][i]))
-		{
-			printf("exit\n");
-			ft_putstr_fd("minishell: exit: ", 2);
-			printf("%s", args[1]);
-			ft_putstr_fd(": numeric argument required\n", 2);
-			return (2);
-		}
+			return (printf_error(args[1]), 255);
 		i++;
 	}
-	return (0);
+	result = ft_atol(args[1], &out_of_range);
+	if (out_of_range)
+		return (printf_error(args[1]), 255);
+	return (result);
 }
-// static int	check_valid(char **args)
-// {
-//     int		i;
-//     int		out_of_range;
-//     long	result;
 
-//     i = 0;
-//     // Gérer les signes + et -
-//     if (args[1][i] == '+' || args[1][i] == '-')
-//         i++;
-//     if (args[1][i] == '\0') // Juste un signe
-//     {
-//         printf("exit\n");
-//         ft_putstr_fd("minishell: exit: ", 2);
-//         ft_putstr_fd(args[1], 2);
-//         ft_putstr_fd(": numeric argument required\n", 2);
-//         return (255);
-//     }
-//     while (args[1][i])
-//     {
-//         if (!ft_isdigit(args[1][i]))
-//         {
-//             printf("exit\n");
-//             ft_putstr_fd("minishell: exit: ", 2);
-//             ft_putstr_fd(args[1], 2);
-//             ft_putstr_fd(": numeric argument required\n", 2);
-//             return (255);
-//         }
-//         i++;
-//     }
-//     result = ft_atol(args[1], &out_of_range);
-//     if (out_of_range)
-//     {
-//         printf("exit\n");
-//         ft_putstr_fd("minishell: exit: ", 2);
-//         ft_putstr_fd(args[1], 2);
-//         ft_putstr_fd(": numeric argument required\n", 2);
-//         return (255);
-//     }
-//     return (0);
-// }
+static void	printf_error(char *arg)
+{
+	printf("exit\n");
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
+}
