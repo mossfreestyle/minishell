@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:52:12 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/19 14:52:40 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/21 22:38:39 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,25 @@ static void	r_heredoc(t_command *cmd);
 
 void	handle_redirections(t_command *cmd)
 {
-	t_redirect	*redir;
+    t_redirect	*redir;
+    t_redirect	*last_heredoc;
 
-	redir = cmd->redirects;
-	while (redir)
-	{
-		if (redir->type == R_INPUT)
-			r_input(redir);
-		else if (redir->type == R_OUTPUT)
-			r_output(redir);
-		else if (redir->type == R_APPEND)
-			r_append(redir);
-		else if (redir->type == R_HEREDOC)
-			r_heredoc(cmd);
-		redir = redir->next;
-	}
+    redir = cmd->redirects;
+    last_heredoc = NULL;
+    while (redir)
+    {
+        if (redir->type == R_INPUT)
+            r_input(redir);
+        else if (redir->type == R_OUTPUT)
+            r_output(redir);
+        else if (redir->type == R_APPEND)
+            r_append(redir);
+        else if (redir->type == R_HEREDOC)
+            last_heredoc = redir;
+        redir = redir->next;
+    }
+    if (last_heredoc)
+        r_heredoc(cmd);
 }
 
 static void	r_input(t_redirect *redir)

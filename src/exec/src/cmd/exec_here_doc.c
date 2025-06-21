@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:14:03 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 15:27:52 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/21 22:40:20 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ int	exec_here_doc(t_command *cmd, t_redirect *redir)
 {
 	int		heredoc_pipe[2];
 	char	*line;
-
+	
+	if (cmd->heredoc_fd != -1)
+        close(cmd->heredoc_fd); //a voir si garder ou pas ce if
 	if (pipe(heredoc_pipe) == -1)
 		return (perror("pipe"), -1);
 	line = NULL;

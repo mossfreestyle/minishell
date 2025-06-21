@@ -11,15 +11,6 @@
 //faire attention a appeller cmd quand je parcours avec et pas sehll->list
 
 
-Gestion de l’environnement
-
-Dans setenv_lst, tu ajoutes le nouveau noeud en tête de liste mais tu n’affectes pas *env_vars = new_node;.
-Corrige comme ceci :
-// filepath: /home/mfernand/c/minishell/src/utils/env.c
-new_node->next = *env_vars;
-*env_vars = new_node;
-
-
 
 
 Builtins dans un pipeline
@@ -43,7 +34,15 @@ Tu ignores SIGQUIT dans le shell principal, mais il faudrait le réactiver dans 
 
 
 
-// exemple a gerer : < Makefile
+// exemple a gerer : 
+
+
+< Makefile
+
+minishell$ << a << b << c
+dup2: Bad file descriptor
+bash-5.1$ << a << b << c
+>
 
 👇​👇​👇​👇​👇​👇​👇​
 valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes --track-origins=yes --log-file=valgrind.log --suppressions=readline.supp ./minishell
