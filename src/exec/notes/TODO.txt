@@ -28,13 +28,16 @@ Tu ignores SIGQUIT dans le shell principal, mais il faudrait le réactiver dans 
 
 //fix multi heredoc
 
-//fix builtin pas en premier
-
 //normal reachable dans exit et ctrl d ?????
 
 
 
 // exemple a gerer : 
+
+
+
+//gerer si return d exit = 1 ne pas return, il faut exit contition dans exec built in pas bonne
+
 
 
 < Makefile
@@ -43,6 +46,66 @@ minishell$ << a << b << c
 dup2: Bad file descriptor
 bash-5.1$ << a << b << c
 >
+
+//faire les redirections et verif si il y a une commande valide apres
+
+//peut etre proteger l appel a find path
+
+
+
+//heredoc
+
+bash-5.1$ << $USER
+> mfernand
+> USR
+> $USR
+bash-5.1$ << $"USER"
+> mfernd
+> mfernand
+> USR
+bash-5.1$ << $'USER'
+> USR
+bash-5.1$ 
+
+
+bash-5.1$ << eof cat
+> $USER
+> eof
+mfernand
+bash-5.1$ << "eof" cat
+> $USER
+> eof
+$USER
+bash-5.1$ << 'eof' cat
+> $USER
+> eof
+$USER
+bash-5.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 👇​👇​👇​👇​👇​👇​👇​
 valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes --track-origins=yes --log-file=valgrind.log --suppressions=readline.supp ./minishell
@@ -68,11 +131,3 @@ Réduit le bruit lors de l’utilisation de fork/exec (utile pour les shells).
 --error-exitcode=42
 Fait échouer le script si une erreur mémoire est détectée (utile en CI).
 
-
-
-
-
-minishell$ < cat | Makefile 
-cat: No such file or directory
-minishell: Bad file descriptor
-minishell: Bad file descriptor

@@ -47,12 +47,13 @@
 ### pwd
 ✅ pwd - Affiche le répertoire courant
 ✅ pwd avec options - Refuse les options (message d'erreur conforme bash)
+✅ pwd - et pwd -- acceptés (comportement bash)
 
 ### export
 ✅ export sans argument - Affiche les variables exportées
 ✅ export VAR - Variable sans valeur ajoutée/exportée (flag exported)
 ✅ export VAR=value - Ajoute/modifie variable
-✅ Format de sortie - Affiche `export VAR="value"` ou `export VAR` (conforme moulinette 42 et à ton bash)
+✅ Format de sortie - Affiche `export VAR="value"` ou `export VAR` (conforme moulinette 42 et bash)
 ✅ Gestion erreurs identifiants - check_error() conforme bash (message et code retour)
 ✅ Pas de tri alphabétique - conforme au sujet 42 (affichage dans l'ordre de la liste chaînée)
 
@@ -133,7 +134,7 @@
 ✅ Messages d'erreur pour identifiants invalides
 
 ### 4. Gestion des Erreurs (MEDIUM PRIORITY)
-❌ Messages d'erreur pas identiques à bash partout
+❌ Messages d'erreur pas identiques à bash partout (ex: préfixes, ponctuation)
 ❌ Codes de sortie incorrects dans certains cas
 
 ### 5. Parser (MEDIUM PRIORITY)
@@ -147,7 +148,7 @@
 
 ## 📊 RÉSUMÉ
 
-### ✅ FONCTIONNEL (Estimation: 85%)
+### ✅ FONCTIONNEL (Estimation: 90%)
 - Structure générale du shell
 - Built-ins de base
 - Pipes simples et multiples  
@@ -155,58 +156,25 @@
 - Variables d'environnement basiques
 - Parsing basique
 
-### ❌ À CORRIGER (Estimation: 15%)
-- Gestion des erreurs complète
+### ❌ À CORRIGER (Estimation: 10%)
+- Gestion des erreurs complète (messages et codes)
 - Heredoc avancé
-- Messages d'erreur bash-compliant
+- Messages d'erreur bash-compliant (ponctuation, préfixes, etc.)
 
 ### 🎯 PRIORITÉS POUR PASSER LES TESTS
 
-1. **CRITIQUE**: Corriger export (validation)
-2. **IMPORTANT**: Messages d'erreur conformes à bash
+1. **CRITIQUE**: Corriger export (validation) [OK]
+2. **IMPORTANT**: Messages d'erreur conformes à bash (ponctuation, préfixes, stderr)
 3. **MOYEN**: Heredoc avec expansion
 
 Le projet est globalement bien structuré mais nécessite des corrections 
 sur les built-ins et la gestion des erreurs pour être 100% conforme aux spécifications bash.
 
-### On gere pas 
+### On ne gère pas / limitations (assumées)
 
-export :
-✅ Le tri alphabétique (affichage dans l'ordre de la liste chaînée).
-pwd :
-✅ pwd avec options - Refuse les options (message d'erreur)
-
-
-
-echo $$ ou plus : 
-pas gerer car pas de getpid autorise;
-
-
-$UID : 
-pas gerer car pas de getuid autorise;
-
-
-IO_number;
-
-
-
-caracteres non gere : 
-
-
-&, (), ; *
-
-
-
-cd : pas gere cas ou  le dossier courant a été supprimé et que on veut remonter dans le dossier parent
-
-bash-5.1$ mkdir -p a/b
-bash-5.1$ cd a/b
-bash-5.1$ rm -r ../../a
-bash-5.1$ cd ..
-bash: cd: ..: No such file or directory
-bash-5.1$ cd ..
-bash: cd: ..: No such file or directory
-bash-5.1$ pwd
-pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
-bash-5.1$ cd ..
-chdir: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+- echo $$, $UID, $PPID : non géré (getpid/getuid non autorisé)
+- IO_number : non géré
+- Caractères non gérés : &, (), ;, *
+- cd : pas géré cas où le dossier courant a été supprimé et qu'on veut remonter dans le dossier parent (message "chdir: error retrieving..." non affiché)
+- Paramètres positionnels ($0, $1, ...) non gérés
+- Certaines erreurs de permissions/redirections avancées non gérées

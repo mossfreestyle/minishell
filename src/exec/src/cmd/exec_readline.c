@@ -6,15 +6,15 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/22 12:58:14 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/22 21:05:50 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	exec_last_command(t_command *cmd, t_shell *shell);
-static int	exec_last_builtin(t_shell *shell, t_command *cmd);
-static int	exec_last_external(t_shell *shell, t_command *cmd);
+static int	exec_one_command(t_command *cmd, t_shell *shell);
+static int	exec_one_builtin(t_shell *shell, t_command *cmd);
+static int	exec_one_cmd(t_shell *shell, t_command *cmd);
 
 int	exec_readline(t_shell *shell)
 {
@@ -38,25 +38,25 @@ int	exec_readline(t_shell *shell)
 	if (!shell->cmd_list)
 		return (0);
 	if (!shell->cmd_list->next)
-		shell->exit_status = exec_last_command(shell->cmd_list, shell);
+		shell->exit_status = exec_one_command(shell->cmd_list, shell);
 	else
 		shell->exit_status = exec_commands(shell);
 	return (shell->exit_status);
 }
 
-static int	exec_last_command(t_command *cmd, t_shell *shell)
+static int	exec_one_command(t_command *cmd, t_shell *shell)
 {
 	while (cmd && cmd->next)
 		cmd = cmd->next;
 	if (!cmd)
 		return (1);
 	if (is_builtin(shell->av[0]))
-		return (exec_last_builtin(shell, cmd));
+		return (exec_one_builtin(shell, cmd));
 	else
-		return (exec_last_external(shell, cmd));
+		return (exec_one_cmd(shell, cmd));
 }
 
-static int	exec_last_builtin(t_shell *shell, t_command *cmd)
+static int	exec_one_builtin(t_shell *shell, t_command *cmd)
 {
 	int	status;
 
@@ -66,7 +66,7 @@ static int	exec_last_builtin(t_shell *shell, t_command *cmd)
 	return (status);
 }
 
-static int	exec_last_external(t_shell *shell, t_command *cmd)
+static int	exec_one_cmd(t_shell *shell, t_command *cmd)
 {
 	pid_t	pid;
 	int		status;
