@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:45 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/22 15:08:24 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:10:08 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	ft_pwd(t_shell *shell, t_command *cmd)
 {
 	char	tab[PATH_MAX];
 
-	if ((cmd->args && cmd->args[1]))
-		return (ft_putendl_fd("minishell: pwd: too many arguments", 2), 1);
+	if (cmd->args[1] && cmd->args[1][0] == '-' && cmd->args[1][1] != '\0')
+		return (ft_putendl_fd("minishell: pwd: no option is allowed", 2), 1);
 	if (getcwd(tab, sizeof(tab)) != NULL)
 	{
 		free(shell->pwd);
@@ -26,9 +26,7 @@ int	ft_pwd(t_shell *shell, t_command *cmd)
 		return (0);
 	}
 	else
-		ft_putstr_fd("minishell: pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n",
+		ft_putstr_fd("pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n",
 			2);
 	return (1);
 }
-
-
