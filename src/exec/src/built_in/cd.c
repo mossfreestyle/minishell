@@ -6,15 +6,16 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:43 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/22 12:33:11 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/22 16:37:37 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../../include/minishell.h"
 
 static char	*get_env_value(t_env *env, const char *name);
-static void	update_pwd(t_shell *shell, char *oldpwd);
+static int	update_pwd(t_shell *shell, char *oldpwd, char **args);
 static void	set_env_value(t_env **env, const char *name, const char *value);
+static void	printf_error(char *name);
 
 int	ft_cd(char **args, t_shell *shell)
 {
@@ -39,10 +40,8 @@ int	ft_cd(char **args, t_shell *shell)
 	else
 		path = args[1];
 	if (!path || access(path, X_OK) || chdir(path))
-		return (perror("minishell: cd"), 1);
-	if (update_pwd(shell, oldpwd), args[1] && !ft_strcmp(args[1], "-"))
-		printf("%s\n", shell->pwd);
-	return (0);
+		return (printf_error(path), 1);
+	return (update_pwd(shell, oldpwd, args));
 }
 
 static char	*get_env_value(t_env *env, const char *name)
@@ -56,7 +55,7 @@ static char	*get_env_value(t_env *env, const char *name)
 	return (NULL);
 }
 
-static void	update_pwd(t_shell *shell, char *oldpwd)
+static int	update_pwd(t_shell *shell, char *oldpwd, char **args)
 {
 	char	*newpwd;
 
@@ -68,9 +67,13 @@ static void	update_pwd(t_shell *shell, char *oldpwd)
 		shell->pwd = ft_strdup(newpwd);
 		set_env_value(&shell->env_vars, "PWD", newpwd);
 		free(newpwd);
+		if (args[1] && !ft_strcmp(args[1], "-"))
+			printf("%s\n", shell->pwd);
+		return (0);
 	}
 	else
-		perror("minishell: cd: getcwd");
+		return (ft_putstr_fd("minishell: cd: ..: No such file or directory\n",
+				2), 1);
 }
 
 static void	set_env_value(t_env **env, const char *name, const char *value)
@@ -102,3 +105,38 @@ static void	set_env_value(t_env **env, const char *name, const char *value)
 	else
 		tmp->next = new;
 }
+
+static void	printf_error(char *name)
+{
+	struct stat	st;
+
+	ft_putstr_fd("minishell: cd: ", 2);
+	if (name && name[0])
+		ft_putstr_fd(name, 2);
+	else
+		ft_putstr_fd("unknown", 2);
+	if (!name || stat(name, &st) == -1)
+		ft_putstr_fd(": No such file or directory\n", 2);
+	else if (!S_ISDIR(st.st_mode))
+		ft_putstr_fd(": Not a directory\n", 2);
+	else
+		ft_putstr_fd(": Permission denied\n", 2);
+}
+
+/*
+	Test :
+
+	mkdir a
+$> mkdir a/b
+$> cd a/b
+$> rm -r ../../a
+$> cd ..
+
+	Message attendu : chdir: error retrieving current directory:
+	getcwd: cannot access parent directories: No such file or directory
+
+a fix mais normalement bon
+
+
+
+*/
