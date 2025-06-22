@@ -175,3 +175,12 @@ export :
 ✅ Le tri alphabétique (affichage dans l'ordre de la liste chaînée).
 pwd :
 ✅ pwd avec options - Refuse les options (message d'erreur)
+
+
+
+echo $$ ou plus : 
+pas gerer car pas de getpid autorise;
+
+
+$UID : 
+pas gerer car pas de getuid autorise;

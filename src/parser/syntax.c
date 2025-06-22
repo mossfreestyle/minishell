@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:16:36 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/21 20:03:18 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/22 11:51:10 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ bool	parse_redirects(t_token **tokens, t_command *cmd, t_shell *shell)
 
 	if (!(*tokens)->next || (*tokens)->next->type != WORD)
 	{
-		err_msg(NULL, "syntax error near unexpected token", shell, 2);
+		err_msg(NULL, "syntax error near unexpected token `newline'", shell, 2);
 		return (false);
 	}
 	new_redirect = init_redirect(*tokens);
