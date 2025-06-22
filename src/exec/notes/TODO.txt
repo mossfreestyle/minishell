@@ -67,3 +67,12 @@ Réduit le bruit lors de l’utilisation de fork/exec (utile pour les shells).
 
 --error-exitcode=42
 Fait échouer le script si une erreur mémoire est détectée (utile en CI).
+
+
+
+
+
+minishell$ < cat | Makefile 
+cat: No such file or directory
+minishell: Bad file descriptor
+minishell: Bad file descriptor

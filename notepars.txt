@@ -184,3 +184,13 @@ pas gerer car pas de getpid autorise;
 
 $UID : 
 pas gerer car pas de getuid autorise;
+
+
+IO_number;
+
+
+
+caracteres non gere : 
+
+
+&, (), ; *

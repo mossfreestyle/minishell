@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/21 22:06:56 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/22 12:58:14 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static int	exec_last_command(t_command *cmd, t_shell *shell);
 static int	exec_last_builtin(t_shell *shell, t_command *cmd);
 static int	exec_last_external(t_shell *shell, t_command *cmd);
-static void	print_error(char *name);
 
 int	exec_readline(t_shell *shell)
 {
@@ -96,7 +95,7 @@ static int	exec_last_external(t_shell *shell, t_command *cmd)
 	return (shell->exit_status);
 }
 
-static void	print_error(char *name)
+void	print_error(char *name)
 {
 	ft_putstr_fd("minishell: ", 2);
 	if (name && name[0])

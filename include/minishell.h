@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/21 20:43:12 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/22 12:57:26 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ char							*add_char(char *line, int *i, char *value);
 /* Main Execution */
 int								exec_readline(t_shell *shell);
 int								exec_commands(t_shell *shell);
+void							print_error(char *name);
 
 /* Builtins */
 int								is_builtin(char *name);

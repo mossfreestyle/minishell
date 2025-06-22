@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:46:17 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/21 20:01:20 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/22 13:00:00 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	error(char **envp, char *full_path, t_shell *shell, int flag)
 	if (flag)
 	{
 		close_all_pipes(shell);
-		perror("minishell");
+		print_error(shell->cmd_list->name);
 		exit(127);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 23:58:18 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/19 13:11:11 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/22 12:46:49 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*find_path(char *cmd, char **envp)
 	char	*path_cmd;
 	int		i;
 
+	if (!cmd)
+		return (NULL);
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
