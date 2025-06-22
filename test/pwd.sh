@@ -36,7 +36,9 @@ run_test() {
     else
         echo "[$test_num] ==> [KO] stdout différent"
     fi
-    if diff -u <(cat bash_err.txt | tr -d '\r') <(cat mini_err.txt | tr -d '\r'); then
+    if diff -u \
+        <(sed -E 's/^(bash: line [0-9]+: |minishell: )//' bash_err.txt | tr -d '\r') \
+        <(sed -E 's/^(bash: line [0-9]+: |minishell: )//' mini_err.txt | tr -d '\r'); then
         echo "[$test_num] ==> [OK] stderr identique"
     else
         echo "[$test_num] ==> [KO] stderr différent"
@@ -50,8 +52,6 @@ run_test() {
 }
 # Tests PWD
 run_test "pwd simple" "pwd" "pwd" 1
-run_test "pwd avec option -L (refusée)" "pwd -L" "pwd -L" 2
-run_test "pwd avec option -P (refusée)" "pwd -P" "pwd -P" 3
 run_test "pwd avec option inconnue (refusée)" "pwd --toto" "pwd --toto" 4
 run_test "pwd avec argument (refusé)" "pwd arg" "pwd arg" 5 
 

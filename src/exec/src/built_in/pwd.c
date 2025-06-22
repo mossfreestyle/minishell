@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:45 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/22 17:10:08 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/22 17:51:04 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,15 @@ int	ft_pwd(t_shell *shell, t_command *cmd)
 {
 	char	tab[PATH_MAX];
 
-	if (cmd->args[1] && cmd->args[1][0] == '-' && cmd->args[1][1] != '\0')
-		return (ft_putendl_fd("minishell: pwd: no option is allowed", 2), 1);
+	if (cmd->args[1] && cmd->args[1][0] == '-' && !(cmd->args[1][1] == '\0'
+			|| (cmd->args[1][1] == '-' && cmd->args[1][2] == '\0')))
+	{
+		ft_putstr_fd("minishell: pwd: ", 2);
+		ft_putchar_fd(cmd->args[1][0], 2);
+		ft_putchar_fd(cmd->args[1][1], 2);
+		ft_putstr_fd(": invalid option\npwd: usage: pwd [-LP]\n", 2);
+		return (2);
+	}
 	if (getcwd(tab, sizeof(tab)) != NULL)
 	{
 		free(shell->pwd);
