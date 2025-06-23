@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:52:12 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/22 12:31:20 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:34:51 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	handle_redirections(t_command *cmd)
 	t_redirect	*redir;
 	t_redirect	*last_heredoc;
 
+	if (!cmd || !cmd->name)
+		return ; 
 	redir = cmd->redirects;
 	last_heredoc = NULL;
 	while (redir)

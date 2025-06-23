@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/22 12:57:26 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 11:47:13 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,4 +206,9 @@ void							exec_signals(int sig);
 void							handle_eof(t_shell *shell);
 void							setup_signals(void);
 
+
+
+//DEBUG////
+void							print_tokens(t_token *tokens);
+void							print_command(t_command *cmd);
 #endif

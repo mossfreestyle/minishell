@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/23 10:07:14 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 11:44:52 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	exec_readline(t_shell *shell)
 	t_redirect	*redir;
 
 	if (!shell->cmd_list || !shell->cmd_list->name)
-		return (0);
+		return (0); //a verif
 	cmd = shell->cmd_list;
 	while (cmd)
 	{

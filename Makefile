@@ -67,6 +67,7 @@ UTILS_FILES	= free.c \
 			  utils_str.c \
 			  signals.c \
 			  init.c \
+			  debug.c 
 
 BUILTIN_FILES = cd.c \
                 echo.c \
