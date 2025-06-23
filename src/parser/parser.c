@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 10:31:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/21 20:02:06 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 11:54:49 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,23 @@ t_command	*parser(char *line, t_shell *shell)
 {
 	t_token		*tokens;
 	t_command	*head;
+	char		*trimmed;
 
+	trimmed = ft_strtrim(line, " \t");
+	if (!trimmed)
+		return (NULL);
+	if (ft_strcmp(trimmed, "!") == 0)
+	{
+		free(trimmed);
+		return (NULL);
+	}
+	if (ft_strcmp(trimmed, ":") == 0)
+	{
+		free(trimmed);
+		shell->exit_status = 0;
+		return (NULL);
+	}
+	free(trimmed);
 	tokens = lexer(line, shell);
 	if (!tokens)
 		return (NULL);
