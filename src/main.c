@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/23 17:03:35 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 20:36:53 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,12 @@ static void	minishell(char *line, t_shell *shell)
 	if (!cmd->next && is_builtin(cmd->name))
 		shell->exit_status = exec_built_in(cmd, shell);
 	else if (!cmd->next && !cmd->name && cmd->redirects)
-		handle_redirections(cmd);
+	{
+		if (cmd->redirects->type == R_HEREDOC)
+			exec_here_doc(cmd, cmd->redirects, shell);
+		else
+			handle_redirections(cmd);
+	}
 	else
     {
         int ret = exec_readline(shell);
