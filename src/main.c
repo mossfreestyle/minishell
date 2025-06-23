@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/23 21:03:32 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:16:02 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@
 // 	return (prompt);
 // }
 
-static int	res_readline(int ret, t_command *cmd, t_shell *shell)
+static int	res_readline(int res, t_command *cmd, t_shell *shell)
 {
-	if (ret == -1)
+	if (res == -1)
 	{
 		free_commands(cmd);
 		shell->cmd_list = NULL;
@@ -78,9 +78,9 @@ static char	*get_input(t_shell *shell)
 static void	minishell(char *line, t_shell *shell)
 {
 	t_command	*cmd;
-	int			ret;
+	int			res;
 
-	ret = 0;
+	res = 0;
 	cmd = parser(line, shell);
 	if (!cmd)
 		return ;
@@ -96,8 +96,8 @@ static void	minishell(char *line, t_shell *shell)
 	}
 	else
 	{
-		ret = exec_readline(shell);
-		if (res_readline(ret, cmd, shell) == -1)
+		res = exec_readline(shell);
+		if (res_readline(res, cmd, shell) == -1)
 			return ;
 	}
 	free_commands(cmd);

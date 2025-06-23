@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/23 21:22:58 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 21:57:53 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int								print_env(t_env *envp);
 char							*find_path(char *cmd, char **envp);
 char							*link_path(char **path_lst, char *path_cmd,
 									char *cmd);
-void							handle_redirections(t_command *cmd);
+int								handle_redirections(t_command *cmd);
 void							cmd_not_found(char **envp, t_shell *shell);
 void							check_pid(int pid, t_shell *shell);
 

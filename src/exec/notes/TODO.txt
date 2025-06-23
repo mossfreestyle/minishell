@@ -35,72 +35,46 @@ Tu ignores SIGQUIT dans le shell principal, mais il faudrait le réactiver dans 
 // exemple a gerer : 
 
 
+< Makefile > p //doit creer p
 
-//gerer si return d exit = 1 ne pas return, il faut exit contition dans exec built in pas bonne
-
-< Makefile > p
-
-< Makefile
 
 minishell$ << a << b << c
-dup2: Bad file descriptor
+> a
+minishell$ 
 bash-5.1$ << a << b << c
 >
-
-//faire les redirections et verif si il y a une commande valide apres
 
 //peut etre proteger l appel a find path
 
 
 
-//heredoc
-
-bash-5.1$ << $USER
-> mfernand
-> USR
-> $USR
-bash-5.1$ << $"USER"
-> mfernd
-> mfernand
-> USR
-bash-5.1$ << $'USER'
-> USR
-bash-5.1$ 
-
-
-bash-5.1$ << eof cat
-> $USER
-> eof
-mfernand
-bash-5.1$ << "eof" cat
-> $USER
-> eof
-$USER
-bash-5.1$ << 'eof' cat
-> $USER
-> eof
-$USER
-bash-5.1
 
 
 
 
+echo test > file1 > file2
+cat file2
+# Attendu : "test" dans file2, file1 vide ou inexistant
 
 
 
+echo foo > file1 >> file2
+cat file2
+# Attendu : "foo" ajouté à la fin de file2
 
 
+echo bar > file1 < file2
+# Attendu : file1 contient "bar", file2 n'est pas modifié
 
 
+///////////////////////////////////
 
 
+echo test > /dev/null
+# Attendu : rien dans le terminal, pas d'erreur
 
-
-
-
-
-
-
+echo test > /dev/full
+# Attendu : message d'erreur "No space left on device"
 
 
 
@@ -114,39 +88,16 @@ valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fd
 
 
 
-Oui, voici d’autres options utiles pour valgrind :
-
---track-origins=yes
-Affiche l’origine des valeurs non initialisées (très utile pour les erreurs "uninitialised value").
-
---log-file=valgrind.log
-Redirige la sortie de valgrind dans un fichier (pratique pour relire les rapports).
-
---child-silent-after-fork=yes
-Réduit le bruit lors de l’utilisation de fork/exec (utile pour les shells).
-
---show-leak-kinds=all
-(Déjà présent) Affiche tous les types de fuites.
-
---error-exitcode=42
-Fait échouer le script si une erreur mémoire est détectée (utile en CI).
 
 
-
-
-CTRL + C dans heredoc et ctrl D doit renvoyer une erreur //fix
 leak
-norm
 generakliser msg erreur
 gerer les bon exit status
 gerer les double prompt
+gerer le comportement un peu indefini de controle c dans heredoc exemple en bas
 rendre le readline beau
 
 
-
-
-
-minishell$ << eof doit creer une readline //fix
 
 //refaire plein de test de here_doc
 
@@ -177,3 +128,9 @@ minishell$ << eof
 > 
 minishell$ ^C
 minishell$ 
+
+
+bash-5.1$ < cat > p
+bash: cat: No such file or directory
+bash-5.1$ ./minishell 
+minishell$ < cat > p

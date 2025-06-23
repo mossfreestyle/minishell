@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:46:17 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/23 20:57:44 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 21:49:16 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,12 @@ static void	exec_child(t_shell *sh, t_command *cmd, int i, char *path)
 	if (cmd->next && sh->pipeline.n_pipes > 0 && dup2(sh->pipeline.pipefd[i][1],
 		STDOUT_FILENO) == -1)
 		error(envp, path, sh, 1);
-	handle_redirections(cmd);
+	if (handle_redirections(cmd) == -1)
+	{
+		free(path);
+		free(envp);
+		exit(1);
+	}
 	close_all_pipes(sh);
 	exec(cmd, envp, path, sh);
 	error(envp, path, sh, 1);

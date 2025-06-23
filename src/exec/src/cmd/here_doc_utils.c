@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:46:40 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/23 21:24:18 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 21:58:01 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,12 @@ int	is_here_doc(char *name)
 
 void	finish_exec(t_command *cmd, char *path, char **envp)
 {
-	handle_redirections(cmd);
+	if (handle_redirections(cmd) == -1)
+	{
+		free_array(envp);
+		free(path);
+		exit(1);
+	}
 	execve(path, cmd->args, envp);
 	print_error(cmd->name);
 	free_array(envp);

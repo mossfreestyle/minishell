@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:50 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/18 16:46:50 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:24:55 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,53 @@ int	ft_echo(char **args)
 {
 	int	i;
 	int	nl;
+	int	res;
 
-	i = 1;
+	i = 0;
 	nl = 1;
-	while (args[i] && is_n_option(args[i]))
-	{
+	res = 0;
+	while (args[++i] && is_n_option(args[i]))
 		nl = 0;
-		i++;
-	}
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		if (printf("%s", args[i]) < 0)
+			res = 1;
 		if (args[i + 1])
-			printf(" ");
+			if (printf(" ") < 0)
+				res = 1;
 		i++;
 	}
 	if (nl)
-		printf("\n");
-	return (0);
+		if (printf("\n") < 0)
+			res = 1;
+	if (res)
+		perror("echo");
+	return (res);
 }
+
+// int	ft_echo(char **args)
+// {
+// 	int	i;
+// 	int	nl;
+
+// 	i = 1;
+// 	nl = 1;
+// 	while (args[i] && is_n_option(args[i]))
+// 	{
+// 		nl = 0;		--> sans verif de printf
+// 		i++;
+// 	}
+// 	while (args[i])
+// 	{
+// 		printf("%s", args[i]);
+// 		if (args[i + 1])
+// 			printf(" ");
+// 		i++;
+// 	}
+// 	if (nl)
+// 		printf("\n");
+// 	return (0);
+// }
 
 static int	is_n_option(const char *str)
 {

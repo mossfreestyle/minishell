@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/23 21:24:01 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 21:59:23 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ static int	exec_one_builtin(t_shell *shell, t_command *cmd)
 {
 	int	status;
 
-	handle_redirections(cmd);
+	if (handle_redirections(cmd) == -1)
+		return (1);
 	status = exec_built_in(cmd, shell);
 	shell->exit_status = status;
 	return (status);
