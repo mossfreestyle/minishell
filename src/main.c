@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/22 17:03:20 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:05:20 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static void	minishell(char *line, t_shell *shell)
 	cmd = parser(line, shell);
 	if (!cmd)
 		return ;
+	//print_command(cmd);
 	shell->cmd_list = cmd;
 	if (!cmd->next && is_builtin(cmd->name))
 		shell->exit_status = exec_built_in(cmd, shell);
