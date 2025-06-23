@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 21:39:09 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/21 22:06:52 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:55:12 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_exit(char **args)
 	{
 		printf("exit\n");
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		return (1);
+		return (1000);
 	}
 	printf("exit\n");
 	return ((unsigned char)valid);

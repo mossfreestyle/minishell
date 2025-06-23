@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:46:17 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/23 11:41:28 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:28:16 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,14 @@ static void	exec_child(t_shell *sh, t_command *cmd, int i, char *path)
 {
 	char	**envp;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	envp = env_list_to_array(sh->env_vars);
 	if (i > 0 && sh->pipeline.n_pipes > 0 && dup2(sh->pipeline.pipefd[i - 1][0],
-		STDIN_FILENO) == -1)
+			STDIN_FILENO) == -1)
 		error(envp, path, sh, 1);
 	if (cmd->next && sh->pipeline.n_pipes > 0 && dup2(sh->pipeline.pipefd[i][1],
-		STDOUT_FILENO) == -1)
+			STDOUT_FILENO) == -1)
 		error(envp, path, sh, 1);
 	handle_redirections(cmd);
 	close_all_pipes(sh);
@@ -65,8 +67,12 @@ static void	close_and_wait(t_shell *shell, int status)
 {
 	close_all_pipes(shell);
 	while (wait(&status) > 0)
+	{
 		if (WIFEXITED(status))
 			shell->exit_status = WEXITSTATUS(status);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
+	}
 }
 
 static void	error(char **envp, char *full_path, t_shell *shell, int flag)

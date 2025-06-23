@@ -131,3 +131,16 @@ Réduit le bruit lors de l’utilisation de fork/exec (utile pour les shells).
 --error-exitcode=42
 Fait échouer le script si une erreur mémoire est détectée (utile en CI).
 
+CTRL + C dans heredoc et ctrl D doit renvoyer une erreur
+leak
+norm
+generakliser msg erreur
+gerer les bon exit status
+gerer les double prompt
+rendre le readline beau
+
+
+
+
+
+minishell$ << eof doit creer une readline

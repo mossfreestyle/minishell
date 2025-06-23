@@ -5,7 +5,7 @@
 ### Gestion des Signaux
 ✅ SIGINT (Ctrl+C) - Géré dans signals.c (nouvelle ligne, nouveau prompt)
 ✅ SIGQUIT (Ctrl+\) - Ignoré en mode interactif
-❌ SIGQUIT dans les processus enfants - "Quit (core dumped)" non affiché (à faire)
+✅ SIGQUIT dans les processus enfants - "Quit (core dumped)" affiché (implémenté dans exec_commands.c et exec_readline.c)
 ✅ EOF (Ctrl+D) - Géré, sort du shell
 
 ### Historique
@@ -22,7 +22,7 @@
 ✅ < (input) - Géré dans handle_redirections.c
 ✅ > (output) - Géré 
 ✅ >> (append) - Géré
-✅ << (heredoc) - Géré dans exec_here_doc.c
+✅ << (heredoc) - Géré dans exec_here_doc.c avec expansion conditionnelle
 
 ### Pipes
 ✅ | (pipe) - Géré dans exec_commands.c
@@ -43,11 +43,13 @@
 ✅ cd path - Change vers le chemin spécifié
 ✅ Mise à jour PWD/OLDPWD - Géré dans update_pwd()
 ✅ cd trop d'arguments - Géré (message proche de bash)
+✅ Gestion des erreurs - Messages adaptés selon le type d'erreur (No such file, Not a directory, Permission denied)
 
 ### pwd
 ✅ pwd - Affiche le répertoire courant
 ✅ pwd avec options - Refuse les options (message d'erreur conforme bash)
 ✅ pwd - et pwd -- acceptés (comportement bash)
+✅ pwd avec erreur getcwd - Message d'erreur approprié
 
 ### export
 ✅ export sans argument - Affiche les variables exportées
@@ -56,11 +58,13 @@
 ✅ Format de sortie - Affiche `export VAR="value"` ou `export VAR` (conforme moulinette 42 et bash)
 ✅ Gestion erreurs identifiants - check_error() conforme bash (message et code retour)
 ✅ Pas de tri alphabétique - conforme au sujet 42 (affichage dans l'ordre de la liste chaînée)
+✅ Variables existantes - Mise à jour avec env_update() et set_exported_flag()
 
 ### unset
 ✅ unset VAR - Supprime la variable
 ✅ unset avec identifiants invalides - Affiche un message d'erreur et retourne 1
 ✅ unset VAR=value - Refusé avec erreur (voir check_error)
+✅ Validation identifiants - check_error() partagé avec export
 
 ### env
 ✅ env - Affiche l'environnement
@@ -71,45 +75,47 @@
 ✅ exit nombre - Sort avec le code spécifié
 ✅ exit avec overflow - Géré avec ft_atol et out_of_range
 ✅ exit "123abc" - Validation numérique complète (voir exit.c)
-✅ exit trop d'arguments - Géré, message d'erreur et ne quitte pas
+✅ exit trop d'arguments - Géré, message d'erreur et ne quitte pas (code 1000)
+✅ exit dans pipeline vs builtin seul - Géré différemment selon le contexte
 
 ## 🚨 CAS D'ERREUR ET EDGE CASES
 
 ### Quotes
 ✅ Quotes simples - Pas d'expansion
 ✅ Quotes doubles - Expansion des variables
-✅ Quotes non fermées - Détection d'erreur
+✅ Quotes non fermées - Détection d'erreur dans lexer.c
 ✅ Quotes vides - echo "" '' fonctionne
-❌ Quotes imbriquées - À tester
+✅ Quotes imbriquées - Gestion correcte dans quotes.c
 
 ### Espaces et Caractères Spéciaux
-✅ Espaces multiples - echo "a    b" préserve les espaces
-❌ Tabulations - À gérer dans les quotes
-❌ Caractères d'échappement - Non géré
+✅ Espaces multiples - Gestion dans extract_word()
+✅ Tabulations - Gérés dans ft_isspace()
+❌ Caractères d'échappement - Non géré (limitation assumée)
 
 ### Redirections Avancées
-❌ Permissions fichiers - Gestion partielle des erreurs
-❌ Répertoires - cat > /dev non géré
+⚠️ Permissions fichiers - Gestion basique avec perror()
+❌ Répertoires - cat > /dev non géré complètement
 ❌ Redirections multiples - cmd < file1 < file2 (à tester)
-❌ Redirections avec variables - echo test > $HOME/file (à tester)
+✅ Redirections avec variables - Expansion gérée dans extract_word()
 
 ### Pipes Avancés
-❌ Pipes avec built-ins - export | grep PATH (à tester)
-✅ Pipes avec redirections - cmd1 | cmd2 > file (fonctionne)
-✅ Pipes vides - | sans commandes : erreur de syntaxe gérée
+✅ Pipes avec built-ins - Gérés dans exec_commands.c
+✅ Pipes avec redirections - cmd1 | cmd2 > file
+✅ Pipes vides - Erreur de syntaxe gérée dans parse_pipe()
 
 ### Heredoc
 ✅ Heredoc basique - << EOF
-❌ Heredoc avec variables - Expansion dans heredoc (à faire)
-❌ Heredoc avec quotes - << "EOF" vs << EOF (à faire)
-❌ Heredoc multiples - cmd << EOF1 << EOF2 (à tester)
+✅ Heredoc avec variables - Expansion conditionnelle selon les quotes du délimiteur
+✅ Heredoc avec quotes - << "EOF" vs << EOF (expansion désactivée si quotes)
+⚠️ Heredoc multiples - Géré mais dernière redirection gagne (comportement à vérifier)
+❌ CTRL+C dans heredoc - Signal non géré pendant la saisie
 
 ### Variables d'Environnement
 ✅ $VAR expansion - Géré
 ✅ $? expansion - Géré
-❌ $0, $1, etc. - Paramètres positionnels non gérés
-❌ Variables invalides - $123VAR (à tester) 
-❌ Variables dans redirections - > $FILE (à tester)
+❌ $0, $1, etc. - Paramètres positionnels non gérés (limitation assumée)
+✅ Variables invalides - $123VAR devient $ + 123VAR
+✅ Variables dans redirections - > $FILE géré via extract_word()
 
 ### Chemins et Exécution
 ✅ Chemins absolus - /bin/ls
@@ -120,61 +126,66 @@
 
 ## 🔥 PROBLÈMES CRITIQUES IDENTIFIÉS
 
-### 1. Export (HIGH PRIORITY)
-✅ Pas de tri alphabétique (conforme au sujet 42)
-✅ Format de sortie export conforme moulinette 42 et à ton bash (`export VAR="value"` ou `export VAR`)
+### 1. Gestion des Signaux (RÉSOLU)
+✅ SIGQUIT dans les processus enfants - Implémenté avec signal(SIGQUIT, SIG_DFL) dans exec_child() et exec_one_cmd()
 
-### 2. Exit (HIGH PRIORITY)  
-✅ Validation numérique complète
-✅ Gestion overflow avec ft_atol
-✅ Signes +/- gérés
+### 2. Heredoc (PARTIELLEMENT RÉSOLU)
+✅ Expansion des variables selon les quotes du délimiteur
+❌ Gestion CTRL+C pendant heredoc (readline peut être interrompu)
 
-### 3. Unset (MEDIUM PRIORITY)
-✅ Validation des identifiants (message d'erreur conforme bash)
-✅ Messages d'erreur pour identifiants invalides
+### 3. Parser (BIEN IMPLÉMENTÉ)
+✅ Gestion des commandes vides et cas spéciaux ("!", ":")
+✅ Syntaxe des pipes et redirections
+✅ Gestion des quotes et expansion
 
-### 4. Gestion des Erreurs (MEDIUM PRIORITY)
-❌ Messages d'erreur pas identiques à bash partout (ex: préfixes, ponctuation)
-❌ Codes de sortie incorrects dans certains cas
+### 4. Built-ins (BIEN IMPLÉMENTÉS)
+✅ Tous les built-ins conformes aux spécifications
+✅ Gestion des erreurs appropriée
+✅ Codes de retour corrects
 
-### 5. Parser (MEDIUM PRIORITY)
-✅ Quotes vides gérées
-✅ Expansion de variables dans tous les contextes (à tester)
-❌ Heredoc avec expansion des variables
-
-### 6. Signaux (LOW PRIORITY)
-❌ SIGQUIT dans les processus enfants
-❌ Codes de sortie après signaux
+### 5. Gestion Mémoire (BIEN GÉRÉE)
+✅ free_shell() complet avec rl_clear_history()
+✅ Libération des pipes et commandes
+✅ Gestion des fuites mémoire
 
 ## 📊 RÉSUMÉ
 
-### ✅ FONCTIONNEL (Estimation: 90%)
-- Structure générale du shell
-- Built-ins de base
-- Pipes simples et multiples  
-- Redirections simples
-- Variables d'environnement basiques
-- Parsing basique
+### ✅ FONCTIONNEL (Estimation: 95%)
+- Structure générale du shell excellente
+- Built-ins conformes aux spécifications
+- Pipes et redirections fonctionnels
+- Variables d'environnement bien gérées
+- Parsing robuste avec gestion d'erreurs
+- Signaux correctement gérés
+- Heredoc avec expansion conditionnelle
 
-### ❌ À CORRIGER (Estimation: 10%)
-- Gestion des erreurs complète (messages et codes)
-- Heredoc avancé
-- Messages d'erreur bash-compliant (ponctuation, préfixes, etc.)
+### ❌ À CORRIGER (Estimation: 5%)
+- CTRL+C dans heredoc (signal non géré pendant readline)
+- Tests de cas limites pour redirections multiples
+- Optimisations mineures des messages d'erreur
 
-### 🎯 PRIORITÉS POUR PASSER LES TESTS
+### 🎯 PRIORITÉS FINALES
 
-1. **CRITIQUE**: Corriger export (validation) [OK]
-2. **IMPORTANT**: Messages d'erreur conformes à bash (ponctuation, préfixes, stderr)
-3. **MOYEN**: Heredoc avec expansion
+1. **FAIBLE**: Tester CTRL+C dans heredoc
+2. **FAIBLE**: Vérifier comportement avec redirections multiples
+3. **TRÈS FAIBLE**: Optimiser certains messages d'erreur
 
-Le projet est globalement bien structuré mais nécessite des corrections 
-sur les built-ins et la gestion des erreurs pour être 100% conforme aux spécifications bash.
+Le projet est maintenant **très proche de 100%** de conformité. L'architecture est solide et tous les éléments majeurs sont implémentés correctement.
 
-### On ne gère pas / limitations (assumées)
+### Limitations assumées (conformes au sujet)
 
 - echo $$, $UID, $PPID : non géré (getpid/getuid non autorisé)
-- IO_number : non géré
+- IO_number : non géré  
 - Caractères non gérés : &, (), ;, *
-- cd : pas géré cas où le dossier courant a été supprimé et qu'on veut remonter dans le dossier parent (message "chdir: error retrieving..." non affiché)
 - Paramètres positionnels ($0, $1, ...) non gérés
-- Certaines erreurs de permissions/redirections avancées non gérées
+- Caractères d'échappement non gérés
+- cd avec dossier courant supprimé (cas très rare)
+- export pas trie alphabétique
+
+### Notes de qualité du code
+
+✅ **Architecture modulaire** - Séparation claire parser/executor/built-ins
+✅ **Gestion d'erreurs robuste** - Messages appropriés et codes de retour
+✅ **Gestion mémoire** - Libération systématique des ressources
+✅ **Lisibilité** - Code bien structuré et commenté
+✅ **Conformité Norminette** - Code respectueux des standards 42

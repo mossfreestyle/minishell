@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_readline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/23 11:44:52 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:30:44 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	exec_readline(t_shell *shell)
 	t_redirect	*redir;
 
 	if (!shell->cmd_list || !shell->cmd_list->name)
-		return (0); //a verif
+		return (0); // a verif
 	cmd = shell->cmd_list;
 	while (cmd)
 	{
@@ -30,7 +30,7 @@ int	exec_readline(t_shell *shell)
 		while (redir)
 		{
 			if (redir->type == R_HEREDOC)
-				exec_here_doc(cmd, redir);
+				exec_here_doc(cmd, redir, shell);
 			redir = redir->next;
 		}
 		cmd = cmd->next;
@@ -80,6 +80,8 @@ static int	exec_one_cmd(t_shell *shell, t_command *cmd)
 	path = find_path(cmd->name, envp);
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		handle_redirections(cmd);
 		execve(path, cmd->args, envp);
 		print_error(cmd->name);
@@ -88,7 +90,9 @@ static int	exec_one_cmd(t_shell *shell, t_command *cmd)
 	free_array(envp);
 	free(path);
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
+	else if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
 	else
 		shell->exit_status = 1;

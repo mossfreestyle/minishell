@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/23 11:47:13 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:09:41 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,8 @@ void							check_pid(int pid, t_shell *shell);
 
 /* Heredoc */
 int								is_here_doc(char *name);
-int								exec_here_doc(t_command *cmd,
-									t_redirect *redir);
+int								exec_here_doc(t_command *cmd, t_redirect *redir,
+									t_shell *shell);
 
 /* ========== UTILS ========== */
 
@@ -206,9 +206,7 @@ void							exec_signals(int sig);
 void							handle_eof(t_shell *shell);
 void							setup_signals(void);
 
-
-
-//DEBUG////
+// DEBUG////
 void							print_tokens(t_token *tokens);
 void							print_command(t_command *cmd);
 #endif
