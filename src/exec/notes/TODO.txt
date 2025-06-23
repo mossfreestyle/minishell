@@ -144,3 +144,5 @@ rendre le readline beau
 
 
 minishell$ << eof doit creer une readline
+
+//refaire plein de test de here_doc

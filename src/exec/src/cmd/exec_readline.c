@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_readline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/23 15:30:44 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/23 17:05:18 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ int	exec_readline(t_shell *shell)
 		while (redir)
 		{
 			if (redir->type == R_HEREDOC)
-				exec_here_doc(cmd, redir, shell);
+				if (exec_here_doc(cmd, redir, shell) == -1)
+				{
+					shell->cmd_list = NULL;
+					return (-1);
+				}
 			redir = redir->next;
 		}
 		cmd = cmd->next;

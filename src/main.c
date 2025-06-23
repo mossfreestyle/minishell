@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/23 10:05:20 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:03:35 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,16 @@ static void	minishell(char *line, t_shell *shell)
 	else if (!cmd->next && !cmd->name && cmd->redirects)
 		handle_redirections(cmd);
 	else
-		exec_readline(shell);
-	free_commands(cmd);
+    {
+        int ret = exec_readline(shell);
+        if (ret == -1)
+        {
+            free_commands(cmd);
+            shell->cmd_list = NULL;
+            return; // On stoppe tout si heredoc interrompu
+        }
+    }
+    free_commands(cmd);
 	shell->cmd_list = NULL;
 }
 
