@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/23 20:36:53 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 21:03:32 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,17 @@
 // 	return (prompt);
 // }
 
+static int	res_readline(int ret, t_command *cmd, t_shell *shell)
+{
+	if (ret == -1)
+	{
+		free_commands(cmd);
+		shell->cmd_list = NULL;
+		return (-1);
+	}
+	return (0);
+}
+
 static char	*generate_prompt(t_env *env_list)
 {
 	(void)env_list;
@@ -67,11 +78,12 @@ static char	*get_input(t_shell *shell)
 static void	minishell(char *line, t_shell *shell)
 {
 	t_command	*cmd;
+	int			ret;
 
+	ret = 0;
 	cmd = parser(line, shell);
 	if (!cmd)
 		return ;
-	//print_command(cmd);
 	shell->cmd_list = cmd;
 	if (!cmd->next && is_builtin(cmd->name))
 		shell->exit_status = exec_built_in(cmd, shell);
@@ -83,16 +95,12 @@ static void	minishell(char *line, t_shell *shell)
 			handle_redirections(cmd);
 	}
 	else
-    {
-        int ret = exec_readline(shell);
-        if (ret == -1)
-        {
-            free_commands(cmd);
-            shell->cmd_list = NULL;
-            return; // On stoppe tout si heredoc interrompu
-        }
-    }
-    free_commands(cmd);
+	{
+		ret = exec_readline(shell);
+		if (res_readline(ret, cmd, shell) == -1)
+			return ;
+	}
+	free_commands(cmd);
 	shell->cmd_list = NULL;
 }
 

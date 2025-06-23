@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 23:58:18 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/22 12:46:49 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 21:24:57 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*find_path(char *cmd, char **envp)
 	path_lst = ft_split(path_env, ':');
 	if (!path_lst)
 		return (NULL);
-	i = 0;
 	return (link_path(path_lst, path_cmd, cmd));
 }
 

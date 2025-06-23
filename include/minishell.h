@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/23 15:09:41 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/23 21:22:58 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,4 +209,12 @@ void							setup_signals(void);
 // DEBUG////
 void							print_tokens(t_token *tokens);
 void							print_command(t_command *cmd);
+
+// here_doc utils///
+bool							has_quotes(char *delimiter);
+char							*expand_heredoc_line(char *line,
+									t_shell *shell);
+int								is_here_doc(char *name);
+void							finish_exec(t_command *cmd, char *path,
+									char **envp);
 #endif

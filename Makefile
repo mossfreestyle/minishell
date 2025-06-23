@@ -86,7 +86,8 @@ CMD_FILES = exec_built_in.c \
 			handle_redirections.c \
 			init.c \
 			utils.c \
-			close_and_free.c 
+			close_and_free.c \
+			here_doc_utils.c
 
 SRCS		= $(addprefix $(SRC_DIR)/, $(MAIN_FILES)) \
               $(addprefix $(PARSER_DIR)/, $(PARSER_FILES)) \

@@ -131,7 +131,10 @@ Réduit le bruit lors de l’utilisation de fork/exec (utile pour les shells).
 --error-exitcode=42
 Fait échouer le script si une erreur mémoire est détectée (utile en CI).
 
-CTRL + C dans heredoc et ctrl D doit renvoyer une erreur
+
+
+
+CTRL + C dans heredoc et ctrl D doit renvoyer une erreur //fix
 leak
 norm
 generakliser msg erreur
@@ -143,6 +146,34 @@ rendre le readline beau
 
 
 
-minishell$ << eof doit creer une readline
+minishell$ << eof doit creer une readline //fix
 
 //refaire plein de test de here_doc
+
+
+
+
+
+
+
+voir pourquoi le controle c here_doc est pas tout le temps au meme endroit
+
+minishell$ << eof
+> salut
+> 
+^Cminishell$ 
+minishell$ << eof 
+> 
+minishell$ ^C
+minishell$ << eof 
+> 
+^C
+minishell$ minishell$ << eof 
+> salut
+> 
+minishell$ ^C
+minishell$ << eof 
+> salut
+> 
+minishell$ ^C
+minishell$ 

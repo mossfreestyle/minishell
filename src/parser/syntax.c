@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:16:36 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/22 11:51:10 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 20:45:07 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ void	parse_args(t_token **tokens, t_command *cmd)
 {
 	if (!tokens || !*tokens || !(*tokens)->content || !cmd)
 		return ;
-	// if ((*tokens)->content && (*tokens)->content[0] == '\0')
-	// {
-	// 	(*tokens) = (*tokens)->next;
-	// 	return ;
-	// }
 	if (!cmd->name)
 	{
 		cmd->name = ft_strdup((*tokens)->content);
@@ -72,7 +67,8 @@ static t_redirect	*init_redirect(t_token *token)
 /**
  * parse_redirects - Ajoute une redirection à la commande courante.
 
-	* Vérifie la validité syntaxique (présence d'un mot après le token de redirection).
+	* Vérifie la validité syntaxique (présence d'un mot après
+	le token de redirection).
  * Alloue et ajoute la redirection à la liste de la commande.
  * Avance le pointeur de token de deux positions.
  * Retourne true en cas de succès, false sinon.

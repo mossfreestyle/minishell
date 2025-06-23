@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:57:30 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/23 11:47:39 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 20:44:25 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static const char	*redirect_type_to_string(t_token_type type)
 		return ("Unknown");
 	}
 }
-
 
 static const char	*token_type_to_string(t_token_type type)
 {
@@ -87,12 +86,13 @@ void	print_command(t_command *cmd)
 		printf("\nNo Next command.\n");
 }
 
-
 void	print_tokens(t_token *tokens)
 {
-	t_token *current = tokens;
-	int i = 0;
+	t_token	*current;
+	int		i;
 
+	current = tokens;
+	i = 0;
 	while (current)
 	{
 		printf("Token %d:\n", i);

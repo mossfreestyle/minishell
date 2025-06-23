@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:51:39 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/21 20:03:06 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 20:45:23 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ char	**append_to_array(char **array, const char *new_elem)
 
 /**
  * ft_strjoin_char
-	- Crée une nouvelle chaîne en ajoutant un caractère à la fin d'une chaîne existante.
+	- Crée une nouvelle chaîne
+	en ajoutant un caractère à la fin d'une chaîne existante.
  */
 char	*ft_strjoin_char(char *str, char c)
 {

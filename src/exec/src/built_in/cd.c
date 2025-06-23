@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:43 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/22 17:28:19 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 21:09:05 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,8 @@ static void	set_env_value(t_env **env, const char *name, const char *value)
 	new = malloc(sizeof(t_env));
 	if (!new)
 		return ;
-	new->name = ft_strdup(name);
-	new->value = ft_strdup(value);
-	new->next = NULL;
+	*new = (t_env){.name = ft_strdup(name), .value = ft_strdup(value),
+		.next = NULL};
 	if (!*env)
 		*env = new;
 	else

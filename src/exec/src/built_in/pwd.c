@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 11:46:45 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/22 17:51:04 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/23 20:54:37 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ int	ft_pwd(t_shell *shell, t_command *cmd)
 		return (0);
 	}
 	else
-		ft_putstr_fd("pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n",
-			2);
+	{
+		ft_putstr_fd("pwd: error retrieving current directory: getcwd: can", 2);
+		ft_putstr_fd("not access", 2);
+		ft_putstr_fd(" parent directories: No such file or directory\n", 2);
+	}
 	return (1);
 }
