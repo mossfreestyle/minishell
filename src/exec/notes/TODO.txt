@@ -1,84 +1,22 @@
 //TODO : a faire
 
-!!!!!!!!!BIEN INIT LES STRUCT sinon ca baise tout 
-
-
-//reforcer close and free all
-
-//faire attention a appeller cmd quand je parcours avec et pas sehll->list
-
-
-//fix multi heredoc
-
-//normal reachable dans exit et ctrl d ?????
-
-Split apres l expand 
-
-
-gerer leak de ctrl c
-// exemple a gerer : 
-
-
-< Makefile > p //doit creer p
-
-
-minishell$ << a << b << c
-> a
-> 
-^C
-bash-5.1$ 
-
-//peut etre proteger l appel a find path
 
 
 
-
-<< test echo >> hello 
-
-
-echo test > file1 > file2
-cat file2
-# Attendu : "test" dans file2, file1 vide ou inexistant
-
-
-
-echo foo > file1 >> file2
-cat file2
-# Attendu : "foo" ajouté à la fin de file2
-
-
-echo bar > file1 < file2
-# Attendu : file1 contient "bar", file2 n'est pas modifié
-
-
-///////////////////////////////////
-
-
-echo test > /dev/null
-# Attendu : rien dans le terminal, pas d'erreur
-
-echo test > /dev/full
-# Attendu : message d'erreur "No space left on device"
-
-
-
-
-
-
-👇​👇​👇​👇​👇​👇​👇​
+👇​👇​👇​👇​👇​👇👇​
 valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes --track-origins=yes --log-file=valgrind.log --suppressions=readline.supp ./minishell
 
 
 
 
 
-
+ENLEVER chose inutile debug.c, verifier pas deux fois la mm fonction (si static okay);
 
 leak
 generakliser msg erreur
 gerer les bon exit status
 gerer les double prompt
-gerer le comportement un peu indefini de controle c dans heredoc exemple en bas
+check le comportement un peu indefini de controle c dans heredoc exemple en bas
 rendre le readline beau
 
 
@@ -87,6 +25,7 @@ rendre le readline beau
 
 
 
+peut etre faire en sorte que ctrl \ == ctrl dans une cmd
 
 
 
@@ -112,9 +51,3 @@ minishell$ << eof
 > 
 minishell$ ^C
 minishell$ 
-
-
-bash-5.1$ < cat > p
-bash: cat: No such file or directory
-bash-5.1$ ./minishell 
-minishell$ < cat > p

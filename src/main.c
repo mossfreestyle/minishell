@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/24 15:57:16 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/24 21:09:44 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,11 @@ static void	set_up_redir(t_command *cmd, t_redirect *redir, t_shell *shell)
 {
 	int	saved_stdout;
 	int	saved_stdin;
+	int	heredoc_status;
 
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
+	heredoc_status = 0;
 	if (!cmd->next && !cmd->name && cmd->redirects)
 	{
 		while (redir)
@@ -71,27 +73,17 @@ static void	set_up_redir(t_command *cmd, t_redirect *redir, t_shell *shell)
 			if (redir->type == R_HEREDOC)
 			{
 				if (exec_here_doc(cmd, redir, shell) == -1)
+				{
+					heredoc_status = -1;
 					break ;
+				}
 			}
 			redir = redir->next;
 		}
-		handle_redirections(cmd, shell);
+		if (heredoc_status != -1)
+			handle_redirections(cmd, shell);
 	}
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdout);
-	close(saved_stdin);
-}
-
-static int	res_readline(int res, t_command *cmd, t_shell *shell)
-{
-	if (res == -1)
-	{
-		free_commands(cmd);
-		shell->cmd_list = NULL;
-		return (-1);
-	}
-	return (0);
+	end_safe_redir(saved_stdin, saved_stdout, shell);
 }
 
 static char	*generate_prompt(t_env *env_list)
@@ -123,8 +115,6 @@ static void	minishell(char *line, t_shell *shell)
 	t_command	*cmd;
 	int			res;
 	t_redirect	*redir;
-	int			saved_stdout;
-	int			saved_stdin;
 
 	res = 0;
 	cmd = parser(line, shell);
@@ -133,16 +123,7 @@ static void	minishell(char *line, t_shell *shell)
 	shell->cmd_list = cmd;
 	redir = cmd->redirects;
 	if (!cmd->next && is_builtin(cmd->name))
-	{
-		saved_stdout = dup(STDOUT_FILENO);
-		saved_stdin = dup(STDIN_FILENO);
-		if (handle_redirections(cmd, shell) != -1)
-			shell->exit_status = exec_built_in(cmd, shell);
-		dup2(saved_stdout, STDOUT_FILENO);
-		dup2(saved_stdin, STDIN_FILENO);
-		close(saved_stdout);
-		close(saved_stdin);
-	}
+		only_one_builtin(shell, cmd);
 	else if (!cmd->next && !cmd->name && cmd->redirects)
 		set_up_redir(cmd, redir, shell);
 	else

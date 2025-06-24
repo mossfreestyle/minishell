@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_readline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 15:59:26 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/24 21:13:47 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,6 @@ static int	exec_one_command(t_command *cmd, t_shell *shell)
 		return (exec_one_cmd(shell, cmd));
 }
 
-// static int	exec_one_builtin(t_shell *shell, t_command *cmd)
-// {
-// 	int	status;
-
-// 	if (handle_redirections(cmd) == -1)
-// 		return (1);
-// 	status = exec_built_in(cmd, shell);
-// 	shell->exit_status = status;
-// 	return (status);
-// }
-
 static int	exec_one_builtin(t_shell *shell, t_command *cmd)
 {
 	int	status;
@@ -107,8 +96,7 @@ static int	exec_one_cmd(t_shell *shell, t_command *cmd)
 	{
 		envp = env_list_to_array(shell->env_vars);
 		path = find_path(cmd->name, envp);
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
+		reset_sig();
 		finish_exec(cmd, path, envp, shell);
 	}
 	signal(SIGINT, SIG_IGN);

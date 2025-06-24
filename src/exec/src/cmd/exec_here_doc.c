@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:14:03 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 15:21:17 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/24 21:17:23 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ static void	heredoc_child(int write_fd, t_redirect *redir, t_shell *shell)
 			ft_putendl_fd(line, write_fd);
 		free(line);
 	}
-	free(line);
-	close(write_fd);
+	close_write_fd_and_free_line(write_fd, line);
 	free_shell(shell);
 	exit(0);
 }

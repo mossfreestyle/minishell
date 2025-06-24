@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_built_in.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:16:53 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 15:09:11 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/24 21:27:09 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	exec_built_in(t_command *cmd, t_shell *shell)
 	{
 		exit_code = ft_exit(cmd->args);
 		if (exit_code == 1000)
-			return (exit_code);
+			return (1);
 		free_shell(shell);
 		exit(exit_code);
 	}

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:52:12 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 15:59:43 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/24 21:29:07 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	r_input(t_redirect *redir, t_shell *shell);
-static int	r_output(t_redirect *redir, t_shell *shell);
-static int	r_append(t_redirect *redir, t_shell *shell);
-static void	r_heredoc(t_command *cmd, t_shell *shell);
+int		r_input(t_redirect *redir, t_shell *shell);
+int		r_output(t_redirect *redir, t_shell *shell);
+int		r_append(t_redirect *redir, t_shell *shell);
+void	r_heredoc(t_command *cmd, t_shell *shell);
 
 int	handle_redirections(t_command *cmd, t_shell *shell)
 {
@@ -27,27 +27,19 @@ int	handle_redirections(t_command *cmd, t_shell *shell)
 		return (-1);
 	redir = cmd->redirects;
 	last_heredoc = NULL;
-	res = 0;
 	while (redir)
 	{
-		if (redir->type == R_INPUT)
-			res = r_input(redir, shell);
-		else if (redir->type == R_OUTPUT)
-			res = r_output(redir, shell);
-		else if (redir->type == R_APPEND)
-			res = r_append(redir, shell);
-		else if (redir->type == R_HEREDOC)
-			last_heredoc = redir;
-		redir = redir->next;
+		res = process_redirect(redir, shell, &last_heredoc);
 		if (res == -1)
 			return (-1);
+		redir = redir->next;
 	}
 	if (last_heredoc)
 		r_heredoc(cmd, shell);
 	return (0);
 }
 
-static int	r_input(t_redirect *redir, t_shell *shell)
+int	r_input(t_redirect *redir, t_shell *shell)
 {
 	int	fd;
 
@@ -67,10 +59,10 @@ static int	r_input(t_redirect *redir, t_shell *shell)
 		exit(1);
 	}
 	close(fd);
-return (0);
+	return (0);
 }
 
-static int	r_output(t_redirect *redir, t_shell *shell)
+int	r_output(t_redirect *redir, t_shell *shell)
 {
 	int	fd;
 
@@ -91,7 +83,7 @@ static int	r_output(t_redirect *redir, t_shell *shell)
 	return (0);
 }
 
-static int	r_append(t_redirect *redir, t_shell *shell)
+int	r_append(t_redirect *redir, t_shell *shell)
 {
 	int	fd;
 
@@ -112,7 +104,7 @@ static int	r_append(t_redirect *redir, t_shell *shell)
 	return (0);
 }
 
-static void	r_heredoc(t_command *cmd, t_shell *shell)
+void	r_heredoc(t_command *cmd, t_shell *shell)
 {
 	if (dup2(cmd->heredoc_fd, STDIN_FILENO) == -1)
 	{

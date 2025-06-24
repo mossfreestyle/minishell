@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:46:40 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 15:58:46 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/24 21:21:03 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,20 @@ void	finish_exec(t_command *cmd, char *path, char **envp, t_shell *shell)
 	free(path);
 	free_shell(shell);
 	exit(127);
+}
+
+int	process_redirect(t_redirect *redir, t_shell *shell, t_redirect **last)
+{
+	int	res;
+
+	res = 0;
+	if (redir->type == R_INPUT)
+		res = r_input(redir, shell);
+	else if (redir->type == R_OUTPUT)
+		res = r_output(redir, shell);
+	else if (redir->type == R_APPEND)
+		res = r_append(redir, shell);
+	else if (redir->type == R_HEREDOC)
+		*last = redir;
+	return (res);
 }
