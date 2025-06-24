@@ -3,22 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:16:36 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/23 20:45:07 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:43:27 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * parse_args - Ajoute un argument à la commande courante.
- * Si le nom de la commande n'est pas encore défini,
-	il l'initialise avec le contenu du token courant.
- * Sinon, il ajoute le contenu du token courant à la liste des arguments.
- * Avance le pointeur de token.
- */
 void	parse_args(t_token **tokens, t_command *cmd)
 {
 	if (!tokens || !*tokens || !(*tokens)->content || !cmd)
@@ -33,12 +26,6 @@ void	parse_args(t_token **tokens, t_command *cmd)
 	(*tokens) = (*tokens)->next;
 }
 
-/**
- * init_redirect - Alloue et initialise une nouvelle structure de redirection.
- * Copie le nom du fichier cible depuis le token suivant.
- * Définit le type de redirection selon le token courant.
- * Retourne la nouvelle redirection ou NULL en cas d'erreur.
- */
 static t_redirect	*init_redirect(t_token *token)
 {
 	t_redirect	*new_redirect;
@@ -64,15 +51,6 @@ static t_redirect	*init_redirect(t_token *token)
 	return (new_redirect);
 }
 
-/**
- * parse_redirects - Ajoute une redirection à la commande courante.
-
-	* Vérifie la validité syntaxique (présence d'un mot après
-	le token de redirection).
- * Alloue et ajoute la redirection à la liste de la commande.
- * Avance le pointeur de token de deux positions.
- * Retourne true en cas de succès, false sinon.
- */
 bool	parse_redirects(t_token **tokens, t_command *cmd, t_shell *shell)
 {
 	t_redirect	*new_redirect;
@@ -99,14 +77,6 @@ bool	parse_redirects(t_token **tokens, t_command *cmd, t_shell *shell)
 	return (true);
 }
 
-/**
- * parse_pipe
-	- Gère la création d'une nouvelle commande lors de la rencontre d'un pipe '|'.
- * Vérifie la validité syntaxique (commande précédente et token suivant).
- * Crée une nouvelle commande et avance les pointeurs.
- * Traite immédiatement une éventuelle redirection ou un argument après le pipe.
- * Retourne false (utilisé pour le contrôle de flux dans le parsing).
- */
 bool	parse_pipe(t_token **tokens, t_command **cmd, t_shell *shell)
 {
 	if (!(*cmd) || !(*tokens)->next)

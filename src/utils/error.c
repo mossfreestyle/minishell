@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 11:23:51 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/21 20:03:04 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:43:28 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * cmd_err - Affiche un message d'erreur formaté pour une commande.
- * Retourne le code d'erreur fourni.
- */
 int	cmd_err(char *cmd, char *arg, char *msg, int err_num)
 {
 	ft_putstr_fd("minishell: ", 2);
@@ -30,20 +26,12 @@ int	cmd_err(char *cmd, char *arg, char *msg, int err_num)
 	return (err_num);
 }
 
-/**
- * set_status - Met à jour le statut de sortie du shell.
- * Retourne NULL pour faciliter la gestion d'erreur.
- */
 void	*set_status(t_shell *shell, int status)
 {
 	shell->exit_status = status;
 	return (NULL);
 }
 
-/**
- * err_msg - Affiche un message d'erreur et met à jour le statut de sortie.
- * Retourne NULL pour faciliter la gestion d'erreur.
- */
 void	*err_msg(char *cmd, char *msg, t_shell *shell, int exit_status)
 {
 	ft_putstr_fd("minishell: ", 2);
@@ -56,11 +44,6 @@ void	*err_msg(char *cmd, char *msg, t_shell *shell, int exit_status)
 	return (set_status(shell, exit_status));
 }
 
-/**
- * exec_error
-	- Affiche un message d'erreur selon errno pour une commande exécutée.
- * Retourne le code d'erreur approprié.
- */
 int	exec_error(char *cmd)
 {
 	if (errno == EACCES)

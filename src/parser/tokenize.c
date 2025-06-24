@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:25 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/20 21:11:03 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:43:28 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * add_token - Ajoute un token à la liste chaînée des tokens.
- */
 static t_token	*add_token(t_token *tokens, char *value, t_token_type type)
 {
 	t_token	*new;
@@ -35,9 +32,6 @@ static t_token	*add_token(t_token *tokens, char *value, t_token_type type)
 	return (tokens);
 }
 
-/**
- * meta_token - Crée un token pour un métacaractère (|, <, >, etc.).
- */
 t_token	*meta_token(t_token *tokens, char *line, int *i)
 {
 	if (line[*i] == '|')
@@ -60,9 +54,6 @@ t_token	*meta_token(t_token *tokens, char *line, int *i)
 	return (tokens);
 }
 
-/**
- * word_token - Crée un token pour un mot (commande ou argument).
- */
 t_token	*word_token(char *line, int *i, t_shell *shell, t_token *tokens)
 {
 	char	*value;

@@ -3,20 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   extract.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:17:32 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/21 20:00:31 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:43:27 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * extract_var
-	- Extrait et remplace une variable d'environnement dans une ligne.
- * Gère aussi le cas spécial de $?.
- */
 static char	*extract_var(char *line, int *i, t_shell *shell)
 {
 	char	*var_name;
@@ -45,10 +40,6 @@ static char	*extract_var(char *line, int *i, t_shell *shell)
 		return (ft_strdup(""));
 }
 
-/**
- * expand_var - Ajoute la valeur d'une variable d'environnement à une chaîne.
- * Retourne la nouvelle chaîne ou NULL en cas d'erreur.
- */
 char	*expand_var(char *line, int *i, t_shell *shell, char *value)
 {
 	char	*var_value;
@@ -65,9 +56,6 @@ char	*expand_var(char *line, int *i, t_shell *shell, char *value)
 	return (new_value);
 }
 
-/**
- * get_unquoted - Extrait une portion de texte non-quotée et non-métacaractère.
- */
 static char	*get_unquoted(char *line, int *i)
 {
 	int	start;
@@ -79,11 +67,6 @@ static char	*get_unquoted(char *line, int *i)
 	return (ft_substr(line, start, *i - start));
 }
 
-/**
- * extract_word
-	- Extrait un mot complet (en gérant quotes et variables) depuis une ligne.
- * Retourne la chaîne extraite ou NULL en cas d'erreur.
- */
 char	*extract_word(char *line, int *i, t_shell *shell)
 {
 	char	*value;

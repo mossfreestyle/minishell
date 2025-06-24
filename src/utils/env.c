@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:36:28 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/21 20:03:02 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:43:28 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@ void	setenv_lst(const char *name, const char *value, t_env **env_vars)
 	*env_vars = new_node;
 }
 
-/**
- * getenv_lst
-	- Cherche la valeur d'une variable d'environnement dans une liste chaînée.
- * Retourne la valeur si trouvée, NULL sinon.
- */
 char	*getenv_lst(const char *name, t_env *env_list)
 {
 	t_env	*current;

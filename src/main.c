@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/23 22:16:02 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:43:27 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,22 @@
 // 	return (prompt);
 // }
 
+static void	set_up_redir(t_command *cmd, t_redirect *redir, t_shell *shell)
+{
+	if (!cmd->next && !cmd->name && cmd->redirects)
+	{
+		while (redir)
+		{
+			if (redir->type == R_HEREDOC)
+			{
+				if (exec_here_doc(cmd, redir, shell) == -1)
+					break ;
+			}
+			redir = redir->next;
+		}
+		handle_redirections(cmd);
+	}
+}
 static int	res_readline(int res, t_command *cmd, t_shell *shell)
 {
 	if (res == -1)
@@ -79,21 +95,18 @@ static void	minishell(char *line, t_shell *shell)
 {
 	t_command	*cmd;
 	int			res;
+	t_redirect	*redir;
 
 	res = 0;
 	cmd = parser(line, shell);
 	if (!cmd)
 		return ;
 	shell->cmd_list = cmd;
+	redir = cmd->redirects;
 	if (!cmd->next && is_builtin(cmd->name))
 		shell->exit_status = exec_built_in(cmd, shell);
 	else if (!cmd->next && !cmd->name && cmd->redirects)
-	{
-		if (cmd->redirects->type == R_HEREDOC)
-			exec_here_doc(cmd, cmd->redirects, shell);
-		else
-			handle_redirections(cmd);
-	}
+		set_up_redir(cmd, redir, shell);
 	else
 	{
 		res = exec_readline(shell);
@@ -120,7 +133,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		if (input[0] != '\0')
 			add_history(input);
-		handle_signal(shell);
+		//handle_signal(shell);
 		minishell(input, shell);
 		free(input);
 	}

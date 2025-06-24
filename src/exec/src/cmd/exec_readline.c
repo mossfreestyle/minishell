@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_readline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/23 21:59:23 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 11:08:23 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	exec_one_command(t_command *cmd, t_shell *shell)
 		cmd = cmd->next;
 	if (!cmd)
 		return (1);
-	if (is_builtin(shell->av[0]))
+	if (is_builtin(cmd->name))
 		return (exec_one_builtin(shell, cmd));
 	else
 		return (exec_one_cmd(shell, cmd));
@@ -86,7 +86,9 @@ static int	exec_one_cmd(t_shell *shell, t_command *cmd)
 		signal(SIGQUIT, SIG_DFL);
 		finish_exec(cmd, path, envp);
 	}
+	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
+	setup_signals();
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 	else if (WIFEXITED(status))

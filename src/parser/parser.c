@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 10:31:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/23 11:54:49 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/24 10:52:24 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@ static t_command	*parse_command(t_token **tokens, t_shell *shell,
 	return (*current);
 }
 
+static int	handle_non_pipe_token(t_token **tokens, t_command **head,
+		t_command **current, t_shell *shell)
+{
+	if (!*current)
+	{
+		*current = init_command(shell);
+		if (!*current)
+			return (0);
+		if (!*head)
+			*head = *current;
+	}
+	if (!parse_command(tokens, shell, current))
+		return (0);
+	return (1);
+}
+
 static t_command	*build_command(t_token *tokens, t_shell *shell)
 {
 	t_command	*head;
@@ -47,15 +63,7 @@ static t_command	*build_command(t_token *tokens, t_shell *shell)
 		}
 		else
 		{
-			if (!current)
-			{
-				current = init_command(shell);
-				if (!current)
-					return (free_commands(head), NULL);
-				if (!head)
-					head = current;
-			}
-			if (!parse_command(&tokens, shell, &current))
+			if (!handle_non_pipe_token(&tokens, &head, &current, shell))
 				return (free_commands(head), NULL);
 		}
 	}

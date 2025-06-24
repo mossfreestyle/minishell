@@ -6,16 +6,12 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 14:40:47 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/21 10:48:29 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/24 11:43:28 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * unclosed_quotes - Vérifie s'il y a des quotes non fermées dans une ligne.
- * Retourne true si une quote est non fermée, false sinon.
- */
 static bool	unclosed_quotes(char *line)
 {
 	bool	single_q;
@@ -36,10 +32,6 @@ static bool	unclosed_quotes(char *line)
 	return (single_q || double_q);
 }
 
-/**
- * lexer - Découpe une ligne en tokens (lexing), gère les erreurs de quotes.
- * Retourne la liste des tokens ou NULL en cas d'erreur.
- */
 t_token	*lexer(char *line, t_shell *shell)
 {
 	int		i;
