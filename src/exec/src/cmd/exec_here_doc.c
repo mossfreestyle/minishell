@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:14:03 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 11:03:01 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/24 13:24:14 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ static int	heredoc_fork(t_command *cmd, t_redirect *redir, t_shell *shell,
 	{
 		close(heredoc_pipe[1]);
 		waitpid(pid, &status, 0);
-		signal(SIGINT, heredoc_sig_handler);
 		if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
 			return (close(heredoc_pipe[0]), shell->exit_status = 130, -1);
 		cmd->heredoc_fd = heredoc_pipe[0];

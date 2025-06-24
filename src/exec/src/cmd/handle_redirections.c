@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:52:12 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/23 21:59:10 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:22:03 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,19 @@ static int	r_input(t_redirect *redir)
 	fd = open(redir->filename, O_RDONLY);
 	if (fd < 0)
 	{
-		perror(redir->filename);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(redir->filename, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		return (-1);
 	}
-	else
+	if (dup2(fd, STDIN_FILENO) == -1)
 	{
-		if (dup2(fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2");
-			close(fd);
-			exit(1);
-		}
+		perror("dup2");
 		close(fd);
+		exit(1);
 	}
-	return (0);
+	close(fd);
+return (0);
 }
 
 static int	r_output(t_redirect *redir)
@@ -80,16 +79,13 @@ static int	r_output(t_redirect *redir)
 		perror(redir->filename);
 		return (-1);
 	}
-	else
+	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
-		if (dup2(fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			close(fd);
-			exit(1);
-		}
+		perror("dup2");
 		close(fd);
+		exit(1);
 	}
+	close(fd);
 	return (0);
 }
 
@@ -103,16 +99,13 @@ static int	r_append(t_redirect *redir)
 		perror(redir->filename);
 		return (-1);
 	}
-	else
+	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
-		if (dup2(fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			close(fd);
-			exit(1);
-		}
+		perror("dup2");
 		close(fd);
+		exit(1);
 	}
+	close(fd);
 	return (0);
 }
 

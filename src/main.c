@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/24 11:43:27 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/24 14:21:27 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ static void	minishell(char *line, t_shell *shell)
 
 	res = 0;
 	cmd = parser(line, shell);
+	// printf("a%s\n",cmd->name);
 	if (!cmd)
 		return ;
 	shell->cmd_list = cmd;
@@ -133,7 +134,7 @@ int	main(int ac, char **av, char **envp)
 			break ;
 		if (input[0] != '\0')
 			add_history(input);
-		//handle_signal(shell);
+		handle_signal(shell);
 		minishell(input, shell);
 		free(input);
 	}

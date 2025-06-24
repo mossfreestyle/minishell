@@ -40,9 +40,9 @@ Tu ignores SIGQUIT dans le shell principal, mais il faudrait le réactiver dans 
 
 minishell$ << a << b << c
 > a
-minishell$ 
-bash-5.1$ << a << b << c
->
+> 
+^C
+bash-5.1$ 
 
 //peut etre proteger l appel a find path
 
