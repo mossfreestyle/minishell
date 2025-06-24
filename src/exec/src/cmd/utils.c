@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:30:07 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/20 15:31:17 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/24 14:46:25 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	cmd_not_found(char **envp, t_shell *shell)
 	ft_putstr_fd(shell->cmd_list->name, 2);
 	ft_putstr_fd(": command not found\n", 2);
 	free_array(envp);
+	free_shell(shell);
 	exit(127);
 }
 
@@ -27,6 +28,7 @@ void	check_pid(int pid, t_shell *shell)
 	{
 		close_all_pipes(shell);
 		ft_putstr_fd("An error occured when creating PID\n", 2);
+		free_shell(shell);
 		exit(EXIT_FAILURE);
 	}
 }

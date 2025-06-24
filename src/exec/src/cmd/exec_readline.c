@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_readline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 14:55:35 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:59:26 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,27 @@ static int	exec_one_command(t_command *cmd, t_shell *shell)
 
 static int	exec_one_builtin(t_shell *shell, t_command *cmd)
 {
-    int	status;
-    int saved_stdout = dup(STDOUT_FILENO);
-    int saved_stdin = dup(STDIN_FILENO);
+	int	status;
+	int	saved_stdout;
+	int	saved_stdin;
 
-    if (handle_redirections(cmd) == -1)
-    {
-        dup2(saved_stdout, STDOUT_FILENO);
-        dup2(saved_stdin, STDIN_FILENO);
-        close(saved_stdout);
-        close(saved_stdin);
-        return (1);
-    }
-    status = exec_built_in(cmd, shell);
-    dup2(saved_stdout, STDOUT_FILENO);
-    dup2(saved_stdin, STDIN_FILENO);
-    close(saved_stdout);
-    close(saved_stdin);
-    shell->exit_status = status;
-    return (status);
+	saved_stdout = dup(STDOUT_FILENO);
+	saved_stdin = dup(STDIN_FILENO);
+	if (handle_redirections(cmd, shell) == -1)
+	{
+		dup2(saved_stdout, STDOUT_FILENO);
+		dup2(saved_stdin, STDIN_FILENO);
+		close(saved_stdout);
+		close(saved_stdin);
+		return (1);
+	}
+	status = exec_built_in(cmd, shell);
+	dup2(saved_stdout, STDOUT_FILENO);
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdout);
+	close(saved_stdin);
+	shell->exit_status = status;
+	return (status);
 }
 
 static int	exec_one_cmd(t_shell *shell, t_command *cmd)
@@ -107,7 +109,7 @@ static int	exec_one_cmd(t_shell *shell, t_command *cmd)
 		path = find_path(cmd->name, envp);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		finish_exec(cmd, path, envp);
+		finish_exec(cmd, path, envp, shell);
 	}
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);

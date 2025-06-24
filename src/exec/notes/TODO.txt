@@ -12,8 +12,10 @@
 
 //normal reachable dans exit et ctrl d ?????
 
+Split apres l expand 
 
 
+gerer leak de ctrl c
 // exemple a gerer : 
 
 
@@ -31,7 +33,7 @@ bash-5.1$
 
 
 
-
+<< test echo >> hello 
 
 
 echo test > file1 > file2

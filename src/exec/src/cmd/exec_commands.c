@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:46:17 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/23 21:49:16 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:57:40 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,16 @@ static void	exec_child(t_shell *sh, t_command *cmd, int i, char *path)
 	signal(SIGQUIT, SIG_DFL);
 	envp = env_list_to_array(sh->env_vars);
 	if (i > 0 && sh->pipeline.n_pipes > 0 && dup2(sh->pipeline.pipefd[i - 1][0],
-		STDIN_FILENO) == -1)
+			STDIN_FILENO) == -1)
 		error(envp, path, sh, 1);
 	if (cmd->next && sh->pipeline.n_pipes > 0 && dup2(sh->pipeline.pipefd[i][1],
-		STDOUT_FILENO) == -1)
+			STDOUT_FILENO) == -1)
 		error(envp, path, sh, 1);
-	if (handle_redirections(cmd) == -1)
+	if (handle_redirections(cmd, sh) == -1)
 	{
 		free(path);
 		free(envp);
+		free_shell(sh);
 		exit(1);
 	}
 	close_all_pipes(sh);
@@ -90,14 +91,22 @@ static void	error(char **envp, char *full_path, t_shell *shell, int flag)
 	{
 		close_all_pipes(shell);
 		print_error(shell->cmd_list->name);
+		free_shell(shell);
 		exit(127);
 	}
 }
 
 static void	exec(t_command *cmd, char **envp, char *full_path, t_shell *shell)
 {
+	int	status;
+
+	status = 0;
 	if (is_builtin(cmd->name))
-		exit(exec_built_in(cmd, shell));
+	{
+		status = exec_built_in(cmd, shell);
+		free_shell(shell);
+		exit(status);
+	}
 	else if (full_path)
 		execve(full_path, cmd->args, envp);
 	error(envp, full_path, shell, 1);

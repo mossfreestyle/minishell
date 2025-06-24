@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:14:03 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 13:24:14 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:21:17 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static int	heredoc_fork(t_command *cmd, t_redirect *redir, t_shell *shell,
 				int *heredoc_pipe);
 static void	heredoc_child(int write_fd, t_redirect *redir, t_shell *shell);
-static void	msg_ctrl_d(int write_fd, t_redirect *redir, char *line);
+static void	msg_ctrl_d(int write_fd, t_redirect *redir, char *line,
+				t_shell *shell);
 static void	heredoc_sig_handler(int signo);
 
 int	exec_here_doc(t_command *cmd, t_redirect *redir, t_shell *shell)
@@ -36,7 +37,8 @@ static void	heredoc_sig_handler(int signo)
 	exit(130);
 }
 
-static void	msg_ctrl_d(int write_fd, t_redirect *redir, char *line)
+static void	msg_ctrl_d(int write_fd, t_redirect *redir, char *line,
+		t_shell *shell)
 {
 	if (!line)
 	{
@@ -45,6 +47,7 @@ static void	msg_ctrl_d(int write_fd, t_redirect *redir, char *line)
 		ft_putstr_fd(redir->filename, 2);
 		ft_putstr_fd("')\n", 2);
 		close(write_fd);
+		free_shell(shell);
 		exit(0);
 	}
 }
@@ -60,7 +63,7 @@ static void	heredoc_child(int write_fd, t_redirect *redir, t_shell *shell)
 	while (1)
 	{
 		line = readline("> ");
-		msg_ctrl_d(write_fd, redir, line);
+		msg_ctrl_d(write_fd, redir, line, shell);
 		if (!ft_strcmp(line, redir->filename))
 			break ;
 		if (should_expand)
@@ -75,6 +78,7 @@ static void	heredoc_child(int write_fd, t_redirect *redir, t_shell *shell)
 	}
 	free(line);
 	close(write_fd);
+	free_shell(shell);
 	exit(0);
 }
 

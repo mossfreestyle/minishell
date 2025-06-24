@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/23 21:57:53 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:24:00 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,8 @@ int								print_env(t_env *envp);
 char							*find_path(char *cmd, char **envp);
 char							*link_path(char **path_lst, char *path_cmd,
 									char *cmd);
-int								handle_redirections(t_command *cmd);
+int								handle_redirections(t_command *cmd,
+									t_shell *shell);
 void							cmd_not_found(char **envp, t_shell *shell);
 void							check_pid(int pid, t_shell *shell);
 
@@ -216,5 +217,5 @@ char							*expand_heredoc_line(char *line,
 									t_shell *shell);
 int								is_here_doc(char *name);
 void							finish_exec(t_command *cmd, char *path,
-									char **envp);
+									char **envp, t_shell *shell);
 #endif

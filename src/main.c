@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/24 14:57:51 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:57:16 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	set_up_redir(t_command *cmd, t_redirect *redir, t_shell *shell)
 			}
 			redir = redir->next;
 		}
-		handle_redirections(cmd);
+		handle_redirections(cmd, shell);
 	}
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
@@ -132,14 +132,11 @@ static void	minishell(char *line, t_shell *shell)
 		return ;
 	shell->cmd_list = cmd;
 	redir = cmd->redirects;
-	// if (!cmd->next && is_builtin(cmd->name) && handle_redirections(cmd) !=
-		// -1)
-	// shell->exit_status = exec_built_in(cmd, shell);
 	if (!cmd->next && is_builtin(cmd->name))
 	{
 		saved_stdout = dup(STDOUT_FILENO);
 		saved_stdin = dup(STDIN_FILENO);
-		if (handle_redirections(cmd) != -1)
+		if (handle_redirections(cmd, shell) != -1)
 			shell->exit_status = exec_built_in(cmd, shell);
 		dup2(saved_stdout, STDOUT_FILENO);
 		dup2(saved_stdin, STDIN_FILENO);

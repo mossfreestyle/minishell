@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:46:40 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 14:03:24 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:58:46 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,26 @@ int	is_here_doc(char *name)
 	return (!ft_strcmp(name, "<<"));
 }
 
-void	finish_exec(t_command *cmd, char *path, char **envp)
+void	finish_exec(t_command *cmd, char *path, char **envp, t_shell *shell)
 {
-	if (handle_redirections(cmd) == -1)
+	if (handle_redirections(cmd, shell) == -1)
 	{
 		free_array(envp);
 		free(path);
+		free_shell(shell);
 		exit(1);
+	}
+	if (!path)
+	{
+		print_error(cmd->name);
+		free_array(envp);
+		free_shell(shell);
+		exit(127);
 	}
 	execve(path, cmd->args, envp);
 	print_error(cmd->name);
 	free_array(envp);
 	free(path);
+	free_shell(shell);
 	exit(127);
 }

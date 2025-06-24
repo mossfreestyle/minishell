@@ -1,10 +1,9 @@
 {
-   readline_leak
+   readline_add_history
    Memcheck:Leak
-   fun:malloc
+   match-leak-kinds: reachable
    fun:xmalloc
    fun:add_history
-   fun:_rl_add_history
 }
 {
    readline_leak2
