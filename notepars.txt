@@ -25,10 +25,13 @@
 ✅ << (heredoc) - Géré dans exec_here_doc.c avec expansion conditionnelle
 ✅ Redirections multiples - La dernière gagne (comportement bash)
 ✅ Gestion des erreurs de permissions et fichiers (perror, exit code 1)
+✅ Redirection seule sans commande (ex: < file, > file, << EOF) - shell ne reste pas dans le fichier
+❌ Redirection de stderr (2>) - **Non gérée** (pas de support pour `2>fichier`)
 
 ### Pipes
 ✅ | (pipe) - Géré dans exec_commands.c
 ✅ Pipes multiples - Géré avec pipeline.pipefd
+✅ Code de retour du dernier maillon du pipeline (OK)
 
 ## 🔧 BUILT-INS
 
@@ -166,13 +169,15 @@
 - Heredoc avec expansion conditionnelle et gestion des signaux
 
 ### ❌ À CORRIGER (Estimation: 2%)
+- Redirection de stderr (`2>`) non gérée (pas de support pour `2>fichier`)
 - Tests de cas limites pour redirections multiples et fichiers spéciaux
 - Optimisations mineures des messages d'erreur
 
 ### 🎯 PRIORITÉS FINALES
 
-1. **FAIBLE**: Tester tous les cas limites heredoc/redirections
-2. **TRÈS FAIBLE**: Optimiser certains messages d'erreur
+1. **MOYEN**: Gérer la redirection de stderr (`2>`)
+2. **FAIBLE**: Tester tous les cas limites heredoc/redirections
+3. **TRÈS FAIBLE**: Optimiser certains messages d'erreur
 
 Le projet est maintenant **très proche de 100%** de conformité. L'architecture est solide et tous les éléments majeurs sont implémentés correctement.
 
@@ -192,4 +197,4 @@ Le projet est maintenant **très proche de 100%** de conformité. L'architecture
 ✅ **Gestion d'erreurs robuste** - Messages appropriés et codes de retour  
 ✅ **Gestion mémoire** - Libération systématique des ressources  
 ✅ **Lisibilité** - Code bien structuré et commenté  
-✅ **Conformité Norminette** - Code respectueux des standards 42  
+✅ **Conformité Norminette** - Code respectueux des standards 42

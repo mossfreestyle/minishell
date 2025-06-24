@@ -16,6 +16,9 @@ ENLEVER chose inutile debug.c, verifier pas deux fois la mm fonction (si static 
 src/exec/src/cmd/exec_commands.c: Error!
 Error: TOO_MANY_TAB         (line:  55, col:  13):      Extra tabs for indent level
 Error: TOO_MANY_TAB         (line:  58, col:  13):      Extra tabs for indent level
+
+
+
 leak
 generakliser msg erreur --> normalement plutot bon
 gerer les bon exit status --> normalement bon
@@ -23,7 +26,7 @@ gerer les double prompt
 check le comportement un peu indefini de controle c dans heredoc exemple en bas
 rendre le readline beau
 
-
+voir si on gere la redirection de std dans un fd car il faut implementer une facond interpreter les chiffres d une autre facon -> chiant
 
 //refaire plein de test de here_doc
 
@@ -52,14 +55,6 @@ minishell$ << eof
 > 
 minishell$ ^C
 minishell$ 
-
-
-false | true
-echo $?
-# → 0 (dernier maillon)
-
-
-
 
 
 unset 1vAR -> renvoie 0 meme dans le minishell juste pour se rappeler
