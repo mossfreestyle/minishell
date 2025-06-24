@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 14:02:46 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:55:35 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,38 @@ static int	exec_one_command(t_command *cmd, t_shell *shell)
 		return (exec_one_cmd(shell, cmd));
 }
 
+// static int	exec_one_builtin(t_shell *shell, t_command *cmd)
+// {
+// 	int	status;
+
+// 	if (handle_redirections(cmd) == -1)
+// 		return (1);
+// 	status = exec_built_in(cmd, shell);
+// 	shell->exit_status = status;
+// 	return (status);
+// }
+
 static int	exec_one_builtin(t_shell *shell, t_command *cmd)
 {
-	int	status;
+    int	status;
+    int saved_stdout = dup(STDOUT_FILENO);
+    int saved_stdin = dup(STDIN_FILENO);
 
-	if (handle_redirections(cmd) == -1)
-		return (1);
-	status = exec_built_in(cmd, shell);
-	shell->exit_status = status;
-	return (status);
+    if (handle_redirections(cmd) == -1)
+    {
+        dup2(saved_stdout, STDOUT_FILENO);
+        dup2(saved_stdin, STDIN_FILENO);
+        close(saved_stdout);
+        close(saved_stdin);
+        return (1);
+    }
+    status = exec_built_in(cmd, shell);
+    dup2(saved_stdout, STDOUT_FILENO);
+    dup2(saved_stdin, STDIN_FILENO);
+    close(saved_stdout);
+    close(saved_stdin);
+    shell->exit_status = status;
+    return (status);
 }
 
 static int	exec_one_cmd(t_shell *shell, t_command *cmd)

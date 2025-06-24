@@ -3,27 +3,9 @@
 !!!!!!!!!BIEN INIT LES STRUCT sinon ca baise tout 
 
 
-//(déjà préparé avant l’exec) Si c’est un heredoc (R_HEREDOC), 
-//tu rediriges l’entrée standard (STDIN_FILENO) vers le fd du heredoc
-
 //reforcer close and free all
 
 //faire attention a appeller cmd quand je parcours avec et pas sehll->list
-
-
-
-
-Builtins dans un pipeline
-
-Les builtins sont exécutés dans le parent uniquement s’il n’y a pas de pipe.
-C’est correct, mais attention à bien gérer les effets de bord (cd, export, etc.) dans ce cas.
-
-Gestion du signal lors de l’exec
-
-Tu ignores SIGQUIT dans le shell principal, mais il faudrait le réactiver dans les enfants (processus forkés).
-
-
-
 
 
 //fix multi heredoc

@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/24 14:21:27 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:57:51 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,30 @@
 // 	return (prompt);
 // }
 
+// static void	set_up_redir(t_command *cmd, t_redirect *redir, t_shell *shell)
+// {
+// 	if (!cmd->next && !cmd->name && cmd->redirects)
+// 	{
+// 		while (redir)
+// 		{
+// 			if (redir->type == R_HEREDOC)
+// 			{
+// 				if (exec_here_doc(cmd, redir, shell) == -1)
+// 					break ;
+// 			}
+// 			redir = redir->next;
+// 		}
+// 		handle_redirections(cmd);
+// 	}
+// }
+
 static void	set_up_redir(t_command *cmd, t_redirect *redir, t_shell *shell)
 {
+	int	saved_stdout;
+	int	saved_stdin;
+
+	saved_stdout = dup(STDOUT_FILENO);
+	saved_stdin = dup(STDIN_FILENO);
 	if (!cmd->next && !cmd->name && cmd->redirects)
 	{
 		while (redir)
@@ -55,7 +77,12 @@ static void	set_up_redir(t_command *cmd, t_redirect *redir, t_shell *shell)
 		}
 		handle_redirections(cmd);
 	}
+	dup2(saved_stdout, STDOUT_FILENO);
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdout);
+	close(saved_stdin);
 }
+
 static int	res_readline(int res, t_command *cmd, t_shell *shell)
 {
 	if (res == -1)
@@ -96,16 +123,29 @@ static void	minishell(char *line, t_shell *shell)
 	t_command	*cmd;
 	int			res;
 	t_redirect	*redir;
+	int			saved_stdout;
+	int			saved_stdin;
 
 	res = 0;
 	cmd = parser(line, shell);
-	// printf("a%s\n",cmd->name);
 	if (!cmd)
 		return ;
 	shell->cmd_list = cmd;
 	redir = cmd->redirects;
+	// if (!cmd->next && is_builtin(cmd->name) && handle_redirections(cmd) !=
+		// -1)
+	// shell->exit_status = exec_built_in(cmd, shell);
 	if (!cmd->next && is_builtin(cmd->name))
-		shell->exit_status = exec_built_in(cmd, shell);
+	{
+		saved_stdout = dup(STDOUT_FILENO);
+		saved_stdin = dup(STDIN_FILENO);
+		if (handle_redirections(cmd) != -1)
+			shell->exit_status = exec_built_in(cmd, shell);
+		dup2(saved_stdout, STDOUT_FILENO);
+		dup2(saved_stdin, STDIN_FILENO);
+		close(saved_stdout);
+		close(saved_stdin);
+	}
 	else if (!cmd->next && !cmd->name && cmd->redirects)
 		set_up_redir(cmd, redir, shell);
 	else
