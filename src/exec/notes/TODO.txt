@@ -12,6 +12,16 @@ valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fd
 
 ENLEVER chose inutile debug.c, verifier pas deux fois la mm fonction (si static okay);
 
+
+
+false | true
+echo $?
+# → 0 (dernier maillon)
+
+
+ctrl \ ne doit pas exit lors d un sleep 10 et doit renvoie 131 --> normalement bon a verifier
+
+
 leak
 generakliser msg erreur
 gerer les bon exit status
@@ -28,7 +38,8 @@ rendre le readline beau
 peut etre faire en sorte que ctrl \ == ctrl dans une cmd
 
 
-
+Redirection output/input échouée (> /root/file, < notfound):
+Tu retournes 1 (OK pour redir), mais bash retourne parfois 1 ou 126 selon le contexte.
 
 voir pourquoi le controle c here_doc est pas tout le temps au meme endroit
 
@@ -51,3 +62,14 @@ minishell$ << eof
 > 
 minishell$ ^C
 minishell$ 
+
+
+false | true
+echo $?
+# → 0 (dernier maillon)
+
+
+
+
+
+unset 1vAR -> renvoie 0 meme dans le minishell juste pour se rappeler

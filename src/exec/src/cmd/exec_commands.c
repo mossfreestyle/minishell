@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:46:17 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 20:51:10 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 22:07:08 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ static void	exec_child(t_shell *sh, t_command *cmd, int i, char *path)
 	signal(SIGQUIT, SIG_DFL);
 	envp = env_list_to_array(sh->env_vars);
 	if (i > 0 && sh->pipeline.n_pipes > 0 && dup2(sh->pipeline.pipefd[i - 1][0],
-		STDIN_FILENO) == -1)
+			STDIN_FILENO) == -1)
 		error(envp, path, sh, 1);
 	if (cmd->next && sh->pipeline.n_pipes > 0 && dup2(sh->pipeline.pipefd[i][1],
-		STDOUT_FILENO) == -1)
+			STDOUT_FILENO) == -1)
 		error(envp, path, sh, 1);
 	if (handle_redirections(cmd, sh) == -1)
 	{
@@ -71,14 +71,26 @@ static void	exec_child(t_shell *sh, t_command *cmd, int i, char *path)
 
 static void	close_and_wait(t_shell *shell, int status)
 {
+	int	nb_cmds;
+	int	i;
+	int	last_status;
+
 	close_all_pipes(shell);
-	while (wait(&status) > 0)
+	nb_cmds = count_cmds(shell->cmd_list);
+	i = -1;
+	last_status = 0;
+	while (++i < nb_cmds)
 	{
-		if (WIFEXITED(status))
-			shell->exit_status = WEXITSTATUS(status);
+		wait(&status);
+		if (i == nb_cmds - 1)
+			last_status = status;
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 	}
+	if (WIFEXITED(last_status))
+		shell->exit_status = WEXITSTATUS(last_status);
+	else if (WIFSIGNALED(last_status))
+		shell->exit_status = 128 + WTERMSIG(last_status);
 }
 
 static void	error(char **envp, char *full_path, t_shell *shell, int flag)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 16:16:36 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/24 11:43:27 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/24 22:06:52 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool	parse_redirects(t_token **tokens, t_command *cmd, t_shell *shell)
 
 	if (!(*tokens)->next || (*tokens)->next->type != WORD)
 	{
-		err_msg(NULL, "syntax error near unexpected token `newline'", shell, 2);
+		err_msg(NULL, "syntax error near unexpected token", shell, 2);
 		return (false);
 	}
 	new_redirect = init_redirect(*tokens);
