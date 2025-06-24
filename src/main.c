@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/24 21:09:44 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 22:28:44 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,48 +40,26 @@
 // 	return (prompt);
 // }
 
-// static void	set_up_redir(t_command *cmd, t_redirect *redir, t_shell *shell)
-// {
-// 	if (!cmd->next && !cmd->name && cmd->redirects)
-// 	{
-// 		while (redir)
-// 		{
-// 			if (redir->type == R_HEREDOC)
-// 			{
-// 				if (exec_here_doc(cmd, redir, shell) == -1)
-// 					break ;
-// 			}
-// 			redir = redir->next;
-// 		}
-// 		handle_redirections(cmd);
-// 	}
-// }
-
 static void	set_up_redir(t_command *cmd, t_redirect *redir, t_shell *shell)
 {
 	int	saved_stdout;
 	int	saved_stdin;
-	int	heredoc_status;
 
 	saved_stdout = dup(STDOUT_FILENO);
+	if (saved_stdout == -1)
+		return (perror("dup"), shell->exit_status = 1, (void)0);
 	saved_stdin = dup(STDIN_FILENO);
-	heredoc_status = 0;
+	if (saved_stdin == -1)
+	{
+		perror("dup");
+		close(saved_stdout);
+		shell->exit_status = 1;
+		return ;
+	}
 	if (!cmd->next && !cmd->name && cmd->redirects)
 	{
-		while (redir)
-		{
-			if (redir->type == R_HEREDOC)
-			{
-				if (exec_here_doc(cmd, redir, shell) == -1)
-				{
-					heredoc_status = -1;
-					break ;
-				}
-			}
-			redir = redir->next;
-		}
-		if (heredoc_status != -1)
-			handle_redirections(cmd, shell);
+		if (process_heredocs(cmd, redir, shell) != -1)
+			handle_redirs_if_needed(cmd, shell);
 	}
 	end_safe_redir(saved_stdin, saved_stdout, shell);
 }

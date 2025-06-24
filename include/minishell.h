@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/24 21:30:31 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 22:27:04 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,10 @@ void							*err_msg(char *cmd, char *msg, t_shell *shell,
 									int exit_status);
 int								exec_error(char *cmd);
 
+void							handle_redirs_if_needed(t_command *cmd,
+									t_shell *shell);
+int								process_heredocs(t_command *cmd,
+									t_redirect *redir, t_shell *shell);
 char							**append_to_array(char **array,
 									const char *new_elem);
 long							ft_atol(char *str, int *out_of_range);

@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:17:38 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/21 15:08:06 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/24 22:26:57 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,24 @@ void	init_pipes(t_shell *shell)
 		if (pipe(shell->pipeline.pipefd[i]) == -1)
 			perror("pipe");
 	}
+}
+
+void	handle_redirs_if_needed(t_command *cmd, t_shell *shell)
+{
+	if (handle_redirections(cmd, shell) == -1)
+		shell->exit_status = 1;
+}
+
+int	process_heredocs(t_command *cmd, t_redirect *redir, t_shell *shell)
+{
+	while (redir)
+	{
+		if (redir->type == R_HEREDOC)
+		{
+			if (exec_here_doc(cmd, redir, shell) == -1)
+				return (-1);
+		}
+		redir = redir->next;
+	}
+	return (0);
 }
