@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 22:31:43 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/23 21:09:05 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/25 22:28:59 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ int	ft_cd(char **args, t_shell *shell)
 	char	*path;
 	char	oldpwd[PATH_MAX];
 
-	if (getcwd(oldpwd, sizeof(oldpwd)), args[1] && args[2])
+	if (!getcwd(oldpwd, sizeof(oldpwd)))
+		oldpwd[0] = '\0';
+	if (args[1] && args[2])
 		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
 	if (!args[1] || !args[1][0] || !ft_strcmp(args[1], "~")
 		|| !ft_strcmp(args[1], "--"))

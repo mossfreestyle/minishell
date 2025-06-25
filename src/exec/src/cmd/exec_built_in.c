@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:16:53 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/25 13:37:39 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/25 22:31:59 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	exec_built_in(t_command *cmd, t_shell *shell)
 	else if (!ft_strcmp(cmd->name, "echo"))
 		return (ft_echo(cmd->args), 0);
 	else if (!ft_strcmp(cmd->name, "env"))
-		return (ft_env(shell->env_vars), 0);
+		return (ft_env(shell->env_vars, cmd), 0);
 	else if (!ft_strcmp(cmd->name, "exit"))
 	{
 		exit_code = ft_exit(cmd->args, shell);

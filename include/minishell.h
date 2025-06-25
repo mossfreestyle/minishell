@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/25 15:20:54 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/25 22:32:09 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int								is_builtin(char *name);
 int								exec_built_in(t_command *cmd, t_shell *shell);
 int								ft_cd(char **args, t_shell *shell);
 int								ft_echo(char **args);
-int								ft_env(t_env *env);
+int								ft_env(t_env *env, t_command *cmd);
 int								ft_exit(char **args, t_shell *shell);
 int								ft_export(char **args, t_env **envp);
 int								ft_pwd(t_shell *shell, t_command *cmd);
