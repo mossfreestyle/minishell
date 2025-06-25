@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:46:14 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/21 20:00:48 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:23:38 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ void	free_command(t_command *cmd)
 	if (cmd->redirects)
 		free_redirects(cmd->redirects);
 	if (cmd->heredoc_fd != -1)
+	{
 		close(cmd->heredoc_fd);
+		cmd->heredoc_fd = -1;
+	}
 	free(cmd);
 }
 

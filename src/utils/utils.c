@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 20:55:36 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 21:18:23 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:23:12 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,23 @@ void	only_one_builtin(t_shell *shell, t_command *cmd)
 	int	saved_stdin;
 
 	saved_stdout = dup(STDOUT_FILENO);
+	if (saved_stdout == -1)
+		return (perror("dup"), shell->exit_status = 1, (void)0);
 	saved_stdin = dup(STDIN_FILENO);
-	if (handle_redirections(cmd, shell) != -1)
-		shell->exit_status = exec_built_in(cmd, shell);
+	if (saved_stdin == -1)
+	{
+		perror("dup");
+		close(saved_stdout);
+		shell->exit_status = 1;
+		return ;
+	}
+	else if (!ft_strcmp(cmd->name, "exit"))
+		check_exit(shell, cmd, saved_stdout, saved_stdin);
+	else
+	{
+		if (handle_redirections(cmd, shell) != -1)
+			shell->exit_status = exec_built_in(cmd, shell);
+	}
 	end_safe_redir(saved_stdin, saved_stdout, shell);
 }
 

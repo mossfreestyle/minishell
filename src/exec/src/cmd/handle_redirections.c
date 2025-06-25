@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:52:12 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/25 13:42:50 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:52:13 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int	r_output(t_redirect *redir, t_shell *shell)
 		perror("dup2");
 		close(fd);
 		free_shell(shell);
-		exit(1);
+		shell->exit_status = 1;
+		return (-1);
 	}
 	close(fd);
 	return (0);
@@ -92,6 +93,7 @@ int	r_append(t_redirect *redir, t_shell *shell)
 	if (fd < 0)
 	{
 		perror(redir->filename);
+		shell->exit_status = 1;
 		return (-1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
@@ -99,7 +101,8 @@ int	r_append(t_redirect *redir, t_shell *shell)
 		perror("dup2");
 		close(fd);
 		free_shell(shell);
-		exit(1);
+		shell->exit_status = 1;
+		return (-1);
 	}
 	close(fd);
 	return (0);

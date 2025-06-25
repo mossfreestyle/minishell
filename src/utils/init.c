@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 10:30:43 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/21 20:00:53 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:23:07 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,23 @@ t_shell	*init_shell(int ac, char **av, char **envp)
 	init_pipes(shell);
 	init__shlvl(&shell->env_vars);
 	return (shell);
+}
+
+void	check_exit(t_shell *shell, t_command *cmd, int saved_stdout,
+		int saved_stdin)
+{
+	int	exit_code;
+
+	if (handle_redirections(cmd, shell) != -1)
+	{
+		exit_code = ft_exit(cmd->args, shell);
+		if (exit_code != 1000)
+		{
+			close(saved_stdout);
+			close(saved_stdin);
+			free_shell(shell);
+			exit(exit_code);
+		}
+	}
+	shell->exit_status = 1;
 }

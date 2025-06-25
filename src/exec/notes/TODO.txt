@@ -17,8 +17,6 @@ Error: TOO_MANY_TAB         (line:  58, col:  13):      Extra tabs for indent le
 
 leak
 
-relink makefile
-
 
 echo hello > /dev/full -> doit exit status 1
 

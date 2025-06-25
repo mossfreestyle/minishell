@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 12:30:07 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 14:46:25 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/25 15:18:05 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,26 @@ static int	env_list_size(t_env *env)
 
 char	**env_list_to_array(t_env *env)
 {
-	int		size;
 	char	**array;
 	int		i;
 	char	*tmp;
 
-	i = 0;
-	i = 0;
-	size = env_list_size(env);
-	array = malloc(sizeof(char *) * (size + 1));
+	i = env_list_size(env);
+	array = malloc(sizeof(char *) * (i + 1));
 	if (!array)
 		return (NULL);
+	i = 0;
 	while (env)
 	{
 		if (env->name && env->value)
 		{
 			tmp = ft_strjoin(env->name, "=");
+			if (!tmp)
+				return (free_array(array), NULL);
 			array[i] = ft_strjoin(tmp, env->value);
 			free(tmp);
-			i++;
+			if (!array[i++])
+				return (free_array(array), NULL);
 		}
 		env = env->next;
 	}

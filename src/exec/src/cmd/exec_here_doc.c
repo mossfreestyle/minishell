@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:14:03 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 21:17:23 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:16:17 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	exec_here_doc(t_command *cmd, t_redirect *redir, t_shell *shell)
 	if (cmd->heredoc_fd != -1)
 		close(cmd->heredoc_fd);
 	if (pipe(heredoc_pipe) == -1)
-		return (perror("pipe"), -1);
+		return (close(cmd->heredoc_fd), perror("pipe"), -1);
 	return (heredoc_fork(cmd, redir, shell, heredoc_pipe));
 }
 

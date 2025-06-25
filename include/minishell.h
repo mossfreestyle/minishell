@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/25 13:37:55 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:20:54 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,5 +222,8 @@ void							only_one_builtin(t_shell *shell,
 void							reset_sig(void);
 void							close_write_fd_and_free_line(int write_fd,
 									char *line);
+
+void							check_exit(t_shell *shell, t_command *cmd,
+									int saved_stdout, int saved_stdin);
 
 #endif
