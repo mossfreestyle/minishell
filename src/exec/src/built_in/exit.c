@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 21:39:09 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/23 13:55:12 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/25 13:39:16 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,17 @@
 static int	check_valid(char **args);
 static void	printf_error(char *arg);
 
-int	ft_exit(char **args)
+int	ft_exit(char **args, t_shell *shell)
 {
-	int	status;
 	int	valid;
 
-	status = 0;
 	if (!args[1] || args[1][0] == '\0')
 	{
 		printf("exit\n");
-		return (status);
+		return (shell->exit_status);
 	}
 	valid = check_valid(args);
-	if (valid == 255)
+	if (valid == 500)
 		return (2);
 	if (args[2])
 	{
@@ -49,16 +47,16 @@ static int	check_valid(char **args)
 	if (args[1][i] == '+' || args[1][i] == '-')
 		i++;
 	if (args[1][i] == '\0')
-		return (printf_error(args[1]), 255);
+		return (printf_error(args[1]), 500);
 	while (args[1][i])
 	{
 		if (!ft_isdigit(args[1][i]))
-			return (printf_error(args[1]), 255);
+			return (printf_error(args[1]), 500);
 		i++;
 	}
 	result = ft_atol(args[1], &out_of_range);
 	if (out_of_range)
-		return (printf_error(args[1]), 255);
+		return (printf_error(args[1]), 500);
 	return (result);
 }
 

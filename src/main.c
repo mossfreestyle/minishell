@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/24 22:28:44 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:33:12 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	set_up_redir(t_command *cmd, t_redirect *redir, t_shell *shell)
 static char	*generate_prompt(t_env *env_list)
 {
 	(void)env_list;
-	return (ft_strdup("minishell$ "));
+	return (ft_strdup("\001\033[1;34m\002minishell$ \001\033[0m\002"));
 }
 
 static char	*get_input(t_shell *shell)

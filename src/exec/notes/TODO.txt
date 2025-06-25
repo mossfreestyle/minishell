@@ -9,10 +9,6 @@ valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fd
 
 
 
-
-ENLEVER chose inutile debug.c, verifier pas deux fois la mm fonction (si static okay);
-
-
 src/exec/src/cmd/exec_commands.c: Error!
 Error: TOO_MANY_TAB         (line:  55, col:  13):      Extra tabs for indent level
 Error: TOO_MANY_TAB         (line:  58, col:  13):      Extra tabs for indent level
@@ -20,41 +16,13 @@ Error: TOO_MANY_TAB         (line:  58, col:  13):      Extra tabs for indent le
 
 
 leak
-generakliser msg erreur --> normalement plutot bon
-gerer les bon exit status --> normalement bon
-gerer les double prompt
-check le comportement un peu indefini de controle c dans heredoc exemple en bas
-rendre le readline beau
 
-voir si on gere la redirection de std dans un fd car il faut implementer une facond interpreter les chiffres d une autre facon -> chiant
-
-//refaire plein de test de here_doc
+relink makefile
 
 
-
-peut etre faire en sorte que ctrl \ == ctrl dans une cmd
-
-voir pourquoi le controle c here_doc est pas tout le temps au meme endroit
-
-minishell$ << eof
-> salut
-> 
-^Cminishell$ 
-minishell$ << eof 
-> 
-minishell$ ^C
-minishell$ << eof 
-> 
-^C
-minishell$ minishell$ << eof 
-> salut
-> 
-minishell$ ^C
-minishell$ << eof 
-> salut
-> 
-minishell$ ^C
-minishell$ 
+echo hello > /dev/full -> doit exit status 1
 
 
-unset 1vAR -> renvoie 0 meme dans le minishell juste pour se rappeler
+fix reachble dup, env-list_to araay
+
+check si find path leak reachble
