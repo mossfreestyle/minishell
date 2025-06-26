@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 20:46:40 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 22:07:16 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:27:14 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void	finish_exec(t_command *cmd, char *path, char **envp, t_shell *shell)
 {
 	if (handle_redirections(cmd, shell) == -1)
 	{
-		free_array(envp);
-		free(path);
+		free_envp_path(envp, path);
 		free_shell(shell);
 		exit(1);
 	}
@@ -59,8 +58,7 @@ void	finish_exec(t_command *cmd, char *path, char **envp, t_shell *shell)
 	}
 	execve(path, cmd->args, envp);
 	print_error(cmd->name);
-	free_array(envp);
-	free(path);
+	free_envp_path(envp, path);
 	free_shell(shell);
 	exit(127);
 }

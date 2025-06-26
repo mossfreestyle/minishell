@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:46:17 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/25 16:07:08 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/26 11:26:35 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ static void	exec_child(t_shell *sh, t_command *cmd, int i)
 		error(envp, path, sh, cmd);
 	if (handle_redirections(cmd, sh) == -1)
 	{
-		free(path);
-		free_array(envp);
+		free_envp_path(envp, path);
 		free_shell(sh);
 		exit(1);
 	}
@@ -94,10 +93,7 @@ static void	close_and_wait(t_shell *shell, int status)
 
 static void	error(char **envp, char *full_path, t_shell *shell, t_command *cmd)
 {
-	if (envp)
-		free_array(envp);
-	if (full_path)
-		free(full_path);
+	free_envp_path(envp, full_path);
 	close_all_pipes(shell);
 	print_error(cmd->name);
 	free_shell(shell);
@@ -111,10 +107,9 @@ static void	exec(t_command *cmd, char **envp, char *full_path, t_shell *shell)
 	status = 0;
 	if (is_builtin(cmd->name))
 	{
-		status = exec_built_in(cmd, shell);
+		status = exec_built_in(cmd, shell, envp, full_path);
 		free_shell(shell);
-		free_array(envp);
-		free(full_path);
+		free_envp_path(envp, full_path);
 		exit(status);
 	}
 	else if (full_path)

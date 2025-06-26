@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/24 21:13:47 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:21:58 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	exec_one_builtin(t_shell *shell, t_command *cmd)
 		close(saved_stdin);
 		return (1);
 	}
-	status = exec_built_in(cmd, shell);
+	status = exec_built_in(cmd, shell, NULL, NULL);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdout);
@@ -92,16 +92,19 @@ static int	exec_one_cmd(t_shell *shell, t_command *cmd)
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), 1);
+	reset_sig();
+	setup_signals();
+	// signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 	{
 		envp = env_list_to_array(shell->env_vars);
 		path = find_path(cmd->name, envp);
-		reset_sig();
+		// reset_sig();
 		finish_exec(cmd, path, envp, shell);
 	}
-	signal(SIGINT, SIG_IGN);
+	// signal(SIGINT, SIG_IGN);
+	// reset_sig();
 	waitpid(pid, &status, 0);
-	setup_signals();
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 	else if (WIFEXITED(status))

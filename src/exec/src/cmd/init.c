@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:17:38 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/25 13:54:42 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:29:30 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,11 @@ int	process_heredocs(t_command *cmd, t_redirect *redir, t_shell *shell)
 		redir = redir->next;
 	}
 	return (0);
+}
+void	free_envp_path(char **envp, char *path)
+{
+	if (envp)
+		free_array(envp);
+	if (path)
+		free(path);
 }

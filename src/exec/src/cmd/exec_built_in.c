@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:16:53 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/25 22:31:59 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:25:32 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_builtin(char *name)
 		|| !ft_strcmp(name, "exit"));
 }
 
-int	exec_built_in(t_command *cmd, t_shell *shell)
+int	exec_built_in(t_command *cmd, t_shell *shell, char **envp, char *path)
 {
 	int	exit_code;
 
@@ -38,6 +38,7 @@ int	exec_built_in(t_command *cmd, t_shell *shell)
 		exit_code = ft_exit(cmd->args, shell);
 		if (exit_code == 1000)
 			return (1);
+		free_envp_path(envp, path);
 		free_shell(shell);
 		exit(exit_code);
 	}

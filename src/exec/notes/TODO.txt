@@ -24,3 +24,66 @@ echo hello > /dev/full -> doit exit status 1
 fix reachble dup, env-list_to araay
 
 check si find path leak reachble
+
+
+
+pwd | << eof
+
+==21629== FILE DESCRIPTORS: 6 open (3 std) at exit.
+==21629== Open file descriptor 3:
+==21629==    at 0x49DE07D: pipe (pipe.c:29)
+==21629==    by 0x10D8BB: exec_here_doc (exec_here_doc.c:28)
+==21629==    by 0x10DC74: exec_readline (exec_readline.c:33)
+==21629==    by 0x10973F: minishell (main.c:109)
+==21629==    by 0x10980F: main (main.c:134)
+
+
+
+
+
+ls | << eof
+==21835== Open file descriptor 3:
+==21835==    <inherited from parent>
+
+
+minishell$ ls | << eof
+> 
+minishell$ ^C
+==21979== 
+==21979== FILE DESCRIPTORS: 6 open (3 std) at exit.
+==21979== Open file descriptor 4:
+==21979==    at 0x49DE07D: pipe (pipe.c:29)
+==21979==    by 0x10D8BB: exec_here_doc (exec_here_doc.c:28)
+==21979==    by 0x10DC74: exec_readline (exec_readline.c:33)
+==21979==    by 0x10973F: minishell (main.c:109)
+==21979==    by 0x10980F: main (main.c:134)
+
+
+avec full reachable
+
+
+
+
+exit | exit
+
+==22152== 528 bytes in 1 blocks are still reachable in loss record 30 of 72
+==22152==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22152==    by 0x10E833: env_list_to_array (utils.c:57)
+==22152==    by 0x10D4F3: exec_child (exec_commands.c:47)
+==22152==    by 0x10D49C: exec_commands (exec_commands.c:34)
+==22152==    by 0x10DD11: exec_readline (exec_readline.c:44)
+==22152==    by 0x10973F: minishell (main.c:109)
+==22152==    by 0x10980F: main (main.c:134)
+==22152== 
+==22152== 2,541 bytes in 65 blocks are still reachable in loss record 47 of 72
+==22152==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==22152==    by 0x10FA17: ft_strjoin (in /home/mfernand/c/minishell/minishell)
+==22152==    by 0x10E8D8: env_list_to_array (utils.c:68)
+==22152==    by 0x10D4F3: exec_child (exec_commands.c:47)
+==22152==    by 0x10D49C: exec_commands (exec_commands.c:34)
+==22152==    by 0x10DD11: exec_readline (exec_readline.c:44)
+==22152==    by 0x10973F: minishell (main.c:109)
+==22152==    by 0x10980F: main (main.c:134)
+
+
+echo test > dev/full doit exit code 1

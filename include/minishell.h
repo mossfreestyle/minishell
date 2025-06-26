@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/25 22:32:09 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:25:44 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ int								exec_commands(t_shell *shell);
 void							print_error(char *name);
 
 int								is_builtin(char *name);
-int								exec_built_in(t_command *cmd, t_shell *shell);
+int								exec_built_in(t_command *cmd, t_shell *shell,
+									char **envp, char *path);
 int								ft_cd(char **args, t_shell *shell);
 int								ft_echo(char **args);
 int								ft_env(t_env *env, t_command *cmd);
@@ -225,5 +226,6 @@ void							close_write_fd_and_free_line(int write_fd,
 
 void							check_exit(t_shell *shell, t_command *cmd,
 									int saved_stdout, int saved_stdin);
+void							free_envp_path(char **envp, char *path);
 
 #endif

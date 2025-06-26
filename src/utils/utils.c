@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 20:55:36 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/25 15:23:12 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/26 11:22:22 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	only_one_builtin(t_shell *shell, t_command *cmd)
 	else
 	{
 		if (handle_redirections(cmd, shell) != -1)
-			shell->exit_status = exec_built_in(cmd, shell);
+			shell->exit_status = exec_built_in(cmd, shell, NULL, NULL);
 	}
 	end_safe_redir(saved_stdin, saved_stdout, shell);
 }
