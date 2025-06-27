@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_readline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/27 18:20:35 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/27 22:14:50 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int	exec_readline(t_shell *shell)
 		cmd = cmd->next;
 	}
 	close_unused_heredoc_fds(shell->cmd_list);
-	if (!shell->cmd_list)
-		return (0);
 	if (!shell->cmd_list->next)
 		shell->exit_status = exec_one_command(shell->cmd_list, shell);
 	else
@@ -104,23 +102,7 @@ static int	exec_one_cmd(t_shell *shell, t_command *cmd)
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
 	setup_signals();
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGINT)
-		{
-			shell->exit_status = 130;
-			ft_putchar_fd('\n', STDERR_FILENO);
-		}
-		else if (WTERMSIG(status) == SIGQUIT)
-		{
-			shell->exit_status = 131;
-			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-		}
-	}
-	else if (WIFEXITED(status))
-		shell->exit_status = WEXITSTATUS(status);
-	else
-		shell->exit_status = 1;
+	check_sig(status, shell);
 	return (shell->exit_status);
 }
 

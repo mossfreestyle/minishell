@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:17:38 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/27 16:01:51 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/27 22:18:10 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	init_pipes(t_shell *shell)
 	while (++i < shell->pipeline.n_pipes)
 	{
 		if (pipe(shell->pipeline.pipefd[i]) == -1)
-			perror("pipe");
+			return (perror("pipe"));
 	}
 }
 
@@ -52,13 +52,14 @@ int	process_heredocs(t_command *cmd, t_redirect *redir, t_shell *shell)
 	{
 		if (redir->type == R_HEREDOC)
 		{
-			if (exec_here_doc(cmd,redir, shell) == -1)
+			if (exec_here_doc(cmd, redir, shell) == -1)
 				return (-1);
 		}
 		redir = redir->next;
 	}
 	return (0);
 }
+
 void	free_envp_path(char **envp, char *path)
 {
 	if (envp)

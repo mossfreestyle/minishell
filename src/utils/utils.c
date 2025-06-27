@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 20:55:36 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/27 14:47:23 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/27 22:18:23 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void	end_safe_redir(t_shell *shell)
 	if (dup2(shell->saved_stdin, STDIN_FILENO) == -1)
 	{
 		perror("dup2 stdin");
-		if (shell->saved_stdout)
+		if (shell->saved_stdout > 2)
 			close(shell->saved_stdout);
-		if (shell->saved_stdin)
+		if (shell->saved_stdin > 2)
 			close(shell->saved_stdin);
 		free_shell(shell);
 		exit(1);
@@ -80,18 +80,10 @@ void	reset_sig(void)
 	signal(SIGQUIT, SIG_DFL);
 }
 
-// void	close_write_fd_and_free_line(int write_fd, char *line)
-// {
-// 	if (line)
-// 		free(line);
-// 	if (write_fd)
-// 		close(write_fd);
-// }
-
 void	close_write_fd_and_free_line(int write_fd, char *line)
 {
 	if (line)
 		free(line);
-	if (write_fd >= 3) // a verfier
+	if (write_fd >= 3)
 		close(write_fd);
 }

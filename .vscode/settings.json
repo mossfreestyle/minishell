@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "typeinfo": "c",
-        "minishell.h": "c"
+        "minishell.h": "c",
+        "libft.h": "c"
     },
     "workbench.colorCustomizations": {
         "activityBar.activeBackground": "#65c89b",

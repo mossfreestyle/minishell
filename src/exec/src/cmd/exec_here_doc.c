@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:14:03 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/27 18:15:09 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/27 22:09:01 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int	exec_here_doc(t_command *cmd, t_redirect *redir, t_shell *shell)
 	int	heredoc_pipe[2];
 
 	if (cmd->heredoc_fd != -1)
-    {
-        close(cmd->heredoc_fd);
-        cmd->heredoc_fd = -1;
-    }
+	{
+		close(cmd->heredoc_fd);
+		cmd->heredoc_fd = -1;
+	}
 	if (pipe(heredoc_pipe) == -1)
 		return (perror("pipe"), -1);
 	return (heredoc_fork(cmd, redir, shell, heredoc_pipe));
@@ -59,7 +59,6 @@ static void	msg_ctrl_d(int write_fd, t_redirect *redir, char *line,
 static void	heredoc_child(int write_fd, t_redirect *redir, t_shell *shell)
 {
 	char	*line;
-	char	*processed_line;
 	bool	should_expand;
 
 	should_expand = !has_quotes(redir->filename);
@@ -76,14 +75,7 @@ static void	heredoc_child(int write_fd, t_redirect *redir, t_shell *shell)
 		msg_ctrl_d(write_fd, redir, line, shell);
 		if (!ft_strcmp(line, redir->filename))
 			break ;
-		if (should_expand)
-		{
-			processed_line = expand_heredoc_line(line, shell);
-			ft_putendl_fd(processed_line, write_fd);
-			free(processed_line);
-		}
-		else
-			ft_putendl_fd(line, write_fd);
+		put_heredoc(should_expand, line, shell, write_fd);
 		free(line);
 	}
 	close_write_fd_and_free_line(write_fd, line);
@@ -118,29 +110,4 @@ static int	heredoc_fork(t_command *cmd, t_redirect *redir, t_shell *shell,
 		return (close(heredoc_pipe[0]), close(heredoc_pipe[1]), -1);
 	}
 	return (0);
-}
-void	close_unused_heredoc_fds(t_command *cmd)
-{
-    t_redirect	*redir;
-    int			last_fd = -1;
-
-    // Trouve le dernier heredoc_fd
-    redir = cmd->redirects;
-    while (redir)
-    {
-        if (redir->type == R_HEREDOC && cmd->heredoc_fd != -1)
-            last_fd = cmd->heredoc_fd;
-        redir = redir->next;
-    }
-    // Ferme tous les heredoc_fd sauf le dernier
-    redir = cmd->redirects;
-    while (redir)
-    {
-        if (redir->type == R_HEREDOC && redir != NULL && cmd->heredoc_fd != -1 && cmd->heredoc_fd != last_fd)
-        {
-            close(cmd->heredoc_fd);
-            cmd->heredoc_fd = -1;
-        }
-        redir = redir->next;
-    }
 }

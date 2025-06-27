@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/27 18:08:08 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/27 21:59:37 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,8 @@ static void	minishell(char *line, t_shell *shell)
 	cmd = parser(line, shell);
 	if (!cmd)
 		return ;
-	if (count_cmds(cmd) > 5)
-	{
-		ft_putendl_fd("minishell: too many pipes", 2);
-		shell->exit_status = 1;
-		free_commands(cmd);
+	if (check_nb_pipe(shell, cmd))
 		return ;
-	}
 	shell->cmd_list = cmd;
 	redir = cmd->redirects;
 	if (!cmd->next && is_builtin(cmd->name))

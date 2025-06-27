@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:46:17 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/27 10:44:02 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/27 21:56:21 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ int	exec_commands(t_shell *shell)
 	while (cmd)
 	{
 		if (cmd->name)
-        {
-            pid = fork();
-            check_pid(pid, shell);
-            if (pid == 0)
-                exec_child(shell, cmd, i);
-            i++;
-        }
-        cmd = cmd->next;
+		{
+			pid = fork();
+			check_pid(pid, shell);
+			if (pid == 0)
+				exec_child(shell, cmd, i);
+			i++;
+		}
+		cmd = cmd->next;
 	}
 	close_and_wait(shell, 0);
 	return (shell->exit_status);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/27 18:15:14 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/27 22:10:42 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,5 +229,9 @@ void							check_exit(t_shell *shell, t_command *cmd,
 									int saved_stdout, int saved_stdin);
 void							free_envp_path(char **envp, char *path);
 void							close_unused_heredoc_fds(t_command *cmd);
+int								check_nb_pipe(t_shell *shell, t_command *cmd);
+void							put_heredoc(int should_expand, char *line,
+									t_shell *shell, int write_fd);
+void							check_sig(int status, t_shell *shell);
 
 #endif
