@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:14:03 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/27 14:32:14 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/27 18:15:09 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ int	exec_here_doc(t_command *cmd, t_redirect *redir, t_shell *shell)
 {
 	int	heredoc_pipe[2];
 
-	close(shell->saved_stdin);
-	close(shell->saved_stdout);
 	if (cmd->heredoc_fd != -1)
-		close(cmd->heredoc_fd);
+    {
+        close(cmd->heredoc_fd);
+        cmd->heredoc_fd = -1;
+    }
 	if (pipe(heredoc_pipe) == -1)
-		return (close(cmd->heredoc_fd), perror("pipe"), -1);
+		return (perror("pipe"), -1);
 	return (heredoc_fork(cmd, redir, shell, heredoc_pipe));
 }
 
@@ -117,4 +118,29 @@ static int	heredoc_fork(t_command *cmd, t_redirect *redir, t_shell *shell,
 		return (close(heredoc_pipe[0]), close(heredoc_pipe[1]), -1);
 	}
 	return (0);
+}
+void	close_unused_heredoc_fds(t_command *cmd)
+{
+    t_redirect	*redir;
+    int			last_fd = -1;
+
+    // Trouve le dernier heredoc_fd
+    redir = cmd->redirects;
+    while (redir)
+    {
+        if (redir->type == R_HEREDOC && cmd->heredoc_fd != -1)
+            last_fd = cmd->heredoc_fd;
+        redir = redir->next;
+    }
+    // Ferme tous les heredoc_fd sauf le dernier
+    redir = cmd->redirects;
+    while (redir)
+    {
+        if (redir->type == R_HEREDOC && redir != NULL && cmd->heredoc_fd != -1 && cmd->heredoc_fd != last_fd)
+        {
+            close(cmd->heredoc_fd);
+            cmd->heredoc_fd = -1;
+        }
+        redir = redir->next;
+    }
 }

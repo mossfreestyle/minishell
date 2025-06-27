@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:53:55 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/27 10:35:08 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:20:35 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	exec_readline(t_shell *shell)
 		}
 		cmd = cmd->next;
 	}
+	close_unused_heredoc_fds(shell->cmd_list);
 	if (!shell->cmd_list)
 		return (0);
 	if (!shell->cmd_list->next)
@@ -92,21 +93,30 @@ static int	exec_one_cmd(t_shell *shell, t_command *cmd)
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"), 1);
-	reset_sig();
-	setup_signals();
-	// signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 	{
 		envp = env_list_to_array(shell->env_vars);
 		path = find_path(cmd->name, envp);
-		// reset_sig();
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		finish_exec(cmd, path, envp, shell);
 	}
-	// signal(SIGINT, SIG_IGN);
-	// reset_sig();
+	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
+	setup_signals();
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+		{
+			shell->exit_status = 130;
+			ft_putchar_fd('\n', STDERR_FILENO);
+		}
+		else if (WTERMSIG(status) == SIGQUIT)
+		{
+			shell->exit_status = 131;
+			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
+		}
+	}
 	else if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
 	else

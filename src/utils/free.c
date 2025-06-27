@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:46:14 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/27 14:38:33 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/27 18:08:46 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,16 @@ int	free_shell(t_shell *shell)
 	exit_status = shell->exit_status;
 	if (shell->pwd)
 		free(shell->pwd);
-	if (shell->saved_stdin)
+	if (shell->saved_stdin > 2)
+	{
 		close(shell->saved_stdin);
-	if (shell->saved_stdout)
+		shell->saved_stdin = -1;
+	}
+	if (shell->saved_stdout > 2)
+	{
 		close(shell->saved_stdout);
+		shell->saved_stdout = -1;
+	}
 	free_env(shell->env_vars);
 	close_all_pipes(shell);
 	free_commands(shell->cmd_list);
@@ -69,15 +75,15 @@ void	free_command(t_command *cmd)
 		return ;
 	if (cmd->name)
 		free(cmd->name);
-	if (cmd->args)
-		free_array(cmd->args);
-	if (cmd->redirects)
-		free_redirects(cmd->redirects);
-	if (cmd->heredoc_fd != -1)
+	if (cmd->heredoc_fd > 2)
 	{
 		close(cmd->heredoc_fd);
 		cmd->heredoc_fd = -1;
 	}
+	if (cmd->args)
+		free_array(cmd->args);
+	if (cmd->redirects)
+		free_redirects(cmd->redirects);
 	free(cmd);
 }
 

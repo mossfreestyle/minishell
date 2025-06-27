@@ -57,3 +57,9 @@ minishell$ ^C
 
 
 gerer double promt, surtout cat ctrl c
+
+implementer ctrl \ dans cat / grep
+
+
+
+exec_here_doc leak reachble et pipe ouvert
