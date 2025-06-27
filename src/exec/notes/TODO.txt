@@ -38,12 +38,7 @@ pwd | << eof
 ==21629==    by 0x10980F: main (main.c:134)
 
 
-
-
-
-ls | << eof
-==21835== Open file descriptor 3:
-==21835==    <inherited from parent>
+    
 
 
 minishell$ ls | << eof

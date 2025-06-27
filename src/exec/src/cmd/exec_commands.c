@@ -6,7 +6,7 @@
 /*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:46:17 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/26 11:26:35 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/27 10:44:02 by mfernand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,15 @@ int	exec_commands(t_shell *shell)
 	init_pipes(shell);
 	while (cmd)
 	{
-		pid = fork();
-		check_pid(pid, shell);
-		if (pid == 0)
-			exec_child(shell, cmd, i);
-		cmd = cmd->next;
-		i++;
+		if (cmd->name)
+        {
+            pid = fork();
+            check_pid(pid, shell);
+            if (pid == 0)
+                exec_child(shell, cmd, i);
+            i++;
+        }
+        cmd = cmd->next;
 	}
 	close_and_wait(shell, 0);
 	return (shell->exit_status);
