@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 23:17:38 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/26 11:29:30 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:33:48 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	process_heredocs(t_command *cmd, t_redirect *redir, t_shell *shell)
 	{
 		if (redir->type == R_HEREDOC)
 		{
-			if (exec_here_doc(cmd, redir, shell) == -1)
+			if (exec_here_doc(cmd,redir, shell) == -1)
 				return (-1);
 		}
 		redir = redir->next;

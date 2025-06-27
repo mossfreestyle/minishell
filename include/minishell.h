@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:57:51 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/26 11:25:44 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:33:34 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_shell
 	t_env						*env_vars;
 	t_pipe						pipeline;
 	t_command					*cmd_list;
+	int							saved_stdin;
+	int							saved_stdout;
 }								t_shell;
 
 /* ========== PARSING ========== */
@@ -216,8 +218,7 @@ int								process_redirect(t_redirect *redir,
 /* ========== UTILS MAIN ========== */
 int								res_readline(int res, t_command *cmd,
 									t_shell *shell);
-void							end_safe_redir(int saved_stdin,
-									int saved_stdout, t_shell *shell);
+void							end_safe_redir(t_shell *shell);
 void							only_one_builtin(t_shell *shell,
 									t_command *cmd);
 void							reset_sig(void);

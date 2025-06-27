@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 10:30:43 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/25 15:23:07 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/27 14:37:24 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ t_shell	*init_shell(int ac, char **av, char **envp)
 	shell->pwd = init_pwd(&shell->env_vars);
 	shell->av = av;
 	shell->cmd_list = NULL;
+	shell->saved_stdin = -1;
+	shell->saved_stdout = -1;
 	init_pipes(shell);
 	init__shlvl(&shell->env_vars);
 	return (shell);

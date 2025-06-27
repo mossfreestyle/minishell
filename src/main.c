@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:26:06 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/25 22:08:42 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:43:20 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,55 @@
 // 	return (prompt);
 // }
 
+// static void	set_up_redir(t_command *cmd, t_redirect *redir, t_shell *shell)
+// {
+// 	int	saved_stdout;
+// 	int	saved_stdin;
+
+// 	saved_stdout = dup(STDOUT_FILENO);
+// 	if (saved_stdout == -1)
+// 		return (perror("dup"), shell->exit_status = 1, (void)0);
+// 	saved_stdin = dup(STDIN_FILENO);
+// 	if (saved_stdin == -1)
+// 	{
+// 		perror("dup");
+// 		close(saved_stdout);
+// 		shell->exit_status = 1;
+// 		return ;
+// 	}
+// 	if (!cmd->next && !cmd->name && cmd->redirects)
+// 	{
+// 		if (process_heredocs(cmd, redir, shell) != -1)
+// 			handle_redirs_if_needed(cmd, shell);
+// 	}
+// 	end_safe_redir(saved_stdin, saved_stdout, shell);
+// }
+
 static void	set_up_redir(t_command *cmd, t_redirect *redir, t_shell *shell)
 {
-	int	saved_stdout;
-	int	saved_stdin;
+    int	result;
 
-	saved_stdout = dup(STDOUT_FILENO);
-	if (saved_stdout == -1)
-		return (perror("dup"), shell->exit_status = 1, (void)0);
-	saved_stdin = dup(STDIN_FILENO);
-	if (saved_stdin == -1)
-	{
-		perror("dup");
-		close(saved_stdout);
-		shell->exit_status = 1;
-		return ;
-	}
-	if (!cmd->next && !cmd->name && cmd->redirects)
-	{
-		if (process_heredocs(cmd, redir, shell) != -1)
-			handle_redirs_if_needed(cmd, shell);
-	}
-	end_safe_redir(saved_stdin, saved_stdout, shell);
+    shell->saved_stdout = dup(STDOUT_FILENO);
+    if (shell->saved_stdout == -1)
+        return (perror("dup"), shell->exit_status = 1, (void)0);
+    shell->saved_stdin = dup(STDIN_FILENO);
+    if (shell->saved_stdin == -1)
+    {
+        perror("dup");
+		if (shell->saved_stdout)
+        	close(shell->saved_stdout);
+        shell->exit_status = 1;
+        return ;
+    }
+    if (!cmd->next && !cmd->name && cmd->redirects->type == R_HEREDOC)
+    {
+        result = process_heredocs(cmd, redir, shell);
+        if (result != -1)
+            handle_redirs_if_needed(cmd, shell);
+    }
+	else if (!cmd->next && !cmd->name && cmd->redirects)
+		handle_redirs_if_needed(cmd, shell);
+    end_safe_redir(shell);
 }
 
 static char	*generate_prompt(t_env *env_list)

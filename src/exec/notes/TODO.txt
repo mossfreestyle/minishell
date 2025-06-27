@@ -54,31 +54,6 @@ minishell$ ^C
 ==21979==    by 0x10980F: main (main.c:134)
 
 
-avec full reachable
 
 
-
-
-exit | exit
-
-==22152== 528 bytes in 1 blocks are still reachable in loss record 30 of 72
-==22152==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==22152==    by 0x10E833: env_list_to_array (utils.c:57)
-==22152==    by 0x10D4F3: exec_child (exec_commands.c:47)
-==22152==    by 0x10D49C: exec_commands (exec_commands.c:34)
-==22152==    by 0x10DD11: exec_readline (exec_readline.c:44)
-==22152==    by 0x10973F: minishell (main.c:109)
-==22152==    by 0x10980F: main (main.c:134)
-==22152== 
-==22152== 2,541 bytes in 65 blocks are still reachable in loss record 47 of 72
-==22152==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==22152==    by 0x10FA17: ft_strjoin (in /home/mfernand/c/minishell/minishell)
-==22152==    by 0x10E8D8: env_list_to_array (utils.c:68)
-==22152==    by 0x10D4F3: exec_child (exec_commands.c:47)
-==22152==    by 0x10D49C: exec_commands (exec_commands.c:34)
-==22152==    by 0x10DD11: exec_readline (exec_readline.c:44)
-==22152==    by 0x10973F: minishell (main.c:109)
-==22152==    by 0x10980F: main (main.c:134)
-
-
-echo test > dev/full doit exit code 1
+gerer double promt, surtout cat ctrl c

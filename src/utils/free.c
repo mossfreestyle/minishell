@@ -6,7 +6,7 @@
 /*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 13:46:14 by rwassim           #+#    #+#             */
-/*   Updated: 2025/06/25 14:23:38 by rwassim          ###   ########.fr       */
+/*   Updated: 2025/06/27 14:38:33 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ int	free_shell(t_shell *shell)
 	exit_status = shell->exit_status;
 	if (shell->pwd)
 		free(shell->pwd);
+	if (shell->saved_stdin)
+		close(shell->saved_stdin);
+	if (shell->saved_stdout)
+		close(shell->saved_stdout);
 	free_env(shell->env_vars);
 	close_all_pipes(shell);
 	free_commands(shell->cmd_list);

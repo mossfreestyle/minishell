@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_here_doc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfernand <mfernand@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rwassim <rwassim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 11:14:03 by mfernand          #+#    #+#             */
-/*   Updated: 2025/06/27 09:52:00 by mfernand         ###   ########.fr       */
+/*   Updated: 2025/06/27 14:32:14 by rwassim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	exec_here_doc(t_command *cmd, t_redirect *redir, t_shell *shell)
 {
 	int	heredoc_pipe[2];
 
+	close(shell->saved_stdin);
+	close(shell->saved_stdout);
 	if (cmd->heredoc_fd != -1)
 		close(cmd->heredoc_fd);
 	if (pipe(heredoc_pipe) == -1)
@@ -33,8 +35,9 @@ int	exec_here_doc(t_command *cmd, t_redirect *redir, t_shell *shell)
 static void	heredoc_sig_handler(int signo)
 {
 	(void)signo;
+	g_signal = 130;
 	write(1, "\n", 1);
-	exit(130);
+	close(0);
 }
 
 static void	msg_ctrl_d(int write_fd, t_redirect *redir, char *line,
@@ -63,6 +66,12 @@ static void	heredoc_child(int write_fd, t_redirect *redir, t_shell *shell)
 	while (1)
 	{
 		line = readline("> ");
+		if (g_signal == 130)
+		{
+			free_shell(shell);
+			close(write_fd);
+			exit(130);
+		}
 		msg_ctrl_d(write_fd, redir, line, shell);
 		if (!ft_strcmp(line, redir->filename))
 			break ;
